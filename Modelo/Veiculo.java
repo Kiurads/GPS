@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Márcio Guia
  */
-abstract public class Veiculo {
+abstract public class Veiculo implements Biblioteca{
 
     /**
      * @param args the command line arguments
@@ -86,22 +86,65 @@ abstract public class Veiculo {
     
     // Realizar
     public void RealizaMudancaOleo() {
-        System.out.println("por definir");
+        Evento aux;
+        if((aux=PesquisaEvento(MUDANCA_OLEO))!=null){
+            if(!aux.isCheack()){
+                aux.setCheack(true);
+                Evento novo=new Evento(dataRegistoMatricula, MUDANCA_OLEO, matricula, TipoEvento.Reparacao);
+                CriaEvento(novo);
+            }
+        }
     }
+    
     public void RealizaPagamentoSeguro() {
-        System.out.println("por definir");
+       Evento aux;
+        if((aux=PesquisaEvento(PAGAMENTO_SEGURO))!=null){
+            if(!aux.isCheack()){
+                aux.setCheack(true);
+                 Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_SEGURO, matricula, TipoEvento.Reparacao);
+                CriaEvento(novo);
+            }
+        }
     }
     public void RealizaMudancaDeCorreia() {
-        System.out.println("por definir");
+         Evento aux;
+        if((aux=PesquisaEvento(MUDANCA_CORREIA))!=null){
+            if(!aux.isCheack()){
+                aux.setCheack(true);
+                 Evento novo=new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Reparacao);
+                CriaEvento(novo);
+            }
+        }
     }
     public void RealizaPagamentoImpostoCirculacao() {
-        System.out.println("por definir");
+         Evento aux;
+        if((aux=PesquisaEvento(PAGEMENTO_IMPOSTO_CIRCULA))!=null){
+            if(!aux.isCheack()){
+                aux.setCheack(true);
+                 Evento novo=new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Reparacao);
+                CriaEvento(novo);
+            }
+        }
     }
     public void RealizaInspecao() {
-        System.out.println("por definir");
+        Evento aux;
+        if((aux=PesquisaEvento(INSPECAO))!=null){
+            if(!aux.isCheack()){
+                aux.setCheack(true);
+                 Evento novo=new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Reparacao);
+                CriaEvento(novo);
+            }
+        }
     }
 
     
+    public Evento PesquisaEvento(String Nome){
+        for (Evento evento : eventos) {
+            if(evento.getNome().compareTo(Nome)==0)
+                return evento;
+        }
+        return null;
+    }
     
     public List<Evento> ListaEventos() {
         return eventos;
@@ -111,6 +154,10 @@ abstract public class Veiculo {
         if (evento != null) {
             eventos.add(evento);
         }
+    }
+    
+    public Date CalculaProximaDataImpostoCirculacao(Date dataAntrior){
+        
     }
 
 }

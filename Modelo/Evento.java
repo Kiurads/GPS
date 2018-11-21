@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelo;
-
+package GPS.Modelo;
+import GPS.Modelo.Biblioteca.TipoEvento;
 import java.util.Date;
 
 /**
@@ -16,9 +16,11 @@ import java.util.Date;
 
 public class Evento implements Biblioteca{
     private Date DataEvento;
+    private String Nome;
     private String Descricao;
     private String idVeiculo;
     private TipoEvento tipoevento;
+    private boolean cheack=false;
     
    
     
@@ -44,7 +46,19 @@ public class Evento implements Biblioteca{
     public TipoEvento getTipoevento() {
         return tipoevento;
     }
-    
+
+    public boolean isCheack() {
+        return cheack;
+    }
+
+    public void setCheack(boolean cheack) {
+        this.cheack = cheack;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+   
     
     
     
