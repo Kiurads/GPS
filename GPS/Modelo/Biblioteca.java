@@ -14,4 +14,11 @@ public interface Biblioteca {
         Reparacao,Mecanica,Menutencoes;
     }
     
+    static String MUDANCA_OLEO="Mudanca Oleoa";
+    static String INSPECAO="Inspeçao";
+    static String PAGAMENTO_SEGURO="Pagamento de Seguro";
+    static String PAGEMENTO_IMPOSTO_CIRCULA="Pagamento de imposto de circulaçao";
+    static String MUDANCA_CORREIA="Mudanca de correia";
+    
+    
 }

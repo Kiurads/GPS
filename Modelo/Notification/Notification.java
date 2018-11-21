@@ -1,14 +1,14 @@
-package GPS.Modelo.Notification;
+package Modelo.Notification;
 
 import java.awt.*;
 
 public class Notification {
-    public static void sendNotification(String message, String title, String tooltip) throws AWTException {
+    public static void sendNotification(String message, String title) throws AWTException {
         SystemTray tray = SystemTray.getSystemTray();
 
         Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
 
-        TrayIcon trayIcon = new TrayIcon(image, tooltip);
+        TrayIcon trayIcon = new TrayIcon(image, "Notification");
         trayIcon.setImageAutoSize(true);
         tray.add(trayIcon);
 

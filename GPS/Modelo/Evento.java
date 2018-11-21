@@ -1,22 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package GPS.Modelo;
 
+import GPS.Modelo.Biblioteca.TipoEvento;
 import java.util.Calendar;
+
 import java.util.Date;
 
-public class Evento implements Biblioteca {
+/**
+ *
+ * @author Márcio Guia
+ */
 
+
+
+public class Evento implements Biblioteca{
     private Calendar DataEvento;
+    private String Nome;
     private String Descricao;
     private String idVeiculo;
     private TipoEvento tipoevento;
-    private boolean Check;
-
-    public Evento(Calendar DataEvento, String Descricao, String idVeiculo, TipoEvento tipoevento) {
+    private boolean cheack=false;
+    
+   
+    
+    public Evento(Calendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
         this.DataEvento = DataEvento;
         this.Descricao = Descricao;
-        this.idVeiculo = idVeiculo;
-        this.tipoevento = tipoevento;
-        this.Check = false;
+        this.idVeiculo=idVeiculo;
+        this.tipoevento=tipoevento;
     }
 
     public String getDescricao() {
@@ -27,8 +42,29 @@ public class Evento implements Biblioteca {
         return idVeiculo;
     }
 
+    public Calendar getDataEvento() {
+        return DataEvento;
+    }
+
     public TipoEvento getTipoevento() {
         return tipoevento;
     }
 
+    public boolean isCheack() {
+        return cheack;
+    }
+
+    public void setCheack(boolean cheack) {
+        this.cheack = cheack;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+   
+    
+    
+    
+    
+    
 }
