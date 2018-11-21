@@ -156,8 +156,5 @@ abstract public class Veiculo implements Biblioteca{
         }
     }
     
-    public Date CalculaProximaDataImpostoCirculacao(Date dataAntrior){
-        
-    }
-
+    
 }

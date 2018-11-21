@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package GPS.Modelo;
+
 import GPS.Modelo.Biblioteca.TipoEvento;
+
 import java.util.Date;
 
 /**
