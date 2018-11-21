@@ -23,11 +23,6 @@ public class Pesado extends Veiculo {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Date CalcularProximaMudancaDeCorreia() {
-        return super.CalcularProximaMudancaDeCorreia(); //To change body of generated methods, choose Tools | Templates.
-    }
-
 
  
     
