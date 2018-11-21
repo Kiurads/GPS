@@ -112,5 +112,12 @@ abstract public class Veiculo {
             eventos.add(evento);
         }
     }
+<<<<<<< HEAD
+=======
+    
+    public Date CalculaProximaDataImpostoCirculacao(Date dataAntrior){
+        
+    }
+>>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
 
 }

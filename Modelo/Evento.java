@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+<<<<<<< HEAD
 package Modelo;
 
+=======
+package GPS.Modelo;
+import GPS.Modelo.Biblioteca.TipoEvento;
+>>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
 import java.util.Date;
 
 /**
