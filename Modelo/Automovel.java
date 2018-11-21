@@ -23,7 +23,7 @@ public class Automovel extends Veiculo {
     }
 
     @Override
-    Date CalculaProximaInspecao() {
+    public Date CalculaProximaInspecao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
