@@ -11,21 +11,21 @@ import java.util.Date;
  *
  * @author Márcio Guia
  */
-public class Mota extends Veiculo{
+public class Ligeiro extends Veiculo {
 
-    int cilindrada;
-    
-    public Mota(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+    public Ligeiro(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
         super(matricula, dataRegistoMatricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
-    }
 
-   
+    }
 
     @Override
     public Date CalculaProximaInspecao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   
-    
+    @Override
+    public Date CalcularProximaMudancaDeCorreia() {
+        return super.CalcularProximaMudancaDeCorreia(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
