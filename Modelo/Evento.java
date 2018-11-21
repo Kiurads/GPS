@@ -4,8 +4,13 @@
  * and open the template in the editor.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 package Modelo;
 
+=======
+package GPS.Modelo;
+import GPS.Modelo.Biblioteca.TipoEvento;
+>>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
 =======
 package GPS.Modelo;
 import GPS.Modelo.Biblioteca.TipoEvento;

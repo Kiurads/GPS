@@ -118,6 +118,9 @@ abstract public class Veiculo {
     public Date CalculaProximaDataImpostoCirculacao(Date dataAntrior){
         
     }
+<<<<<<< HEAD
+>>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
+=======
 >>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
 
 }
