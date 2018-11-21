@@ -70,19 +70,19 @@ abstract public class Veiculo implements Biblioteca{
 
     
     // Calcular
-    public Date CalculaProximaPagementoImpostoCirculaçao() {
+    public Calendar CalculaProximaPagementoImpostoCirculaçao() {
         return null;
     }
-    public Date CalcularProximaDataDePagamentoSeguro() {
+    public Calendar CalcularProximaDataDePagamentoSeguro() {
         return null;
     }
-    public Date CalcularProximaMudancaOleo() {
+    public Calendar CalcularProximaMudancaOleo() {
         return null;
     }
-    public Date CalcularProximaMudancaDeCorreia() {
+    public Calendar CalcularProximaMudancaDeCorreia() {
         return null;
     }
-    abstract public Date CalculaProximaInspecao();
+    abstract public Calendar CalculaProximaInspecao();
 
     
     // Realizar

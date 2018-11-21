@@ -5,6 +5,7 @@
  */
 package GPS.Modelo;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -13,18 +14,18 @@ import java.util.Date;
  */
 public class Ligeiro extends Veiculo {
 
-    public Ligeiro(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+    public Ligeiro(String matricula, Calendar dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
         super(matricula, dataRegistoMatricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
 
     }
 
     @Override
-    public Date CalculaProximaInspecao() {
+    public Calendar CalculaProximaInspecao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Date CalcularProximaMudancaDeCorreia() {
+    public Calendar CalcularProximaMudancaDeCorreia() {
         return super.CalcularProximaMudancaDeCorreia(); //To change body of generated methods, choose Tools | Templates.
     }
 

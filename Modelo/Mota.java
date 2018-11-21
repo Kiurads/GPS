@@ -5,6 +5,7 @@
  */
 package GPS.Modelo;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,14 +16,14 @@ public class Mota extends Veiculo{
 
     int cilindrada;
     
-    public Mota(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+    public Mota(String matricula, Calendar dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
         super(matricula, dataRegistoMatricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
     }
 
    
 
     @Override
-    public Date CalculaProximaInspecao() {
+    public Calendar CalculaProximaInspecao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
