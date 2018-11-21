@@ -7,26 +7,25 @@ package GPS.Modelo;
 
 import java.util.Date;
 
+
 /**
  *
  * @author Márcio Guia
  */
-public class Mota extends Veiculo{
+public class Pesado extends Veiculo {
 
-    int cilindrada;
-
-    public Mota(String matricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
-        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
+    public Pesado(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+        super(matricula, dataRegistoMatricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
     }
-   
-
-   
 
     @Override
     public Date CalculaProximaInspecao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-   
+
+ 
     
+
+   
 }

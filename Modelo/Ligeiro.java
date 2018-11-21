@@ -13,11 +13,10 @@ import java.util.Date;
  */
 public class Ligeiro extends Veiculo {
 
-    public Ligeiro(String matricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
-        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
-    }
+    public Ligeiro(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+        super(matricula, dataRegistoMatricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
 
-   
+    }
 
     @Override
     public Date CalculaProximaInspecao() {
