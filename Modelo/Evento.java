@@ -3,18 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-package Modelo;
 
-=======
 package GPS.Modelo;
 import GPS.Modelo.Biblioteca.TipoEvento;
->>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
-=======
-package GPS.Modelo;
-import GPS.Modelo.Biblioteca.TipoEvento;
->>>>>>> parent of cf1881d... Merge branch 'master' of https://github.com/Kiurads/GPS
 import java.util.Date;
 
 /**
@@ -24,7 +15,7 @@ import java.util.Date;
 
 
 
-public class Evento implements Biblioteca{
+public class Evento implements Biblioteca {
     private Date DataEvento;
     private String Descricao;
     private String idVeiculo;
