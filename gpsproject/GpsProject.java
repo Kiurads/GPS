@@ -1,5 +1,6 @@
 package GPS.gpsproject;
 
+import com.sun.glass.ui.Screen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +15,9 @@ public class GpsProject extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("VC.fxml"));
-        Scene scene = new Scene(root, 1000, 700);
+        int sceneWidth = 2 * Screen.getMainScreen().getWidth() / 3;
+        int sceneHeight = 2 * Screen.getMainScreen().getHeight() / 3;
+        Scene scene = new Scene(root, sceneWidth, sceneHeight);
 
         stage.setTitle("Vehicle Companion");
         stage.setScene(scene);

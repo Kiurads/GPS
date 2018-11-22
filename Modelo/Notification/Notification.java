@@ -22,7 +22,7 @@ public class Notification {
                 .text(message)
                 .graphic(new ImageView(image))
                 .hideAfter(Duration.seconds(5))
-                .position(Pos.BOTTOM_LEFT);
+                .position(Pos.BOTTOM_RIGHT);
 
 
         notification.show();
