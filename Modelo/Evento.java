@@ -6,6 +6,7 @@
 
 package GPS.Modelo;
 import GPS.Modelo.Biblioteca.TipoEvento;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,34 +17,43 @@ import java.util.Date;
 
 
 public class Evento implements Biblioteca {
-    private Date DataEvento;
-    private String Descricao;
+    private Calendar DataEvento;
+    private String Nome;
     private String idVeiculo;
     private TipoEvento tipoevento;
+    private boolean cheak;
     
    
     
-    public Evento(Date DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
+    public Evento(Calendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
         this.DataEvento = DataEvento;
-        this.Descricao = Descricao;
+        this.Nome = Descricao;
         this.idVeiculo=idVeiculo;
         this.tipoevento=tipoevento;
     }
 
-    public String getDescricao() {
-        return Descricao;
+    public String getNome() {
+        return Nome;
     }
 
     public String getIdVeiculo() {
         return idVeiculo;
     }
 
-    public Date getDataEvento() {
+    public Calendar getDataEvento() {
         return DataEvento;
     }
 
     public TipoEvento getTipoevento() {
         return tipoevento;
+    }
+
+    public boolean isCheak() {
+        return cheak;
+    }
+
+    public void setCheak(boolean cheak) {
+        this.cheak = cheak;
     }
     
     

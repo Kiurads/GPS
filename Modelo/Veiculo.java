@@ -6,6 +6,7 @@
 package GPS.Modelo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,13 +14,13 @@ import java.util.List;
  *
  * @author Márcio Guia
  */
-abstract public class Veiculo {
+abstract public class Veiculo implements Biblioteca{
 
     /**
      * @param args the command line arguments
      */
     String matricula;
-    Date dataRegistoMatricula;
+    Calendar dataRegistoMatricula;
     int KmReais;
     int KmMensais;
     Seguro seguro;
@@ -27,7 +28,7 @@ abstract public class Veiculo {
 
     int intervaloKmsOleo;
 
-    public Veiculo(String matricula, Date dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+    public Veiculo(String matricula, Calendar dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
         this.matricula = matricula;
         this.dataRegistoMatricula = dataRegistoMatricula;
         this.KmReais = KmReais;
@@ -37,7 +38,7 @@ abstract public class Veiculo {
     }
 
     // gets
-    public Date getDataRegistoMatricula() {
+    public Calendar getDataRegistoMatricula() {
         return dataRegistoMatricula;
     }
     public int getKmReais() {
@@ -54,7 +55,7 @@ abstract public class Veiculo {
     }
 
     //sets
-    public void setDataRegistoMatricula(Date dataRegistoMatricula) {
+    public void setDataRegistoMatricula(Calendar dataRegistoMatricula) {
         this.dataRegistoMatricula = dataRegistoMatricula;
     }
     public void setKmReais(int KmReais) {
@@ -69,38 +70,73 @@ abstract public class Veiculo {
 
     
     // Calcular
-    public Date CalculaProximaPagementoImpostoCirculaçao() {
+    public Calendar CalculaProximaPagementoImpostoCirculaçao() {
         return null;
     }
-    public Date CalcularProximaDataDePagamentoSeguro() {
+    public Calendar CalcularProximaDataDePagamentoSeguro() {
         return null;
     }
-    public Date CalcularProximaMudancaOleo() {
+    public Calendar CalcularProximaMudancaOleo() {
         return null;
     }
-    public Date CalcularProximaMudancaDeCorreia() {
+    public Calendar CalcularProximaMudancaDeCorreia() {
         return null;
     }
-    abstract public Date CalculaProximaInspecao();
+    abstract public Calendar CalculaProximaInspecao();
 
     
     // Realizar
     public void RealizaMudancaOleo() {
-        System.out.println("por definir");
+        
     }
     public void RealizaPagamentoSeguro() {
-        System.out.println("por definir");
+        
+        Evento aux=PesquisaEvento(PAGAMENTO_SEGURO);
+        
+        if(aux!=null && !aux.isCheak()){
+           aux.setCheak(true);
+           Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriaEvento(novo);
+        }
+        
     }
     public void RealizaMudancaDeCorreia() {
-        System.out.println("por definir");
+        Evento aux=PesquisaEvento(MUDANCA_CORREIA);
+        
+        if(aux!=null && !aux.isCheak()){
+           aux.setCheak(true);
+           Evento novo=new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriaEvento(novo);
+        }
     }
     public void RealizaPagamentoImpostoCirculacao() {
-        System.out.println("por definir");
+       Evento aux=PesquisaEvento(PAGAMENTO_IMPOSTO);
+        
+        if(aux!=null && !aux.isCheak()){
+           aux.setCheak(true);
+           Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriaEvento(novo);
+        }
     }
     public void RealizaInspecao() {
-        System.out.println("por definir");
+        Evento aux=PesquisaEvento(INSPECAO);
+        
+        if(aux!=null && !aux.isCheak()){
+           aux.setCheak(true);
+           Evento novo=new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriaEvento(novo);
+        }
     }
 
+    
+    public Evento PesquisaEvento(String Nome){
+        
+        for (Evento evento : eventos) {
+            if(evento.getNome().compareTo(Nome)==0)
+                return evento;
+        }
+        return null;
+    }
     
     
     public List<Evento> ListaEventos() {
