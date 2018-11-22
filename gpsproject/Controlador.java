@@ -2,13 +2,15 @@ package GPS.gpsproject;
 
 import GPS.Modelo.Notification.Notification;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ListView;
 
 import java.awt.*;
 
 public class Controlador {
+    ListView list;
+    Button addButton;
+
     public void sendNotification(ActionEvent actionEvent) {
-        try {
-            Notification.sendNotification("Notification test", "Vehicle Companion");
-        } catch (AWTException ignore) {}
+        Notification.sendNotification("Vehicle Companion", "Notification Test");
     }
 }
