@@ -38,15 +38,42 @@
             <tabs>
                 <Tab text="Visão Geral">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <center>
-                              <Label text="Selecione um veículo para o gerir" BorderPane.alignment="CENTER" />
-                           </center>
-                        </BorderPane>
-                     </center>
-                  </BorderPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox prefHeight="487.0" prefWidth="715.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="485.0" prefWidth="237.0">
+                                 <children>
+                                    <TitledPane collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
+                                       <content>
+                                          <TextArea prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                                       </content>
+                                    </TitledPane>
+                                    <PieChart VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="initial">
+                                 <children>
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Selecione um veículo para o gerir" textAlignment="CENTER" />
+                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <TitledPane prefHeight="200.0" prefWidth="200.0" text="Lista de Eventos" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </content>
                 </Tab>
                 <Tab text="Editar Detalhes">
