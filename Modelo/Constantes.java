@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GPS.Modelo;
 
-/**
- *
- * @author Pedro
- */
-public interface Biblioteca {
+public interface Constantes {
     enum TipoEvento{
         Reparacao,Mecanica,Menutencoes,Obrigacoes;
     }
@@ -19,6 +11,9 @@ public interface Biblioteca {
     static String PAGAMENTO_SEGURO="Pagamento de Seguro";
     static String MUDANCA_CORREIA="Mudanca de correia";
     static String PAGAMENTO_IMPOSTO="Pagamento de imposto de circulacao";
+    
+    public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
+    public final String BD_MATRICULAS_TXT = "BD.txt";
 
     
 }

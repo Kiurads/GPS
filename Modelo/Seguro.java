@@ -1,31 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package GPS.Modelo;
 
-/**
- *
- * @author Márcio Guia
- */
-import java.util.Date;
+package GPS.Modelo;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Seguro {
 
-    String Seguradora;
-    Date dataRegisto;
+    String seguradora;
+    GregorianCalendar dataRegisto;
 
-    public Seguro(String Seguradora, Date dataRegito) {
-        this.Seguradora = Seguradora;
+    public Seguro(String Seguradora, GregorianCalendar dataRegito) {
+        this.seguradora = Seguradora;
         this.dataRegisto = dataRegito;
     }
 
-    public Date getDataRegisto() {
+    public GregorianCalendar getDataRegisto() {
         return dataRegisto;
     }
 
     public String getSeguradora() {
-        return Seguradora;
+        return seguradora;
     }
+
+    @Override
+    public String toString() {
+        String s = "\nSeguradora: " + seguradora + " " + dataRegisto.get(Calendar.DAY_OF_MONTH) +"-"+ 
+                dataRegisto.get(Calendar.MONTH) +"-"+dataRegisto.get(Calendar.YEAR);
+        
+        return s;
+    }
+    
+    
 }
