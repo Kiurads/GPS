@@ -1,60 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package GPS.Modelo;
-import GPS.Modelo.Biblioteca.TipoEvento;
+import GPS.Modelo.Constantes.TipoEvento;
 import java.util.Calendar;
 import java.util.Date;
-
-/**
- *
- * @author Márcio Guia
- */
+import java.util.GregorianCalendar;
 
 
-
-public class Evento implements Biblioteca {
-    private Calendar DataEvento;
-    private String Nome;
-    private String idVeiculo;
-    private TipoEvento tipoevento;
-    private boolean cheak;
+public class Evento implements Constantes {
+    private GregorianCalendar data;
+    private String descricao;
+    private String matricula;
+    private TipoEvento tipoEvento;
+    private boolean check;
     
    
     
-    public Evento(Calendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
-        this.DataEvento = DataEvento;
-        this.Nome = Descricao;
-        this.idVeiculo=idVeiculo;
-        this.tipoevento=tipoevento;
+    public Evento(GregorianCalendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
+        this.data = DataEvento;
+        this.descricao = Descricao;
+        this.matricula=idVeiculo;
+        this.tipoEvento=tipoevento;
     }
 
-    public String getNome() {
-        return Nome;
+    public String getDescricao() {
+        return descricao;
     }
-
-    public String getIdVeiculo() {
-        return idVeiculo;
-    }
-
-    public Calendar getDataEvento() {
-        return DataEvento;
-    }
-
-    public TipoEvento getTipoevento() {
-        return tipoevento;
-    }
-
+    
     public boolean isCheak() {
-        return cheak;
+        return check;
     }
 
     public void setCheak(boolean cheak) {
-        this.cheak = cheak;
+        this.check = cheak;
     }
+
+    @Override
+    public String toString() {
+        String s = "";
+        
+        s+="\nEvento: "+ descricao  + " " + data.get(Calendar.DAY_OF_MONTH) +"-"+ 
+                data.get(Calendar.MONTH) +"-"+data.get(Calendar.YEAR);
+        
+        return s;
+    }
+    
+    
     
     
     

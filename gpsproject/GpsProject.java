@@ -1,5 +1,7 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Ligeiro;
+import GPS.Modelo.Veiculo;
 import com.sun.glass.ui.Screen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,8 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class GpsProject extends Application {
 
@@ -27,5 +31,8 @@ public class GpsProject extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        Veiculo v = new Ligeiro("21-45-RD",100000,100, "Liberty",new GregorianCalendar(2015,9,13));
+        
+        System.err.println(v.toString());
     }
 }

@@ -1,157 +1,201 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GPS.Modelo;
 
+import com.sun.beans.util.Cache;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Scanner;
 
-/**
- *
- * @author Márcio Guia
- */
-abstract public class Veiculo implements Biblioteca{
+abstract public class Veiculo implements Constantes {
+    
+    //Dados introduzidos
+    protected String matricula;
+    protected int KmReais;
+    protected int KmMensais;
+    protected Seguro seguro;
 
-    /**
-     * @param args the command line arguments
-     */
-    String matricula;
-    Calendar dataRegistoMatricula;
-    int KmReais;
-    int KmMensais;
-    Seguro seguro;
-    List<Evento> eventos;
+    //Dados vindos da BD
+    protected GregorianCalendar dataRegistoMatricula;
+    protected String marca;
+    protected String modelo;
+    protected int intervaloKmsOleo;
+    
+    //Lista de eventos que vão ser criados
+    protected List<Evento> eventos;
 
-    int intervaloKmsOleo;
-
-    public Veiculo(String matricula, Calendar dataRegistoMatricula, int KmReais, int KmMensais, String seguradora, Date dataRegistoSeguro) {
+    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro) {
         this.matricula = matricula;
-        this.dataRegistoMatricula = dataRegistoMatricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
         this.seguro = new Seguro(seguradora, dataRegistoSeguro);
         this.eventos = new ArrayList<>();
+
+        //dados da BD
+        getDadosMatricula(matricula, BD_MATRICULAS_TXT);
+        
+        //criar eventos
+        CalculaProximaPagementoImpostoCirculaçao();
+        CalcularProximaDataDePagamentoSeguro();
     }
 
-    // gets
-    public Calendar getDataRegistoMatricula() {
-        return dataRegistoMatricula;
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
     public int getKmReais() {
         return KmReais;
     }
+
     public int getKmMensais() {
         return KmMensais;
     }
+
     public String getMatricula() {
         return matricula;
     }
+
     public Seguro getSeguro() {
         return seguro;
     }
 
-    //sets
-    public void setDataRegistoMatricula(Calendar dataRegistoMatricula) {
-        this.dataRegistoMatricula = dataRegistoMatricula;
-    }
     public void setKmReais(int KmReais) {
         this.KmReais = KmReais;
     }
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
+
     public void setSeguro(Seguro seguro) {
         this.seguro = seguro;
     }
 
-    
-    // Calcular
-    public Calendar CalculaProximaPagementoImpostoCirculaçao() {
-        return null;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CALCULAR
+    private void CalculaProximaPagementoImpostoCirculaçao() {
+        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), "Imposto de Circulação pagar até", matricula, TipoEvento.Obrigacoes));
     }
-    public Calendar CalcularProximaDataDePagamentoSeguro() {
-        return null;
-    }
-    public Calendar CalcularProximaMudancaOleo() {
-        return null;
-    }
-    public Calendar CalcularProximaMudancaDeCorreia() {
-        return null;
-    }
-    abstract public Calendar CalculaProximaInspecao();
 
-    
-    // Realizar
-    public void RealizaMudancaOleo() {
-        
+    private void CalcularProximaDataDePagamentoSeguro() {
+        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), "Seguro pagar até", matricula, TipoEvento.Obrigacoes));
     }
+
+    private void CalcularProximaMudancaOleo() {
+    }
+
+    private void CalcularProximaMudancaDeCorreia() {
+    }
+
+    abstract protected void CalculaProximaInspecao();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
+    public void RealizaMudancaOleo() {
+
+    }
+
     public void RealizaPagamentoSeguro() {
+
         
         Evento aux=PesquisaEvento(PAGAMENTO_SEGURO);
         
         if(aux!=null && !aux.isCheak()){
            aux.setCheak(true);
-           
            Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriaEvento(novo);
+           CriarEvento(novo);
+                    
         }
-        
+
     }
+
     public void RealizaMudancaDeCorreia() {
-        Evento aux=PesquisaEvento(MUDANCA_CORREIA);
-        
-        if(aux!=null && !aux.isCheak()){
-           aux.setCheak(true);
-           Evento novo=new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriaEvento(novo);
-        }
-    }
-    public void RealizaPagamentoImpostoCirculacao() {
-       Evento aux=PesquisaEvento(PAGAMENTO_IMPOSTO);
-        
-        if(aux!=null && !aux.isCheak()){
-           aux.setCheak(true);
-           Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriaEvento(novo);
-        }
-    }
-    public void RealizaInspecao() {
-        Evento aux=PesquisaEvento(INSPECAO);
-        
-        if(aux!=null && !aux.isCheak()){
-           aux.setCheak(true);
-           Evento novo=new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriaEvento(novo);
+        Evento aux = PesquisaEvento(MUDANCA_CORREIA);
+
+        if (aux != null && !aux.isCheak()) {
+            aux.setCheak(true);
+            Evento novo = new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriarEvento(novo);
         }
     }
 
-    
-    public Evento PesquisaEvento(String Nome){
-        
+    public void RealizaPagamentoImpostoCirculacao() {
+        Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
+
+        if (aux != null && !aux.isCheak()) {
+            aux.setCheak(true);
+            Evento novo = new Evento(dataRegistoMatricula, PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriarEvento(novo);
+        }
+    }
+
+    public void RealizaInspecao() {
+        Evento aux = PesquisaEvento(INSPECAO);
+
+        if (aux != null && !aux.isCheak()) {
+            aux.setCheak(true);
+            Evento novo = new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriarEvento(novo);
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
+    private GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) { 
+        //O ano da data que entra vai ser alterado para o ano corrente + 1
+        Calendar calendarioAuxialiar = Calendar.getInstance();
+        calendarioAuxialiar.set(Calendar.MONTH, data.get(Calendar.MONTH));
+
+        return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
+                data.get(Calendar.MONTH), data.get(Calendar.DATE));
+    }
+
+    private void getDadosMatricula(String matricula, String FileName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
+
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    dataRegistoMatricula = new GregorianCalendar(Integer.parseInt(sc.next()), Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
+                    marca = sc.next();
+                    modelo = sc.next();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Evento PesquisaEvento(String Nome) {
         for (Evento evento : eventos) {
-            if(evento.getNome().compareTo(Nome)==0)
+            if (evento.getDescricao().compareTo(Nome) == 0) {
                 return evento;
+            }
         }
         return null;
     }
-    
-    
-    public List<Evento> ListaEventos() {
+
+    private List<Evento> ListarEventos() {
         return eventos;
     }
 
-    public void CriaEvento(Evento evento) {
+    private void CriarEvento(Evento evento) {
         if (evento != null) {
             eventos.add(evento);
         }
     }
-    
-    public Date CalculaProximaDataImpostoCirculacao(Date dataAntrior){
-        return dataAntrior;
+
+    @Override
+    public String toString() {
+        String s = "";
+        s += "Matricula: " + matricula + " " + dataRegistoMatricula.get(Calendar.DAY_OF_MONTH) + "-" + dataRegistoMatricula.get(Calendar.MONTH) + "-" + dataRegistoMatricula.get(Calendar.YEAR);
+        s += "\nMarca: " + marca;
+        s += "\nModelo: " + modelo;
+        s += "\nKmReais: " + KmReais;
+        s += "\nKmMensais: " + KmMensais;
+        s += seguro.toString();
+
+        for (Evento e : eventos) {
+            s += e.toString();
+        }
+
+        return s;
     }
 
 }
