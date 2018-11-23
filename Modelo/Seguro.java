@@ -7,10 +7,12 @@ public class Seguro {
 
     String seguradora;
     GregorianCalendar dataRegisto;
+    int custoAnual;
 
-    public Seguro(String Seguradora, GregorianCalendar dataRegito) {
+    public Seguro(String Seguradora, GregorianCalendar dataRegito,int custoAnual) {
         this.seguradora = Seguradora;
         this.dataRegisto = dataRegito;
+        this.custoAnual=custoAnual;
     }
 
     public GregorianCalendar getDataRegisto() {
@@ -19,6 +21,10 @@ public class Seguro {
 
     public String getSeguradora() {
         return seguradora;
+    }
+
+    public int getCustoAnual() {
+        return custoAnual;
     }
 
     @Override
