@@ -30,7 +30,7 @@ public class Seguro {
     @Override
     public String toString() {
         String s = "\nSeguradora: " + seguradora + " " + dataRegisto.get(Calendar.DAY_OF_MONTH) +"-"+ 
-                dataRegisto.get(Calendar.MONTH) +"-"+dataRegisto.get(Calendar.YEAR);
+                dataRegisto.get(Calendar.MONTH) +"-"+dataRegisto.get(Calendar.YEAR)+"- Montante Anual:"+custoAnual;
         
         return s;
     }

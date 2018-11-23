@@ -1,6 +1,5 @@
 package GPS.Modelo;
 
-import com.sun.beans.util.Cache;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -136,7 +135,7 @@ abstract public class Veiculo implements Constantes {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
+    protected GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
         Calendar calendarioAuxialiar = Calendar.getInstance();
         calendarioAuxialiar.set(Calendar.MONTH, data.get(Calendar.MONTH));

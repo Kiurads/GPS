@@ -15,11 +15,7 @@ public class Pesado extends Veiculo {
 
     @Override
     protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
-         Calendar calendarioAuxialiar = Calendar.getInstance();
-        calendarioAuxialiar.set(Calendar.MONTH, data.get(Calendar.MONTH));
-
-        return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
-                data.get(Calendar.MONTH), data.get(Calendar.DATE));
+       return getDataComMaisUmAno(data);
 
     }
 
