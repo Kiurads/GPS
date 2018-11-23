@@ -14,12 +14,12 @@ public interface Constantes {
     
     public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
 
-    public final String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD.txt";
+    public final String BD_MATRICULAS_TXT = "C:\\Users\\Pedro\\Documents\\NetBeansProjects\\GPSProject1.1\\src\\GPS\\BD.txt";
 
     public final int QUATRO_ANOS = 4;
-    public final int DOIS_ANOS = 250;
-    public final int OITO_ANOS = 250;
+    public final int DOIS_ANOS = 2;
+    public final int OITO_ANOS = 8;
 
-
+    
     
 }

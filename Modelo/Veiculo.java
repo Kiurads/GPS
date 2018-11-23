@@ -26,11 +26,11 @@ abstract public class Veiculo implements Constantes {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro,int custoAnualSeguro) {
+    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro, int custoAnualSeguro) {
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
-        this.seguro = new Seguro(seguradora, dataRegistoSeguro,custoAnualSeguro);
+        this.seguro = new Seguro(seguradora, dataRegistoSeguro, custoAnualSeguro);
         this.eventos = new ArrayList<>();
 
         //dados da BD
@@ -39,6 +39,7 @@ abstract public class Veiculo implements Constantes {
         //criar eventos
         CalculaProximaPagementoImpostoCirculaçao();
         CalcularProximaDataDePagamentoSeguro();
+        CalculaProximaInspecao();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
@@ -81,13 +82,20 @@ abstract public class Veiculo implements Constantes {
     private void CalcularProximaMudancaDeCorreia() {
     }
 
-     protected void CalculaProximaInspecao(){
+    protected void CalculaProximaInspecao() {
         eventos.add(new Evento(getDataPorximaInspeçao(dataRegistoMatricula), INSPECAO, matricula, TipoEvento.Obrigacoes));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public void RealizaMudancaOleo() {
+    public void RealizaMudancaOleo(int custo) {
+        Evento aux = PesquisaEvento(MUDANCA_OLEO);
 
+        if (aux != null && !aux.isCheak()) {
+            aux.setCheak(true);
+            aux.setCusto(custo);
+            CalcularProximaMudancaOleo();
+
+        }
     }
 
     public void RealizaPagamentoSeguro() {
@@ -99,7 +107,6 @@ abstract public class Veiculo implements Constantes {
             aux.setCusto(seguro.custoAnual);
             CalcularProximaDataDePagamentoSeguro();
 
-
         }
 
     }
@@ -110,8 +117,7 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            Evento novo = new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            CalcularProximaMudancaDeCorreia();
         }
     }
 
@@ -121,8 +127,7 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            Evento novo = new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            CalculaProximaPagementoImpostoCirculaçao();
         }
     }
 
@@ -148,8 +153,7 @@ abstract public class Veiculo implements Constantes {
     }
 
     abstract protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data);
-       
-    
+
     private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
 
