@@ -12,6 +12,7 @@ public class Evento implements Constantes {
     private String matricula;
     private TipoEvento tipoEvento;
     private boolean check;
+    private int custo;
     
    
     
@@ -34,6 +35,16 @@ public class Evento implements Constantes {
         this.check = cheak;
     }
 
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+
+    
+    
     @Override
     public String toString() {
         String s = "";

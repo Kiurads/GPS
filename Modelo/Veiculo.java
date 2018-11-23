@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 abstract public class Veiculo implements Constantes {
-    
+
     //Dados introduzidos
     protected String matricula;
     protected int KmReais;
@@ -23,7 +23,7 @@ abstract public class Veiculo implements Constantes {
     protected String marca;
     protected String modelo;
     protected int intervaloKmsOleo;
-    
+
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
@@ -36,7 +36,7 @@ abstract public class Veiculo implements Constantes {
 
         //dados da BD
         getDadosMatricula(matricula, BD_MATRICULAS_TXT);
-        
+
         //criar eventos
         CalculaProximaPagementoImpostoCirculaçao();
         CalcularProximaDataDePagamentoSeguro();
@@ -89,55 +89,79 @@ abstract public class Veiculo implements Constantes {
 
     }
 
-    public void RealizaPagamentoSeguro() {
+    public void RealizaPagamentoSeguro(int custo) {
 
         Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
 
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
-            Evento novo = new Evento(dataRegistoMatricula, PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            aux.setCusto(custo);
+            CalcularProximaDataDePagamentoSeguro();
+
         }
 
     }
 
-    public void RealizaMudancaDeCorreia() {
+    public void RealizaMudancaDeCorreia(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_CORREIA);
 
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
+            aux.setCusto(custo);
             Evento novo = new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
             CriarEvento(novo);
         }
     }
 
-    public void RealizaPagamentoImpostoCirculacao() {
+    public void RealizaPagamentoImpostoCirculacao(int custo) {
         Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
 
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
-            Evento novo = new Evento(dataRegistoMatricula, PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            aux.setCusto(custo);
+           CalculaProximaPagementoImpostoCirculaçao();
         }
     }
 
-    public void RealizaInspecao() {
+    public void RealizaInspecao(int custo) {
         Evento aux = PesquisaEvento(INSPECAO);
 
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
-            Evento novo = new Evento(dataRegistoMatricula, INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            aux.setCusto(custo);
+            Evento novo = new Evento(getDataPorximaInspeçao(dataRegistoMatricula), INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
             CriarEvento(novo);
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) { 
+    private GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
         Calendar calendarioAuxialiar = Calendar.getInstance();
         calendarioAuxialiar.set(Calendar.MONTH, data.get(Calendar.MONTH));
 
         return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
                 data.get(Calendar.MONTH), data.get(Calendar.DATE));
+
+    }
+
+    private GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
+        //O ano da data que entra vai ser alterado para o ano corrente + 1
+        Calendar calendarioAuxiliar = Calendar.getInstance();
+        calendarioAuxiliar.set(Calendar.MONTH, data.get(Calendar.MONTH));
+        calendarioAuxiliar.set(Calendar.YEAR, data.get(Calendar.YEAR));
+
+        if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < QUATRO_ANOS) {
+            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 4,
+                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
+        } else if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) > QUATRO_ANOS && calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < OITO_ANOS) {
+            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 2,
+                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
+        } else {
+            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
+                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
+        }
+
     }
 
     private void getDadosMatricula(String matricula, String FileName) {
