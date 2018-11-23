@@ -26,11 +26,11 @@ abstract public class Veiculo implements Constantes {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro,int custoAnualSeguro) {
+    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro, int custoAnualSeguro) {
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
-        this.seguro = new Seguro(seguradora, dataRegistoSeguro,custoAnualSeguro);
+        this.seguro = new Seguro(seguradora, dataRegistoSeguro, custoAnualSeguro);
         this.eventos = new ArrayList<>();
 
         //dados da BD
@@ -39,6 +39,7 @@ abstract public class Veiculo implements Constantes {
         //criar eventos
         CalculaProximaPagementoImpostoCirculaçao();
         CalcularProximaDataDePagamentoSeguro();
+        CalculaProximaInspecao();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
@@ -75,14 +76,17 @@ abstract public class Veiculo implements Constantes {
         eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes));
     }
 
+    private void CalculaProximaInspecao() {
+        GregorianCalendar proxData = getDataProximaInspecao();
+        //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
+        if(proxData != null)
+            eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.Obrigacoes));
+    }
+
     private void CalcularProximaMudancaOleo() {
     }
 
     private void CalcularProximaMudancaDeCorreia() {
-    }
-
-     protected void CalculaProximaInspecao(){
-        eventos.add(new Evento(getDataPorximaInspeçao(dataRegistoMatricula), INSPECAO, matricula, TipoEvento.Obrigacoes));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
@@ -98,10 +102,7 @@ abstract public class Veiculo implements Constantes {
             aux.setCheak(true);
             aux.setCusto(seguro.custoAnual);
             CalcularProximaDataDePagamentoSeguro();
-
-
         }
-
     }
 
     public void RealizaMudancaDeCorreia(int custo) {
@@ -147,9 +148,8 @@ abstract public class Veiculo implements Constantes {
 
     }
 
-    abstract protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data);
-       
-    
+    abstract protected GregorianCalendar getDataProximaInspecao();
+
     private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
 

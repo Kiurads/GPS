@@ -11,12 +11,9 @@ public class Pesado extends Veiculo {
         super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro,custoAnual);
     }
 
-  
-
     @Override
-    protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
-       return getDataComMaisUmAno(data);
-
+    protected GregorianCalendar getDataProximaInspecao() {
+       return getDataComMaisUmAno(dataRegistoMatricula);
     }
 
 }

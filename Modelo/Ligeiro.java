@@ -9,23 +9,20 @@ public class Ligeiro extends Veiculo {
         super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro,custoAnual);
     }
 
-  
-
     @Override
-     protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
-        Calendar calendarioAuxiliar = Calendar.getInstance();
-        calendarioAuxiliar.set(Calendar.MONTH, data.get(Calendar.MONTH));
-        calendarioAuxiliar.set(Calendar.YEAR, data.get(Calendar.YEAR));
+     protected GregorianCalendar getDataProximaInspecao() {
+        Calendar dataCorrente = Calendar.getInstance();
 
-        if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < QUATRO_ANOS) {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 4,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
-        } else if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) > QUATRO_ANOS && calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < OITO_ANOS) {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 2,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
+        if (dataCorrente.get(Calendar.YEAR) - dataRegistoMatricula.get((Calendar.YEAR)) <= QUATRO_ANOS) {
+            return new GregorianCalendar(dataRegistoMatricula.get(Calendar.YEAR) + QUATRO_ANOS, 
+                    dataRegistoMatricula.get(Calendar.MONTH), dataRegistoMatricula.get(Calendar.DATE));
+            
+        } else if (dataCorrente.get(Calendar.YEAR) - dataRegistoMatricula.get((Calendar.YEAR)) > QUATRO_ANOS && dataCorrente.get(Calendar.YEAR) - dataRegistoMatricula.get((Calendar.YEAR)) <= OITO_ANOS) {
+           return new GregorianCalendar(dataCorrente.get(Calendar.YEAR) + DOIS_ANOS,
+                    dataRegistoMatricula.get(Calendar.MONTH), dataRegistoMatricula.get(Calendar.DATE));
         } else {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
+            return new GregorianCalendar(dataCorrente.get(Calendar.YEAR) + UM_ANO,
+                    dataRegistoMatricula.get(Calendar.MONTH), dataRegistoMatricula.get(Calendar.DATE));
         }
 
     }

@@ -1,10 +1,8 @@
-
 package GPS.Modelo;
+
 import GPS.Modelo.Constantes.TipoEvento;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
 
 public class Evento implements Constantes {
     private GregorianCalendar data;
@@ -13,8 +11,6 @@ public class Evento implements Constantes {
     private TipoEvento tipoEvento;
     private boolean check;
     private int custo;
-    
-   
     
     public Evento(GregorianCalendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
         this.data = DataEvento;
@@ -43,8 +39,6 @@ public class Evento implements Constantes {
         this.custo = custo;
     }
 
-    
-    
     @Override
     public String toString() {
         String s = "";
