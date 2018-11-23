@@ -40,6 +40,9 @@ abstract public class Veiculo implements Constantes {
         //criar eventos
         CalculaProximaPagementoImpostoCirculaçao();
         CalcularProximaDataDePagamentoSeguro();
+        
+        GregorianCalendar c = getDataPorximaInspeçao(dataRegistoMatricula);
+        System.out.println(c.get(Calendar.DAY_OF_MONTH) +"-"+c.get(Calendar.MONTH) +"-"+c.get(Calendar.YEAR));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
@@ -148,16 +151,21 @@ abstract public class Veiculo implements Constantes {
     private GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
         Calendar calendarioAuxiliar = Calendar.getInstance();
-        calendarioAuxiliar.set(Calendar.MONTH, data.get(Calendar.MONTH));
-        calendarioAuxiliar.set(Calendar.YEAR, data.get(Calendar.YEAR));
+        
+        System.out.println(data.get(Calendar.DAY_OF_MONTH) +"-"+data.get(Calendar.MONTH) +"-"+data.get(Calendar.YEAR));
+        System.out.println(calendarioAuxiliar.get(Calendar.DAY_OF_MONTH) +"-"+calendarioAuxiliar.get(Calendar.MONTH) +"-"+calendarioAuxiliar.get(Calendar.YEAR));
 
-        if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < QUATRO_ANOS) {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 4,
+
+        if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) <= QUATRO_ANOS) {
+//             System.out.println(calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)));
+            return new GregorianCalendar(data.get(Calendar.YEAR) + QUATRO_ANOS,
                     data.get(Calendar.MONTH), data.get(Calendar.DATE));
-        } else if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) > QUATRO_ANOS && calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < OITO_ANOS) {
+        } else if (QUATRO_ANOS < calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR))  && calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) <= OITO_ANOS) {
+            System.out.println(calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)));
             return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 2,
                     data.get(Calendar.MONTH), data.get(Calendar.DATE));
         } else {
+//            System.out.println(calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)));
             return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
                     data.get(Calendar.MONTH), data.get(Calendar.DATE));
         }

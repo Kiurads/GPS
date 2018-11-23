@@ -33,6 +33,6 @@ public class GpsProject extends Application {
 //        launch(args);
         Veiculo v = new Ligeiro("21-45-RD",100000,100, "Liberty",new GregorianCalendar(2015,9,13));
         
-        System.err.println(v.toString());
+//        System.err.println(v.toString());
     }
 }
