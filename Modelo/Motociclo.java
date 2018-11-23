@@ -8,19 +8,19 @@ public class Motociclo extends Veiculo {
 
     int cilindrada;
 
-    public Motociclo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro, int cilindrada) {
-        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
+    public Motociclo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro, int cilindrada, int custoAnual) {
+        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnual);
         this.cilindrada = cilindrada;
     }
 
     @Override
-    protected void CalculaProximaInspecao() {
-        if (cilindrada >= CC_NECESSARIOS_PARA_INSPECAO) {
+    protected GregorianCalendar getDataProximaInspecao() {
+        return cilindrada >= CC_NECESSARIOS_PARA_INSPECAO ? getDataComMaisUmAno(dataRegistoMatricula) : null;
+    }
 
-            GregorianCalendar dataEvento = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
-                    dataRegistoMatricula.get(Calendar.MONTH), dataRegistoMatricula.get(Calendar.DATE));
-
-            eventos.add(new Evento(dataEvento, "Seguro pagar até", matricula, TipoEvento.Obrigacoes));
-        }
+    @Override
+    public String toString() {  //falta a cilindrada
+        String s = super.toString();
+        return s;
     }
 }

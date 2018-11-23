@@ -7,14 +7,13 @@ import java.util.GregorianCalendar;
 
 public class Pesado extends Veiculo {
 
-    public Pesado(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro) {
-        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro);
+    public Pesado(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro,int custoAnual) {
+        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro,custoAnual);
     }
 
     @Override
-    protected void CalculaProximaInspecao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected GregorianCalendar getDataProximaInspecao() {
+       return getDataComMaisUmAno(dataRegistoMatricula);
     }
-
 
 }
