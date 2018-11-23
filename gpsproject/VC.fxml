@@ -22,7 +22,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
                 </Button>
-                <Button fx:id="addButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#sendNotification" text="Adicionar Veículo" VBox.vgrow="NEVER">
+                <Button fx:id="addButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchViews" text="Adicionar Veículo" VBox.vgrow="NEVER">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
@@ -42,32 +42,54 @@
                      <children>
                         <HBox prefHeight="487.0" prefWidth="715.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox prefHeight="485.0" prefWidth="237.0">
+                              <VBox fx:id="left" prefHeight="485.0" prefWidth="237.0">
                                  <children>
-                                    <TitledPane collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
+                                    <TitledPane fx:id="details" collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
                                        <content>
-                                          <TextArea prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                                          <TextArea fx:id="detailstext" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes" wrapText="true" />
                                        </content>
                                     </TitledPane>
-                                    <PieChart VBox.vgrow="ALWAYS" />
+                                    <PieChart fx:id="pie" title="Custos" VBox.vgrow="ALWAYS" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Button fx:id="categoria" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Por categoria" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="mensais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mensais" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </VBox>
-                              <VBox fx:id="initial">
-                                 <children>
-                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Selecione um veículo para o gerir" textAlignment="CENTER" />
-                                    <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                              <VBox fx:id="right" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                                  <children>
-                                    <TitledPane prefHeight="200.0" prefWidth="200.0" text="Lista de Eventos" />
+                                    <TitledPane fx:id="events" collapsible="false" maxHeight="1.7976931348623157E308" prefHeight="411.0" prefWidth="467.0" text="Lista de Eventos" VBox.vgrow="ALWAYS">
+                                       <content>
+                                          <ListView fx:id="eventslist" prefHeight="200.0" prefWidth="200.0" />
+                                       </content></TitledPane>
+                                    <HBox VBox.vgrow="NEVER">
+                                       <children>
+                                          <Button fx:id="gerais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Gerais" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="mecanica" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mecânica" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="reparacoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Reparações" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="manutencoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Manutenções" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <VBox alignment="BOTTOM_RIGHT" prefHeight="51.0" prefWidth="467.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Button fx:id="eliminateButton" mnemonicParsing="false" text="Eliminar Veículo">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                             </padding>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </VBox>
                            </children>
