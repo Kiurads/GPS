@@ -1,6 +1,5 @@
 package GPS.Modelo;
 
-import com.sun.beans.util.Cache;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,11 +26,11 @@ abstract public class Veiculo implements Constantes {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro) {
+    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro,int custoAnualSeguro) {
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
-        this.seguro = new Seguro(seguradora, dataRegistoSeguro);
+        this.seguro = new Seguro(seguradora, dataRegistoSeguro,custoAnualSeguro);
         this.eventos = new ArrayList<>();
 
         //dados da BD
@@ -69,11 +68,11 @@ abstract public class Veiculo implements Constantes {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CALCULAR
     private void CalculaProximaPagementoImpostoCirculaçao() {
-        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), "Imposto de Circulação pagar até", matricula, TipoEvento.Obrigacoes));
+        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes));
     }
 
     private void CalcularProximaDataDePagamentoSeguro() {
-        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), "Seguro pagar até", matricula, TipoEvento.Obrigacoes));
+        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes));
     }
 
     private void CalcularProximaMudancaOleo() {
@@ -82,22 +81,24 @@ abstract public class Veiculo implements Constantes {
     private void CalcularProximaMudancaDeCorreia() {
     }
 
-    abstract protected void CalculaProximaInspecao();
+     protected void CalculaProximaInspecao(){
+        eventos.add(new Evento(getDataPorximaInspeçao(dataRegistoMatricula), INSPECAO, matricula, TipoEvento.Obrigacoes));
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
     public void RealizaMudancaOleo() {
 
     }
 
-    public void RealizaPagamentoSeguro(int custo) {
+    public void RealizaPagamentoSeguro() {
 
         Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
 
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
-            aux.setCusto(custo);
-            Evento novo = new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            aux.setCusto(seguro.custoAnual);
+            CalcularProximaDataDePagamentoSeguro();
+
 
         }
 
@@ -131,13 +132,12 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            Evento novo = new Evento(getDataPorximaInspeçao(dataRegistoMatricula), INSPECAO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            CalculaProximaInspecao();
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
+    protected GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
         Calendar calendarioAuxialiar = Calendar.getInstance();
         calendarioAuxialiar.set(Calendar.MONTH, data.get(Calendar.MONTH));
@@ -147,25 +147,9 @@ abstract public class Veiculo implements Constantes {
 
     }
 
-    private GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data) {
-        //O ano da data que entra vai ser alterado para o ano corrente + 1
-        Calendar calendarioAuxiliar = Calendar.getInstance();
-        calendarioAuxiliar.set(Calendar.MONTH, data.get(Calendar.MONTH));
-        calendarioAuxiliar.set(Calendar.YEAR, data.get(Calendar.YEAR));
-
-        if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < QUATRO_ANOS) {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 4,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
-        } else if (calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) > QUATRO_ANOS && calendarioAuxiliar.get(Calendar.YEAR) - data.get((Calendar.YEAR)) < OITO_ANOS) {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 2,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
-        } else {
-            return new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) + 1,
-                    data.get(Calendar.MONTH), data.get(Calendar.DATE));
-        }
-
-    }
-
+    abstract protected GregorianCalendar getDataPorximaInspeçao(GregorianCalendar data);
+       
+    
     private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
 
