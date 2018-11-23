@@ -86,12 +86,19 @@ abstract public class Veiculo implements Constantes {
     private void CalcularProximaMudancaOleo() {
     }
 
+
     private void CalcularProximaMudancaDeCorreia() {
     }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public void RealizaMudancaOleo() {
+    public void RealizaMudancaOleo(int custo) {
+        Evento aux = PesquisaEvento(MUDANCA_OLEO);
 
+        if (aux != null && !aux.isCheak()) {
+            aux.setCheak(true);
+            aux.setCusto(custo);
+            CalcularProximaMudancaOleo();
+
+        }
     }
 
     public void RealizaPagamentoSeguro() {
@@ -111,8 +118,7 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            Evento novo = new Evento(dataRegistoMatricula, MUDANCA_CORREIA, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            CalcularProximaMudancaDeCorreia();
         }
     }
 
@@ -122,8 +128,7 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            Evento novo = new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
-            CriarEvento(novo);
+            CalculaProximaPagementoImpostoCirculaçao();
         }
     }
 
@@ -148,7 +153,9 @@ abstract public class Veiculo implements Constantes {
 
     }
 
+
     abstract protected GregorianCalendar getDataProximaInspecao();
+
 
     private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
