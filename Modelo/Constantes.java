@@ -13,7 +13,7 @@ public interface Constantes {
     static String PAGAMENTO_IMPOSTO="Pagamento de imposto de circulacao";
     
     public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
-    public final String BD_MATRICULAS_TXT = "BD.txt";
+    public final String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD.txt";
 
     
 }
