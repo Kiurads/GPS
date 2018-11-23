@@ -96,7 +96,8 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-            CalcularProximaDataDePagamentoSeguro();
+            Evento novo = new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriarEvento(novo);
 
         }
 
@@ -119,7 +120,8 @@ abstract public class Veiculo implements Constantes {
         if (aux != null && !aux.isCheak()) {
             aux.setCheak(true);
             aux.setCusto(custo);
-           CalculaProximaPagementoImpostoCirculaçao();
+            Evento novo = new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes); // passar data correta
+            CriarEvento(novo);
         }
     }
 
