@@ -7,11 +7,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class Controlador {
+    private final Image plus = new Image("GPS/gpsproject/images/plus.png", 16, 16, false, true);
+    private final Image cross = new Image("GPS/gpsproject/images/cross.png", 16, 16, false, true);
+    private final Image refresh = new Image("GPS/gpsproject/images/refresh.png", 16, 16, false, true);
+
     public TitledPane details;
     public PieChart pie;
     public TitledPane events;
@@ -28,14 +34,20 @@ public class Controlador {
     public Button mecanica;
     public Button reparacoes;
     public Button manutencoes;
+    public Button updateAll;
 
     @FXML
     public void initialize() {
+        eliminateButton.setGraphic(new ImageView(cross));
+        addButton.setGraphic(new ImageView(plus));
+        updateAll.setGraphic(new ImageView(refresh));
+
         noneSelected();
     }
 
-    public void sendNotification(ActionEvent actionEvent) {
-        Notification.sendNotification("Vehicle Companion", "Notification Test");
+
+    public void sendNotification(String title, String message) {
+        Notification.sendNotification(title, message);
     }
 
     public void switchViews(ActionEvent actionEvent) {
