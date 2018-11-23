@@ -7,7 +7,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
-
 import java.net.URL;
 
 public class Notification {

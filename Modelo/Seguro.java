@@ -7,10 +7,12 @@ public class Seguro {
 
     String seguradora;
     GregorianCalendar dataRegisto;
+    int custoAnual;
 
-    public Seguro(String Seguradora, GregorianCalendar dataRegito) {
+    public Seguro(String Seguradora, GregorianCalendar dataRegito,int custoAnual) {
         this.seguradora = Seguradora;
         this.dataRegisto = dataRegito;
+        this.custoAnual=custoAnual;
     }
 
     public GregorianCalendar getDataRegisto() {
@@ -21,10 +23,14 @@ public class Seguro {
         return seguradora;
     }
 
+    public int getCustoAnual() {
+        return custoAnual;
+    }
+
     @Override
     public String toString() {
         String s = "\nSeguradora: " + seguradora + " " + dataRegisto.get(Calendar.DAY_OF_MONTH) +"-"+ 
-                dataRegisto.get(Calendar.MONTH) +"-"+dataRegisto.get(Calendar.YEAR);
+                dataRegisto.get(Calendar.MONTH) +"-"+dataRegisto.get(Calendar.YEAR)+"- Montante Anual:"+custoAnual;
         
         return s;
     }
