@@ -95,6 +95,7 @@ abstract public class Veiculo implements Biblioteca{
         
         if(aux!=null && !aux.isCheak()){
            aux.setCheak(true);
+           
            Evento novo=new Evento(dataRegistoMatricula, PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes); // passar data correta
             CriaEvento(novo);
         }
