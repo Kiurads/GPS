@@ -17,6 +17,7 @@ public class Controlador {
     private final Image plus = new Image("GPS/gpsproject/images/plus.png", 16, 16, false, true);
     private final Image cross = new Image("GPS/gpsproject/images/cross.png", 16, 16, false, true);
     private final Image refresh = new Image("GPS/gpsproject/images/refresh.png", 16, 16, false, true);
+    private final Image check = new Image("GPS/gpsproject/images/check.png", 16, 16, false, true);
 
     public TitledPane details;
     public PieChart pie;
@@ -35,12 +36,15 @@ public class Controlador {
     public Button reparacoes;
     public Button manutencoes;
     public Button updateAll;
+    public VBox detalhes;
+    public Button guardaalteracoes;
 
     @FXML
     public void initialize() {
         eliminateButton.setGraphic(new ImageView(cross));
         addButton.setGraphic(new ImageView(plus));
         updateAll.setGraphic(new ImageView(refresh));
+        guardaalteracoes.setGraphic(new ImageView(check));
 
         noneSelected();
     }
@@ -58,6 +62,8 @@ public class Controlador {
     private void noneSelected() {
         left.setVisible(false);
 
+        detalhes.setVisible(false);
+
         events.setVisible(false);
         gerais.setVisible(false);
         mecanica.setVisible(false);
@@ -68,6 +74,8 @@ public class Controlador {
 
     private void vehicleSelected() {
         left.setVisible(true);
+
+        detalhes.setVisible(true);
 
         events.setVisible(true);
         gerais.setVisible(true);
