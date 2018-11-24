@@ -1,10 +1,12 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.Notification.Notification;
+import GPS.gpsproject.calendar.FullCalendarView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import java.time.YearMonth;
 
 public class Controlador {
     private final Image plus = new Image("GPS/gpsproject/images/plus.png", 16, 16, false, true);
@@ -38,6 +42,7 @@ public class Controlador {
     public Button updateAll;
     public VBox detalhes;
     public Button guardaalteracoes;
+    public HBox calendarbox;
 
     @FXML
     public void initialize() {
@@ -45,6 +50,10 @@ public class Controlador {
         addButton.setGraphic(new ImageView(plus));
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
+
+        FullCalendarView calendarView = new FullCalendarView(YearMonth.now());
+        calendarbox.getChildren().add(calendarView.getView());
+        HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
 
         noneSelected();
     }
