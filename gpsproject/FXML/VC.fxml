@@ -167,7 +167,7 @@
                                           <TextField fx:id="tiposeguro" />
                                           <Region prefHeight="200.0" prefWidth="200.0" />
                                           <Label text="Data de Registo" />
-                                          <DatePicker fx:id="registoseguro"/>
+                                          <DatePicker fx:id="registoseguro" editable="false" />
                                        </children>
                                     </VBox>
                                  </content>

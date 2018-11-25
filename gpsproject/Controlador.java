@@ -1,12 +1,11 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.Notification.Notification;
+import GPS.Modelo.Veiculo;
 import GPS.gpsproject.calendar.FullCalendarView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -14,17 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
-import java.io.IOException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.Scanner;
 
-public class Controlador {
-    private final Image plus = new Image("GPS/gpsproject/images/plus.png", 16, 16, false, true);
-    private final Image cross = new Image("GPS/gpsproject/images/cross.png", 16, 16, false, true);
-    private final Image refresh = new Image("GPS/gpsproject/images/refresh.png", 16, 16, false, true);
-    private final Image check = new Image("GPS/gpsproject/images/check.png", 16, 16, false, true);
-
+public class Controlador implements BibliotecaImagens {
     public ListView list;
     public Button updateAll;
     public Button addButton;
@@ -69,6 +64,26 @@ public class Controlador {
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
 
+        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        // Must call super
+                        super.updateItem(item, empty);
+
+                        // Disable all future date cells
+                        if (item.isAfter(LocalDate.now())) {
+                            this.setDisable(true);
+                        }
+                    }
+                };
+            }
+        };
+
+        registoseguro.setDayCellFactory(dayCellFactory);
+        registomatricula.setDayCellFactory(dayCellFactory);
+
         calendarView = new FullCalendarView(YearMonth.now());
         calendarbox.getChildren().add(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
@@ -77,11 +92,12 @@ public class Controlador {
     }
 
 
-    public void sendNotification(String title, String message) {
+    private void sendNotification(String title, String message) {
         Notification.sendNotification(title, message);
     }
 
     public void switchViews(ActionEvent actionEvent) {
+        sendNotification("Vehicle Companion", "Notificação de teste");
         if (left.isVisible()) noneSelected();
         else vehicleSelected();
     }
@@ -147,4 +163,7 @@ public class Controlador {
                 !kmmensais.getText().trim().equals("");
     }
 
+    public void onAddButton(ActionEvent actionEvent) {
+        Veiculo veiculo =
+    }
 }

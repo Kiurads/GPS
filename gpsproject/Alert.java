@@ -1,5 +1,7 @@
 package GPS.gpsproject;
 
+import GPS.gpsproject.images.BibliotecaImagens;
+import GPS.gpsproject.sounds.BibliotecaSons;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,12 +16,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.URL;
 
-public class Alert {
+public class Alert implements BibliotecaSons, BibliotecaImagens {
     public static void display(String title, String message) {
         Stage window = new Stage();
-        Parent root = null;
+        Parent root;
         try {
             root = FXMLLoader.load(Alert.class.getResource("FXML/Warning.fxml"));
         } catch (IOException e) {
@@ -27,15 +28,14 @@ public class Alert {
         }
         root.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 2, 1.0, 0, 0);");
         Scene scene = new Scene(root);
-        URL resource = Alert.class.getResource("/GPS/gpsproject/sounds/unsure.mp3");
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(resource.toString()));
+        MediaPlayer mediaPlayer = new MediaPlayer(errorSound);
 
         ImageView imageView = (ImageView) scene.lookup("#imageView");
         Label warningTitle = (Label) scene.lookup("#messageLabel");
         Label warningMessage = (Label) scene.lookup("#detailsLabel");
         Button okButton = (Button) scene.lookup("#okButton");
 
-        imageView.setImage(new Image("GPS/gpsproject/images/warning.png"));
+        imageView.setImage(warning);
         warningTitle.setText(title);
         warningMessage.setText(message);
 
