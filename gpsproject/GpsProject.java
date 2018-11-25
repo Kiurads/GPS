@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -16,7 +15,7 @@ public class GpsProject extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         Image icon = new Image("GPS/gpsproject/images/car.png", 16, 16, false, true);
-        Parent root = FXMLLoader.load(getClass().getResource("VC.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/VC.fxml"));
         int sceneWidth = 2 * Screen.getMainScreen().getWidth() / 3;
         int sceneHeight = 2 * Screen.getMainScreen().getHeight() / 3;
         Scene scene = new Scene(root, sceneWidth, sceneHeight);

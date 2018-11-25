@@ -44,9 +44,9 @@
                            <children>
                               <VBox fx:id="left" prefHeight="485.0" prefWidth="237.0">
                                  <children>
-                                    <TitledPane fx:id="details" collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
+                                    <TitledPane fx:id="detailsvehicle" collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
                                        <content>
-                                          <TextArea fx:id="detailstext" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes" wrapText="true" />
+                                          <TextArea fx:id="detailsvehicletext" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes" wrapText="true" />
                                        </content>
                                     </TitledPane>
                                     <PieChart fx:id="pie" title="Custos" VBox.vgrow="ALWAYS" />
@@ -114,10 +114,10 @@
                                           <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="Nome:" />
-                                                <TextField promptText="Nome" />
+                                                <TextField fx:id="nome" />
                                                 <Region prefHeight="200.0" prefWidth="200.0" />
                                                 <Label text="Modelo:" />
-                                                <TextField disable="true" editable="false" promptText="Modelo" />
+                                                <TextField fx:id="modelo" disable="true" editable="false" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />
@@ -126,10 +126,10 @@
                                           <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="Matrícula:" />
-                                                <TextField disable="true" editable="false" promptText="Matrícula" />
+                                                <TextField fx:id="matricula" disable="true" editable="false" />
                                                 <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                 <Label text="Tipo:" />
-                                                <ChoiceBox disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                                                <ChoiceBox fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />
@@ -143,7 +143,7 @@
                                                    </VBox.margin>
                                                 </Region>
                                                 <Label text="Data de Registo" />
-                                                <DatePicker disable="true" editable="false" promptText="Data de Registo" VBox.vgrow="ALWAYS" />
+                                                <DatePicker fx:id="registomatricula" disable="true" editable="false" VBox.vgrow="ALWAYS" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />
@@ -161,13 +161,13 @@
                                     <VBox prefHeight="200.0" prefWidth="100.0">
                                        <children>
                                           <Label text="Seguradora" />
-                                          <TextField promptText="Seguradora" />
+                                          <TextField fx:id="seguradora" />
                                           <Region prefHeight="200.0" prefWidth="200.0" />
                                           <Label text="Tipo" />
-                                          <TextField promptText="Tipo" />
+                                          <TextField fx:id="tiposeguro" />
                                           <Region prefHeight="200.0" prefWidth="200.0" />
                                           <Label text="Data de Registo" />
-                                          <DatePicker promptText="Data de Registo" />
+                                          <DatePicker fx:id="registoseguro"/>
                                        </children>
                                     </VBox>
                                  </content>
@@ -195,7 +195,7 @@
                                                 <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <Region prefHeight="200.0" prefWidth="200.0" />
-                                                      <TextField prefHeight="31.0" prefWidth="268.0" promptText="Média de Kilómetros mensais" />
+                                                      <TextField fx:id="kmmensais" prefHeight="31.0" prefWidth="268.0" />
                                                       <Region prefHeight="200.0" prefWidth="200.0" />
                                                    </children>
                                                 </VBox>
@@ -214,7 +214,7 @@
                                                 <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <Region prefHeight="200.0" prefWidth="200.0" />
-                                                      <TextField promptText="Média de Kilómetros mensais" />
+                                                      <TextField fx:id="kmreais" />
                                                       <Region prefHeight="200.0" prefWidth="200.0" />
                                                    </children>
                                                 </VBox>
@@ -227,7 +227,7 @@
                               <VBox prefHeight="242.0" prefWidth="180.0">
                                  <children>
                                     <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                    <Button fx:id="guardaalteracoes" mnemonicParsing="false" prefHeight="31.0" prefWidth="182.0" text="Guardar Alterações" textAlignment="CENTER">
+                                    <Button fx:id="guardaalteracoes" mnemonicParsing="false" onAction="#onGuardaAlteracoes" prefHeight="31.0" prefWidth="182.0" text="Guardar Alterações" textAlignment="CENTER">
                                        <VBox.margin>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </VBox.margin>
@@ -261,7 +261,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                            <content>
-                              <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes do dia" />
+                              <TextArea fx:id="detailsdia" editable="false" prefHeight="200.0" prefWidth="200.0" />
                            </content>
                         </TitledPane>
                      </children>
