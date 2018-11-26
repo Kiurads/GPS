@@ -1,21 +1,18 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.Notification.Notification;
-import GPS.Modelo.Veiculo;
 import GPS.gpsproject.calendar.FullCalendarView;
 import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -164,6 +161,6 @@ public class Controlador implements BibliotecaImagens {
     }
 
     public void onAddButton(ActionEvent actionEvent) {
-        Veiculo veiculo =
+        //TODO Adicionar veículo
     }
 }
