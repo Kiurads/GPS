@@ -3,6 +3,8 @@ package GPS.Modelo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,7 +20,7 @@ abstract public class Veiculo implements Constantes {
     protected Seguro seguro;
 
     //Dados vindos da BD
-    protected GregorianCalendar dataRegistoMatricula;
+    protected LocalDate dataRegistoMatricula;
     protected String marca;
     protected String modelo;
     protected int intervaloKmsOleo;
@@ -26,7 +28,7 @@ abstract public class Veiculo implements Constantes {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, GregorianCalendar dataRegistoSeguro, int custoAnualSeguro) {
+    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
@@ -77,7 +79,7 @@ abstract public class Veiculo implements Constantes {
     }
 
     private void CalculaProximaInspecao() {
-        GregorianCalendar proxData = getDataProximaInspecao();
+        LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
         if(proxData != null)
             eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.Obrigacoes));
@@ -94,7 +96,7 @@ abstract public class Veiculo implements Constantes {
         Evento aux = PesquisaEvento(MUDANCA_OLEO);
 
         if (aux != null && !aux.isCheak()) {
-            aux.setCheak(true);
+            aux.setCheck(true);
             aux.setCusto(custo);
             CalcularProximaMudancaOleo();
 
@@ -106,7 +108,7 @@ abstract public class Veiculo implements Constantes {
         Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
 
         if (aux != null && !aux.isCheak()) {
-            aux.setCheak(true);
+            aux.setCheck(true);
             aux.setCusto(seguro.custoAnual);
             CalcularProximaDataDePagamentoSeguro();
         }
@@ -116,7 +118,7 @@ abstract public class Veiculo implements Constantes {
         Evento aux = PesquisaEvento(MUDANCA_CORREIA);
 
         if (aux != null && !aux.isCheak()) {
-            aux.setCheak(true);
+            aux.setCheck(true);
             aux.setCusto(custo);
             CalcularProximaMudancaDeCorreia();
         }
@@ -126,7 +128,7 @@ abstract public class Veiculo implements Constantes {
         Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
 
         if (aux != null && !aux.isCheak()) {
-            aux.setCheak(true);
+            aux.setCheck(true);
             aux.setCusto(custo);
             CalculaProximaPagementoImpostoCirculaçao();
         }
@@ -136,24 +138,22 @@ abstract public class Veiculo implements Constantes {
         Evento aux = PesquisaEvento(INSPECAO);
 
         if (aux != null && !aux.isCheak()) {
-            aux.setCheak(true);
+            aux.setCheck(true);
             aux.setCusto(custo);
             CalculaProximaInspecao();
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    protected GregorianCalendar getDataComMaisUmAno(GregorianCalendar data) {
-   
 
-        return new GregorianCalendar(data.get(Calendar.YEAR) + 1,
-                data.get(Calendar.MONTH), data.get(Calendar.DATE));
+    protected LocalDate getDataComMaisUmAno(LocalDate data) {
+        //O ano da data que entra vai ser alterado para o ano corrente + 1
+        
+        return LocalDate.of(LocalDate.now().getYear() + UM_ANO , data.getMonthValue(), data.getDayOfMonth());
 
     }
 
-
-    abstract protected GregorianCalendar getDataProximaInspecao();
-
+    abstract protected LocalDate getDataProximaInspecao();
 
     private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
@@ -164,7 +164,7 @@ abstract public class Veiculo implements Constantes {
                 Scanner sc = new Scanner(linha);
                 String matriculaLida = sc.next();
                 if (matriculaLida.equals(matricula)) {
-                    dataRegistoMatricula = new GregorianCalendar(Integer.parseInt(sc.next()), Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
+                    dataRegistoMatricula = LocalDate.of(Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
                     marca = sc.next();
                     modelo = sc.next();
                 }
@@ -197,7 +197,7 @@ abstract public class Veiculo implements Constantes {
     @Override
     public String toString() {
         String s = "";
-        s += "Matricula: " + matricula + " " + dataRegistoMatricula.get(Calendar.DAY_OF_MONTH) + "-" + dataRegistoMatricula.get(Calendar.MONTH) + "-" + dataRegistoMatricula.get(Calendar.YEAR);
+        s += "Matricula: " + matricula + " " + dataRegistoMatricula;
         s += "\nMarca: " + marca;
         s += "\nModelo: " + modelo;
         s += "\nKmReais: " + KmReais;

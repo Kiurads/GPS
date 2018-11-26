@@ -1,18 +1,19 @@
 package GPS.Modelo;
 
 import GPS.Modelo.Constantes.TipoEvento;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Evento implements Constantes {
-    private GregorianCalendar data;
+    private LocalDate data;
     private String descricao;
     private String matricula;
     private TipoEvento tipoEvento;
     private boolean check;
-    private int custo;
+    private double custo;
     
-    public Evento(GregorianCalendar DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
+    public Evento(LocalDate DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
         this.data = DataEvento;
         this.descricao = Descricao;
         this.matricula=idVeiculo;
@@ -27,15 +28,15 @@ public class Evento implements Constantes {
         return check;
     }
 
-    public void setCheak(boolean cheak) {
+    public void setCheck(boolean cheak) {
         this.check = cheak;
     }
 
-    public int getCusto() {
+    public double getCusto() {
         return custo;
     }
 
-    public void setCusto(int custo) {
+    public void setCusto(double custo) {
         this.custo = custo;
     }
 
@@ -43,8 +44,7 @@ public class Evento implements Constantes {
     public String toString() {
         String s = "";
         
-        s+="\nEvento: "+ descricao  + " " + data.get(Calendar.DAY_OF_MONTH) +"-"+ 
-                data.get(Calendar.MONTH) +"-"+data.get(Calendar.YEAR);
+        s+="\nEvento: "+ descricao  + " " + data;
         
         return s;
     }
