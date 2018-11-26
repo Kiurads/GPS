@@ -16,6 +16,7 @@ public class Motociclo extends Veiculo {
        return cilindrada >= CC_NECESSARIOS_PARA_INSPECAO ? getDataComMaisUmAno(dataRegistoMatricula) : null;
     }
 
+    
     @Override
     public String toString() {  //falta a cilindrada
         String s = super.toString();
