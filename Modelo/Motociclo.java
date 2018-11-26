@@ -1,9 +1,6 @@
 package GPS.Modelo;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Motociclo extends Veiculo {
 
@@ -19,6 +16,7 @@ public class Motociclo extends Veiculo {
        return cilindrada >= CC_NECESSARIOS_PARA_INSPECAO ? getDataComMaisUmAno(dataRegistoMatricula) : null;
     }
 
+    
     @Override
     public String toString() {  //falta a cilindrada
         String s = super.toString();
