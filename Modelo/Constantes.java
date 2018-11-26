@@ -14,7 +14,6 @@ public interface Constantes {
 
     public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
 
-
     public final String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD.txt";
     
     public final int UM_ANO = 1;

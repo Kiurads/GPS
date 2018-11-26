@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -95,7 +92,7 @@ abstract public class Veiculo implements Constantes {
     public void RealizaMudancaOleo(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_OLEO);
 
-        if (aux != null && !aux.isCheak()) {
+        if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
             CalcularProximaMudancaOleo();
@@ -107,7 +104,7 @@ abstract public class Veiculo implements Constantes {
 
         Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
 
-        if (aux != null && !aux.isCheak()) {
+        if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(seguro.custoAnual);
             CalcularProximaDataDePagamentoSeguro();
@@ -117,7 +114,7 @@ abstract public class Veiculo implements Constantes {
     public void RealizaMudancaDeCorreia(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_CORREIA);
 
-        if (aux != null && !aux.isCheak()) {
+        if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
             CalcularProximaMudancaDeCorreia();
@@ -127,7 +124,7 @@ abstract public class Veiculo implements Constantes {
     public void RealizaPagamentoImpostoCirculacao(int custo) {
         Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
 
-        if (aux != null && !aux.isCheak()) {
+        if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
             CalculaProximaPagementoImpostoCirculaçao();
@@ -137,7 +134,7 @@ abstract public class Veiculo implements Constantes {
     public void RealizaInspecao(int custo) {
         Evento aux = PesquisaEvento(INSPECAO);
 
-        if (aux != null && !aux.isCheak()) {
+        if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
             CalculaProximaInspecao();
@@ -147,7 +144,6 @@ abstract public class Veiculo implements Constantes {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     protected LocalDate getDataComMaisUmAno(LocalDate data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
-        
         return LocalDate.of(LocalDate.now().getYear() + UM_ANO , data.getMonthValue(), data.getDayOfMonth());
     }
 
@@ -205,8 +201,6 @@ abstract public class Veiculo implements Constantes {
         for (Evento e : eventos) {
             s += e.toString();
         }
-
         return s;
     }
-
 }

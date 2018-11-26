@@ -2,8 +2,6 @@ package GPS.Modelo;
 
 import GPS.Modelo.Constantes.TipoEvento;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Evento implements Constantes {
     private LocalDate data;
@@ -24,12 +22,12 @@ public class Evento implements Constantes {
         return descricao;
     }
     
-    public boolean isCheak() {
+    public boolean isCheck() {
         return check;
     }
 
-    public void setCheck(boolean cheak) {
-        this.check = cheak;
+    public void setCheck(boolean check) {
+        this.check = check;
     }
 
     public double getCusto() {
