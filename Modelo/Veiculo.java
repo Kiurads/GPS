@@ -39,6 +39,8 @@ abstract public class Veiculo implements Constantes {
         CalculaProximaPagementoImpostoCirculaçao();
         CalcularProximaDataDePagamentoSeguro();
         CalculaProximaInspecao();
+        CalcularProximaMudancaOleo();
+        CalcularProximaMudancaDeCorreia();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
@@ -78,16 +80,27 @@ abstract public class Veiculo implements Constantes {
     private void CalculaProximaInspecao() {
         LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
-        if(proxData != null)
+        if (proxData != null) {
             eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.Obrigacoes));
+        }
     }
 
     private void CalcularProximaMudancaOleo() {
+        int kmsNecessarios = KmReais + intervaloKmsOleo, nMeses = 0, aux = KmReais;
+        while (aux <= kmsNecessarios) {
+            aux += (nMeses++) * KmMensais;
+        }
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.Menutencoes));
     }
-
 
     private void CalcularProximaMudancaDeCorreia() {
+        int kmsNecessarios = KmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = KmReais;
+        while (aux <= kmsNecessarios) {
+            aux += (nMeses++) * KmMensais;
+        }
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.Menutencoes));
     }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
     public void RealizaMudancaOleo(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_OLEO);
@@ -96,7 +109,6 @@ abstract public class Veiculo implements Constantes {
             aux.setCheck(true);
             aux.setCusto(custo);
             CalcularProximaMudancaOleo();
-
         }
     }
 
@@ -144,7 +156,7 @@ abstract public class Veiculo implements Constantes {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     protected LocalDate getDataComMaisUmAno(LocalDate data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
-        return LocalDate.of(LocalDate.now().getYear() + UM_ANO , data.getMonthValue(), data.getDayOfMonth());
+        return LocalDate.of(LocalDate.now().getYear() + UM_ANO, data.getMonthValue(), data.getDayOfMonth());
     }
 
     abstract protected LocalDate getDataProximaInspecao();
@@ -158,9 +170,10 @@ abstract public class Veiculo implements Constantes {
                 Scanner sc = new Scanner(linha);
                 String matriculaLida = sc.next();
                 if (matriculaLida.equals(matricula)) {
-                    dataRegistoMatricula = LocalDate.of(Integer.parseInt(sc.next()),Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
+                    dataRegistoMatricula = LocalDate.of(Integer.parseInt(sc.next()), Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
                     marca = sc.next();
                     modelo = sc.next();
+                    intervaloKmsOleo = Integer.parseInt(sc.next());
                 }
             }
 

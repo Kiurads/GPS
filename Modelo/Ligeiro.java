@@ -1,9 +1,6 @@
 package GPS.Modelo;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import javafx.util.converter.LocalDateStringConverter;
 
 public class Ligeiro extends Veiculo {
 

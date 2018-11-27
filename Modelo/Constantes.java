@@ -5,7 +5,7 @@ public interface Constantes {
     enum TipoEvento {
         Reparacao, Mecanica, Menutencoes, Obrigacoes;
     }
-
+    
     static String INSPECAO = "Inspecao";
     static String MUDANCA_OLEO = "Mudanca Oleo";
     static String PAGAMENTO_SEGURO = "Pagamento de Seguro";
@@ -13,6 +13,7 @@ public interface Constantes {
     static String PAGAMENTO_IMPOSTO = "Pagamento de imposto de circulacao";
 
     public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
+    public final int KMS_NECESSARIOS_MUDANCA_CORREIA = 100000;
 
     public final String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD.txt";
     
