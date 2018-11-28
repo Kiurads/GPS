@@ -19,7 +19,7 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
-        private boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
+        public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
         
         switch(tipo){
             case LIGEIRO:
@@ -37,7 +37,7 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
-        private boolean  EleminaVeiculo(String Matricula){
+        public boolean  EleminaVeiculo(String Matricula){
             Veiculo v=pesquisaVeiculo(Matricula);
             
             if(v!=null){
