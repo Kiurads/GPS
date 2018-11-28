@@ -144,9 +144,9 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    public Veiculo pesquisaVeiculo(String matricula) {
+    public Veiculo pesquisaVeiculo(String valor) {
         for (Veiculo v : veiculos) {
-            if (v.matricula.equals(matricula)) {
+            if (v.matricula.equals(valor) || v.nome.equals(valor)) {
                 return v;
             }
         }
