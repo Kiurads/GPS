@@ -19,7 +19,33 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
+        private boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
+        
+        switch(tipo){
+            case LIGEIRO:
+               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+               return true;
+            case MOTOCICLO:
+               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                return true;
+            case PESADO:
+               veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                return true;
+               
+        }
+        return false;
+    }
+
     /////////////////////////////////////////////////ENIMINAR VEICULO
+        private boolean  EleminaVeiculo(String Matricula){
+            Veiculo v=pesquisaVeiculo(Matricula);
+            
+            if(v!=null){
+                veiculos.remove(v);
+                return true;
+            }
+            return false;
+        }
     /////////////////////////////////////////////////lISTAR VEICULOS
     @Override
     public String toString() {
@@ -140,21 +166,5 @@ public class Frota implements Constantes, Serializable {
         }
     }
     
-    private boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
-        
-        switch(tipo){
-            case LIGEIRO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
-               return true;
-            case MOTOCICLO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
-                return true;
-            case PESADO:
-               veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
-                return true;
-               
-        }
-        return false;
-    }
 
 }
