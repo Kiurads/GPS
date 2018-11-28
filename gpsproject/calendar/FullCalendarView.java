@@ -2,6 +2,7 @@ package GPS.gpsproject.calendar;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -11,6 +12,7 @@ import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class FullCalendarView {
@@ -18,14 +20,16 @@ public class FullCalendarView {
     private ArrayList<AnchorPaneNode> allCalendarDays = new ArrayList<>(35);
     private VBox view;
     private Text calendarTitle;
+    private TextArea detailsdia;
     private YearMonth currentYearMonth;
 
     /**
      * Create a calendar view
      * @param yearMonth year month to create the calendar of
      */
-    public FullCalendarView(YearMonth yearMonth) {
+    public FullCalendarView(YearMonth yearMonth, TextArea detailsdia) {
         currentYearMonth = yearMonth;
+        this.detailsdia = detailsdia;
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
         calendar.setPrefSize(600, 400);
@@ -33,7 +37,7 @@ public class FullCalendarView {
         // Create rows and columns with anchor panes for the calendar
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
-                AnchorPaneNode ap = new AnchorPaneNode();
+                AnchorPaneNode ap = new AnchorPaneNode(detailsdia, Collections.emptyList());
                 ap.setPrefSize(200,200);
                 calendar.add(ap,j,i);
                 allCalendarDays.add(ap);

@@ -1,18 +1,26 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Evento;
 import GPS.Modelo.Notification.Notification;
+import GPS.Modelo.Veiculo;
 import GPS.gpsproject.calendar.FullCalendarView;
 import GPS.gpsproject.images.BibliotecaImagens;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 import java.time.YearMonth;
+import java.util.Collections;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
@@ -53,22 +61,56 @@ public class Controlador implements BibliotecaImagens {
     public TextArea detailsdia;
 
     private FullCalendarView calendarView;
+    //private Frota frota;
+    private Veiculo veiculoSelecionado;
 
     @FXML
     public void initialize() {
-        eliminateButton.setGraphic(new ImageView(cross));
-        addButton.setGraphic(new ImageView(plus));
-        updateAll.setGraphic(new ImageView(refresh));
-        guardaalteracoes.setGraphic(new ImageView(check));
+        setGraphics();
 
         registoseguro.setDayCellFactory(noFutureDates);
         registomatricula.setDayCellFactory(noFutureDates);
 
-        calendarView = new FullCalendarView(YearMonth.now());
+        calendarView = new FullCalendarView(YearMonth.now(), detailsdia);
+        //calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventos());
         calendarbox.getChildren().add(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
 
         noneSelected();
+        initializeLists();
+        initializeListeners();
+    }
+
+    private void initializeLists() {
+        eventslist.getItems().addAll(Collections.emptyList());
+
+        eventslist.setCellFactory(CheckBoxListCell.forListView(new Callback<Evento, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(Evento item) {
+                BooleanProperty observable = new SimpleBooleanProperty();
+                observable.addListener((observable1, oldValue, newValue) -> {
+                    //TODO add listener
+                });
+
+                return observable ;
+            }
+        }));
+    }
+
+    private void initializeListeners() {
+        list.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setVeiculo((String) newValue));
+
+    }
+
+    private void setVeiculo(String newValue) {
+        //veiculoSelecionado = frota.getVeiculo(newValue)
+    }
+
+    private void setGraphics() {
+        eliminateButton.setGraphic(new ImageView(cross));
+        addButton.setGraphic(new ImageView(plus));
+        updateAll.setGraphic(new ImageView(refresh));
+        guardaalteracoes.setGraphic(new ImageView(check));
     }
 
     public void switchViews(ActionEvent actionEvent) {
@@ -114,6 +156,7 @@ public class Controlador implements BibliotecaImagens {
             Alert.display("Alerta", "Verifique se os campos possuem dados válidos!");
             return;
         }
+
     }
 
     private boolean everyFieldIsValid() {
