@@ -13,9 +13,17 @@ import java.util.List;
 
 public class Frota implements Constantes, Serializable {
 
-    List<Veiculo> veiculos;
+    List<Veiculo> veiculos = new ArrayList<>();
 
-    public Frota() {
+    public Frota()  {
+
+
+//        Veiculo v = new Ligeiro("21-45-RD", 100000, 100, "Liberty", LocalDate.now(), 30);
+//        Veiculo v2 = new Ligeiro("34-98-BG", 260000, 560, "Alianz", LocalDate.now(), 160);
+//        veiculos.add(v);
+//        veiculos.add(v2);
+//
+//        guardarFrotaBD(BD_FROTA_BIN);
 
         try {
             this.veiculos = getFrotaBD(BD_FROTA_BIN);
@@ -83,8 +91,6 @@ public class Frota implements Constantes, Serializable {
         }
 
         return veiculo.RealizaMudancaOleo(custo);
-        
-
     }
 
     public boolean RealizaPagamentoSeguro(String matricula) {
@@ -98,7 +104,7 @@ public class Frota implements Constantes, Serializable {
         }
 
         return veiculo.RealizaPagamentoSeguro();
-       
+
     }
 
     public boolean RealizaMudancaDeCorreia(String matricula, int custo) {
@@ -112,7 +118,7 @@ public class Frota implements Constantes, Serializable {
         }
 
         return veiculo.RealizaMudancaDeCorreia(custo);
-       
+
     }
 
     public boolean RealizaPagamentoImpostoCirculacao(String matricula, int custo) {
@@ -125,8 +131,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-         return veiculo.RealizaPagamentoImpostoCirculacao(custo);
-        
+        return veiculo.RealizaPagamentoImpostoCirculacao(custo);
+
     }
 
     public boolean RealizaInspecao(String matricula, int custo) {
@@ -152,10 +158,10 @@ public class Frota implements Constantes, Serializable {
         }
         return null;
     }
-    
+
     public List<Evento> getEventosTotal() {
         List<Evento> allEventos = new ArrayList<>();
-        
+
         for (Veiculo v : veiculos) {
             for (Evento e : v.eventos) {
                 allEventos.add(e);
@@ -163,7 +169,7 @@ public class Frota implements Constantes, Serializable {
         }
         return allEventos;
     }
-    
+
     private void guardarFrotaBD(String nomeFicheiro) throws IOException {
         ObjectOutputStream oout = null;
 
@@ -191,5 +197,4 @@ public class Frota implements Constantes, Serializable {
             }
         }
     }
-
 }
