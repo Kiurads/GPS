@@ -14,38 +14,52 @@ public class Frota implements Constantes, Serializable {
 
     List<Veiculo> veiculos;
 
-    public Frota() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.veiculos = getFrotaBD(BD_FROTA_BIN);
+    public Frota() {
+
+        try {
+            this.veiculos = getFrotaBD(BD_FROTA_BIN);
+
+        } catch (IOException ex) {
+            try {
+                guardarFrotaBD(BD_FROTA_BIN);
+            } catch (IOException ex1) {
+                System.exit(1);
+            }
+        } catch (ClassNotFoundException ex) {
+            System.exit(1);
+        }
+
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
-        public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
-        
-        switch(tipo){
+    public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, TipoVeiculo tipo) {
+
+        switch (tipo) {
             case LIGEIRO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
-               return true;
+                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                return true;
             case MOTOCICLO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case PESADO:
-               veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
-               
+
         }
         return false;
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
-        public boolean  EleminaVeiculo(String Matricula){
-            Veiculo v=pesquisaVeiculo(Matricula);
-            
-            if(v!=null){
-                veiculos.remove(v);
-                return true;
-            }
-            return false;
+    public boolean EleminaVeiculo(String Matricula) {
+        Veiculo v = pesquisaVeiculo(Matricula);
+
+        if (v != null) {
+            veiculos.remove(v);
+            return true;
         }
+        return false;
+    }
+
     /////////////////////////////////////////////////lISTAR VEICULOS
     @Override
     public String toString() {
@@ -67,8 +81,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        veiculo.RealizaMudancaOleo(custo);
-        return true;
+        return veiculo.RealizaMudancaOleo(custo);
+        
 
     }
 
@@ -82,8 +96,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        veiculo.RealizaPagamentoSeguro();
-        return true;
+        return veiculo.RealizaPagamentoSeguro();
+       
     }
 
     public boolean RealizaMudancaDeCorreia(String matricula, int custo) {
@@ -96,8 +110,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        veiculo.RealizaMudancaDeCorreia(custo);
-        return true;
+        return veiculo.RealizaMudancaDeCorreia(custo);
+       
     }
 
     public boolean RealizaPagamentoImpostoCirculacao(String matricula, int custo) {
@@ -110,8 +124,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        veiculo.RealizaPagamentoImpostoCirculacao(custo);
-        return true;
+         return veiculo.RealizaPagamentoImpostoCirculacao(custo);
+        
     }
 
     public boolean RealizaInspecao(String matricula, int custo) {
@@ -124,8 +138,8 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        veiculo.RealizaInspecao(custo);
-        return true;
+        return veiculo.RealizaInspecao(custo);
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
@@ -165,6 +179,5 @@ public class Frota implements Constantes, Serializable {
             }
         }
     }
-    
 
 }
