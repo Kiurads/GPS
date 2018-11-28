@@ -27,12 +27,12 @@ abstract public class Veiculo implements Constantes, Serializable {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
+    public Veiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro) {
         this.nome = nome;
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
-        this.seguro = new Seguro(seguradora, dataRegistoSeguro, custoAnualSeguro);
+        this.seguro = new Seguro(seguradora, tipoSeguro, dataRegistoSeguro);
         this.eventos = new ArrayList<>();
 
         //dados da BD
@@ -123,7 +123,7 @@ abstract public class Veiculo implements Constantes, Serializable {
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
-            aux.setCusto(seguro.custoAnual);
+            aux.setCusto(0);
             return CalcularProximaDataDePagamentoSeguro();
         }
         return false;
