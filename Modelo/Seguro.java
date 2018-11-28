@@ -1,8 +1,6 @@
 package GPS.Modelo;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Seguro {
 
@@ -30,7 +28,7 @@ public class Seguro {
 
     @Override
     public String toString() {
-        String s = "\nSeguradora: " + seguradora + "Data: "+ dataRegisto+ " " + "Montante Anual:" + custoAnual;
+        String s = "\nSeguradora: " + seguradora + " Data: "+ dataRegisto+ " " + "Montante Anual:" + custoAnual;
         return s;
     }
 

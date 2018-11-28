@@ -11,10 +11,10 @@ public class Evento implements Constantes {
     private boolean check;
     private double custo;
     
-    public Evento(LocalDate DataEvento, String Descricao,String idVeiculo,TipoEvento tipoevento) {
+    public Evento(LocalDate DataEvento, String Descricao,String matricula,TipoEvento tipoevento) {
         this.data = DataEvento;
         this.descricao = Descricao;
-        this.matricula=idVeiculo;
+        this.matricula=matricula;
         this.tipoEvento=tipoevento;
     }
 
