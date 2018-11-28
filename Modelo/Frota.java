@@ -1,5 +1,6 @@
 package GPS.Modelo;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,14 +9,30 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Frota implements Constantes, Serializable {
 
-    List<Veiculo> veiculos;
+    List<Veiculo> veiculos=new ArrayList<>();
 
-    public Frota() throws IOException, FileNotFoundException, ClassNotFoundException {
-        this.veiculos = getFrotaBD(BD_FROTA_BIN);
+
+    public Frota() {
+
+        try {
+            this.veiculos = getFrotaBD(BD_FROTA_BIN);
+
+        } catch (IOException ex) {
+//            try {
+//                guardarFrotaBD(BD_FROTA_BIN);
+//            } catch (IOException ex1) {
+//                System.exit(1);
+//            }
+        } catch (ClassNotFoundException ex) {
+            System.exit(1);
+        }
+
+
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
