@@ -31,10 +31,8 @@ public class GpsProject extends Application {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
 //        launch(args);
-//        Veiculo v = new Ligeiro("21-45-RD",100000,100, "Liberty", LocalDate.now(),30);
-//        System.err.println(v.toString());
-           Frota f = new Frota();
-           System.out.println(f.toString());
-    
+
+        Frota f = new Frota();
+        System.out.println(f.toString());
     }
 }
