@@ -13,13 +13,11 @@ import java.util.List;
 
 public class Frota implements Constantes, Serializable {
 
-    List<Veiculo> veiculos;
+    List<Veiculo> veiculos = new ArrayList<>();
 
     public Frota() {
-
         try {
             this.veiculos = getFrotaBD(BD_FROTA_BIN);
-
         } catch (IOException ex) {
             try {
                 guardarFrotaBD(BD_FROTA_BIN);
@@ -29,12 +27,10 @@ public class Frota implements Constantes, Serializable {
         } catch (ClassNotFoundException ex) {
             System.exit(1);
         }
-
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
     public boolean RegistaVeiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro, TipoVeiculo tipo) {
-
         switch (tipo) {
             case LIGEIRO:
                 veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
@@ -45,6 +41,8 @@ public class Frota implements Constantes, Serializable {
             case PESADO:
                 veiculos.add(new Pesado(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
                 return true;
+            default:
+                break;
 
         }
         return false;
@@ -65,6 +63,7 @@ public class Frota implements Constantes, Serializable {
     @Override
     public String toString() {
         String s = "";
+        if (veiculos.size() == 0) s = "Sem veículos";
         for (Veiculo v : veiculos) {
             s += v.toString() + "\n\n";
         }
