@@ -70,94 +70,88 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CALCULAR
-    private boolean CalculaProximaPagementoImpostoCirculaçao() {
-        return eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.OBRIGACOES));
+    private void CalculaProximaPagementoImpostoCirculaçao() {
+        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.OBRIGACOES));
     }
 
-    private boolean CalcularProximaDataDePagamentoSeguro() {
-       return  eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
+    private void CalcularProximaDataDePagamentoSeguro() {
+        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
     }
 
-    private boolean CalculaProximaInspecao() {
+    private void CalculaProximaInspecao() {
         LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
         if (proxData != null) {
-           return  eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.OBRIGACOES));
+            eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.OBRIGACOES));
         }
-        return false;
     }
 
-    private boolean CalcularProximaMudancaOleo() {
+    private void CalcularProximaMudancaOleo() {
         int kmsNecessarios = KmReais + intervaloKmsOleo, nMeses = 0, aux = KmReais;
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
-        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.MANUTENCOES));
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.MANUTENCOES));
     }
 
-    private boolean CalcularProximaMudancaDeCorreia() {
+    private void CalcularProximaMudancaDeCorreia() {
         int kmsNecessarios = KmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = KmReais;
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
-       return  eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public boolean RealizaMudancaOleo(int custo) {
+    public void RealizaMudancaOleo(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_OLEO);
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-            return CalcularProximaMudancaOleo();
+            CalcularProximaMudancaOleo();
         }
-        return false;
     }
 
-    public boolean RealizaPagamentoSeguro() {
+    public void RealizaPagamentoSeguro() {
 
         Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(seguro.custoAnual);
-            return CalcularProximaDataDePagamentoSeguro();
+            CalcularProximaDataDePagamentoSeguro();
         }
-        return false;
     }
 
-    public boolean RealizaMudancaDeCorreia(int custo) {
+    public void RealizaMudancaDeCorreia(int custo) {
         Evento aux = PesquisaEvento(MUDANCA_CORREIA);
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-           return  CalcularProximaMudancaDeCorreia();
+            CalcularProximaMudancaDeCorreia();
         }
-        return false;
     }
 
-    public boolean RealizaPagamentoImpostoCirculacao(int custo) {
+    public void RealizaPagamentoImpostoCirculacao(int custo) {
         Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-            return CalculaProximaPagementoImpostoCirculaçao();
+            CalculaProximaPagementoImpostoCirculaçao();
         }
-        return false;
     }
 
-    public boolean RealizaInspecao(int custo) {
+    public void RealizaInspecao(int custo) {
         Evento aux = PesquisaEvento(INSPECAO);
 
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-           return  CalculaProximaInspecao();
+            CalculaProximaInspecao();
         }
-        return false;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
@@ -171,7 +165,7 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     abstract protected LocalDate getDataProximaInspecao();
 
-    private boolean getDadosMatricula(String matricula, String FileName) {
+    private void getDadosMatricula(String matricula, String FileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
 
             String linha;
@@ -184,14 +178,12 @@ abstract public class Veiculo implements Constantes, Serializable {
                     marca = sc.next();
                     modelo = sc.next();
                     intervaloKmsOleo = Integer.parseInt(sc.next());
-                    return true;
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     private Evento PesquisaEvento(String Nome) {
@@ -207,11 +199,10 @@ abstract public class Veiculo implements Constantes, Serializable {
         return eventos;
     }
 
-    private boolean CriarEvento(Evento evento) {
+    private void CriarEvento(Evento evento) {
         if (evento != null) {
-             return eventos.add(evento);
+            eventos.add(evento);
         }
-        return false;
     }
 
     @Override
