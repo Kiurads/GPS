@@ -3,12 +3,13 @@ package GPS.Modelo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-abstract public class Veiculo implements Constantes {
+abstract public class Veiculo implements Constantes, Serializable {
 
     //Dados introduzidos
     protected String matricula;

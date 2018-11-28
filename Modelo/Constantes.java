@@ -17,7 +17,10 @@ public interface Constantes {
 
 
 
+
     public final String BD_MATRICULAS_TXT = "C:\\Users\\Pedro\\Documents\\NetBeansProjects\\GPSProject1.1\\src\\GPS\\BD.txt";
+
+    public final String BD_FROTA_BIN = "C:\\Users\\Pedro\\Documents\\NetBeansProjects\\GPSProject1.1\\src\\GPS\\BD_Frota.dat";
 
     
     public final int UM_ANO = 1;

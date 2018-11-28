@@ -1,8 +1,9 @@
 package GPS.Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Seguro {
+public class Seguro implements Constantes, Serializable{
 
     String seguradora;
     LocalDate dataRegisto;
