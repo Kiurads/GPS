@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Frota implements Constantes, Serializable {
@@ -129,7 +130,7 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private Veiculo pesquisaVeiculo(String matricula) {
+    public Veiculo pesquisaVeiculo(String matricula) {
         for (Veiculo v : veiculos) {
             if (v.matricula.equals(matricula)) {
                 return v;
@@ -137,7 +138,18 @@ public class Frota implements Constantes, Serializable {
         }
         return null;
     }
-
+    
+    public List<Evento> getEventosTotal() {
+        List<Evento> allEventos = new ArrayList<>();
+        
+        for (Veiculo v : veiculos) {
+            for (Evento e : v.eventos) {
+                allEventos.add(e);
+            }
+        }
+        return allEventos;
+    }
+    
     private void guardarFrotaBD(String nomeFicheiro) throws IOException {
         ObjectOutputStream oout = null;
 
@@ -165,6 +177,4 @@ public class Frota implements Constantes, Serializable {
             }
         }
     }
-    
-
 }
