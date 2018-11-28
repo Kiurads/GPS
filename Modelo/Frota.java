@@ -34,17 +34,17 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
-    public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, TipoVeiculo tipo) {
+    public boolean RegistaVeiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, TipoVeiculo tipo) {
 
         switch (tipo) {
             case LIGEIRO:
-                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case MOTOCICLO:
-                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case PESADO:
-                veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Pesado(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
 
         }
@@ -145,15 +145,26 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private Veiculo pesquisaVeiculo(String matricula) {
+    public Veiculo pesquisaVeiculo(String valor) {
         for (Veiculo v : veiculos) {
-            if (v.matricula.equals(matricula)) {
+            if (v.matricula.equals(valor) || v.nome.equals(valor)) {
                 return v;
             }
         }
         return null;
     }
-
+    
+    public List<Evento> getEventosTotal() {
+        List<Evento> allEventos = new ArrayList<>();
+        
+        for (Veiculo v : veiculos) {
+            for (Evento e : v.eventos) {
+                allEventos.add(e);
+            }
+        }
+        return allEventos;
+    }
+    
     private void guardarFrotaBD(String nomeFicheiro) throws IOException {
         ObjectOutputStream oout = null;
 

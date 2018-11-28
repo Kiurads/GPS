@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class Ligeiro extends Veiculo {
 
-    public Ligeiro(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
-        super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro);
+    public Ligeiro(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
+        super(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro);
     }
 
     @Override

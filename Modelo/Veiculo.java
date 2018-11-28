@@ -12,6 +12,7 @@ import java.util.Scanner;
 abstract public class Veiculo implements Constantes, Serializable {
 
     //Dados introduzidos
+    protected String nome;
     protected String matricula;
     protected int KmReais;
     protected int KmMensais;
@@ -26,7 +27,8 @@ abstract public class Veiculo implements Constantes, Serializable {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
+    public Veiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
+        this.nome = nome;
         this.matricula = matricula;
         this.KmReais = KmReais;
         this.KmMensais = KmMensais;
