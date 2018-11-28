@@ -3,11 +3,12 @@ package GPS.gpsproject;
 import GPS.Modelo.Veiculo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
-
-import java.time.LocalDate;
+import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
 public class Adicionar implements BibliotecaInterface {
     private Veiculo veiculo;
@@ -28,36 +29,19 @@ public class Adicionar implements BibliotecaInterface {
 
     @FXML
     public void initialize() {
-        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-            public DateCell call(final DatePicker datePicker) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        // Must call super
-                        super.updateItem(item, empty);
-
-                        // Disable all future date cells
-                        if (item.isAfter(LocalDate.now())) {
-                            this.setDisable(true);
-                        }
-                    }
-                };
-            }
-        };
-
-        registomatricula.setDayCellFactory(dayCellFactory);
-        registoseguro.setDayCellFactory(dayCellFactory);
+        registomatricula.setDayCellFactory(noFutureDates);
+        registoseguro.setDayCellFactory(noFutureDates);
 
         tipo = new ChoiceBox(tipos);
     }
 
     public void onAdiciona(ActionEvent actionEvent) {
-        //TODO Verificar base de dados
-
         if (!everyFieldIsFilled()) {
             Alert.display("Alerta", "Não é permitido guardar campos vazios!");
             return;
         }
+
+        //TODO Verificar base de dados
 
         if (!everyFieldIsValid()) {
             Alert.display("Alerta", "Verifique se os campos possuem dados válidos!");
@@ -72,6 +56,31 @@ public class Adicionar implements BibliotecaInterface {
                         Integer.parseInt(kmmensais.getText()),
                         seguradora.getText(),
                         DateUtils.asDate(registoseguro.getValue()));*/
+                break;
+            case "Mota":
+                /*veiculo = new Mota(matricula.getText(),
+                        registomatricula.getValue(),
+                        Integer.parseInt(kmreais.getText()),
+                        Integer.parseInt(kmmensais.getText()),
+                        seguradora.getText(),
+                        registoseguro.getValue());*/
+                break;
+            case "Pesado":
+                /*veiculo = new Pesado(matricula.getText(),
+                        registomatricula.getValue(),
+                        Integer.parseInt(kmreais.getText()),
+                        Integer.parseInt(kmmensais.getText()),
+                        seguradora.getText(),
+                        registoseguro.getValue());*/
+                break;
+            case "Ligeiro":
+                /*veiculo = new Mota(matricula.getText(),
+                        registomatricula.getValue(),
+                        Integer.parseInt(kmreais.getText()),
+                        Integer.parseInt(kmmensais.getText()),
+                        seguradora.getText(),
+                        registoseguro.getValue());*/
+                break;
         }
     }
 
@@ -95,5 +104,9 @@ public class Adicionar implements BibliotecaInterface {
                 registoseguro.getValue() != null &&
                 !kmreais.getText().trim().equals("") &&
                 !kmmensais.getText().trim().equals("");
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
     }
 }

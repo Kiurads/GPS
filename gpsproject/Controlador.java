@@ -11,10 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
+
+import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
 public class Controlador implements BibliotecaImagens {
     public ListView list;
@@ -61,25 +61,8 @@ public class Controlador implements BibliotecaImagens {
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
 
-        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-            public DateCell call(final DatePicker datePicker) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        // Must call super
-                        super.updateItem(item, empty);
-
-                        // Disable all future date cells
-                        if (item.isAfter(LocalDate.now())) {
-                            this.setDisable(true);
-                        }
-                    }
-                };
-            }
-        };
-
-        registoseguro.setDayCellFactory(dayCellFactory);
-        registomatricula.setDayCellFactory(dayCellFactory);
+        registoseguro.setDayCellFactory(noFutureDates);
+        registomatricula.setDayCellFactory(noFutureDates);
 
         calendarView = new FullCalendarView(YearMonth.now());
         calendarbox.getChildren().add(calendarView.getView());
@@ -88,13 +71,8 @@ public class Controlador implements BibliotecaImagens {
         noneSelected();
     }
 
-
-    private void sendNotification(String title, String message) {
-        Notification.sendNotification(title, message);
-    }
-
     public void switchViews(ActionEvent actionEvent) {
-        sendNotification("Vehicle Companion", "Notificação de teste");
+        Notification.sendNotification("Vehicle Companion", "Notificação de teste");
         if (left.isVisible()) noneSelected();
         else vehicleSelected();
     }
