@@ -15,8 +15,7 @@ public class Frota implements Constantes, Serializable {
 
     List<Veiculo> veiculos = new ArrayList<>();
 
-    public Frota()  {
-
+    public Frota() {
 
 //        Veiculo v = new Ligeiro("21-45-RD", 100000, 100, "Liberty", LocalDate.now(), 30);
 //        Veiculo v2 = new Ligeiro("34-98-BG", 260000, 560, "Alianz", LocalDate.now(), 160);
@@ -24,16 +23,11 @@ public class Frota implements Constantes, Serializable {
 //        veiculos.add(v2);
 //
 //        guardarFrotaBD(BD_FROTA_BIN);
-
         try {
             this.veiculos = getFrotaBD(BD_FROTA_BIN);
 
         } catch (IOException ex) {
-            try {
-                guardarFrotaBD(BD_FROTA_BIN);
-            } catch (IOException ex1) {
-                System.exit(1);
-            }
+             System.exit(1);
         } catch (ClassNotFoundException ex) {
             System.exit(1);
         }
