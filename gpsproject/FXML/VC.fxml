@@ -129,7 +129,7 @@
                                                 <TextField fx:id="matricula" disable="true" editable="false" />
                                                 <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                 <Label text="Tipo:" />
-                                                <ChoiceBox fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                                                <TextField fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />

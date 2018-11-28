@@ -1,8 +1,5 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.Frota;
-import GPS.Modelo.Ligeiro;
-import GPS.Modelo.Veiculo;
 import com.sun.glass.ui.Screen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class GpsProject extends Application {
 
@@ -32,10 +28,6 @@ public class GpsProject extends Application {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, IOException {
-//        launch(args);
-  
-//        System.err.println(v.toString());
-       Frota f = new Frota();
-       System.out.println(f.toString());
+        launch(args);
     }
 }

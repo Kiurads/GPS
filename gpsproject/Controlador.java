@@ -1,13 +1,16 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Constantes;
 import GPS.Modelo.Evento;
-import GPS.Modelo.Notification.Notification;
+import GPS.Modelo.Frota;
 import GPS.Modelo.Veiculo;
 import GPS.gpsproject.calendar.FullCalendarView;
 import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -19,12 +22,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.Collections;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
-public class Controlador implements BibliotecaImagens {
+public class Controlador implements BibliotecaImagens, Constantes {
     public ListView list;
     public Button updateAll;
     public Button addButton;
@@ -49,7 +52,7 @@ public class Controlador implements BibliotecaImagens {
     public TextField nome;
     public TextField modelo;
     public TextField matricula;
-    public ChoiceBox tipo;
+    public TextField tipo;
     public DatePicker registomatricula;
     public TextField seguradora;
     public TextField tiposeguro;
@@ -61,7 +64,7 @@ public class Controlador implements BibliotecaImagens {
     public TextArea detailsdia;
 
     private FullCalendarView calendarView;
-    //private Frota frota;
+    private Frota frota;
     private Veiculo veiculoSelecionado;
 
     @FXML
@@ -71,30 +74,73 @@ public class Controlador implements BibliotecaImagens {
         registoseguro.setDayCellFactory(noFutureDates);
         registomatricula.setDayCellFactory(noFutureDates);
 
-        calendarView = new FullCalendarView(YearMonth.now(), detailsdia);
-        //calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventos());
+        frota = new Frota();
+
+        frota.RegistaVeiculo("Veiculo 1",
+                "09-23-TX",
+                10000,
+                100,
+                "Liberty",
+                LocalDate.now(),
+                "Todos os riscos",
+                TipoVeiculo.LIGEIRO);
+
+        calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
         calendarbox.getChildren().add(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
 
         noneSelected();
-        initializeLists();
+        initializeList();
         initializeListeners();
     }
 
-    private void initializeLists() {
-        eventslist.getItems().addAll(Collections.emptyList());
+    private void initializeFields() {
+        detailsvehicletext.setText(veiculoSelecionado.toString());
+
+        nome.setText(veiculoSelecionado.getNome());
+        matricula.setText(veiculoSelecionado.getMatricula());
+        modelo.setText(veiculoSelecionado.getModelo());
+        registomatricula.setValue(veiculoSelecionado.getDataRegistoMatricula());
+        tipo.setText(String.valueOf(TipoVeiculo.LIGEIRO));
+        seguradora.setText(veiculoSelecionado.getSeguro().getSeguradora());
+        tiposeguro.setText(veiculoSelecionado.getSeguro().getTipo());
+        kmreais.setText(String.valueOf(veiculoSelecionado.getKmReais()));
+        kmmensais.setText(String.valueOf(veiculoSelecionado.getKmMensais()));
+        registoseguro.setValue(veiculoSelecionado.getSeguro().getDataRegisto());
+    }
+
+    private void initializeList() {
+        list.getItems().addAll(frota.getNomesVeiculos());
 
         eventslist.setCellFactory(CheckBoxListCell.forListView(new Callback<Evento, ObservableValue<Boolean>>() {
             @Override
-            public ObservableValue<Boolean> call(Evento item) {
+            public ObservableValue<Boolean> call(Evento param) {
                 BooleanProperty observable = new SimpleBooleanProperty();
-                observable.addListener((observable1, oldValue, newValue) -> {
-                    //TODO add listener
-                });
+                observable.addListener(((observable1, oldValue, newValue) -> {
+                    if (!param.isCheck()) {
+                        param.setCusto(getCusto());
+                        param.setCheck(true);
+                    }
 
-                return observable ;
+                    updatePie();
+                }));
+                return observable;
             }
         }));
+    }
+
+    private void updatePie() {
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+
+        for (Evento e : veiculoSelecionado.getEventos()) {
+            pieData.add(new PieChart.Data(e.getDescricao(), e.getCusto()));
+        }
+
+        pie.setData(pieData);
+    }
+
+    private double getCusto() {
+        return Custo.display();
     }
 
     private void initializeListeners() {
@@ -102,8 +148,14 @@ public class Controlador implements BibliotecaImagens {
 
     }
 
-    private void setVeiculo(String newValue) {
-        //veiculoSelecionado = frota.getVeiculo(newValue)
+    private void setVeiculo(String veiculo) {
+        veiculoSelecionado = frota.pesquisaVeiculo(veiculo);
+
+        initializeFields();
+
+        eventslist.getItems().addAll(veiculoSelecionado.getEventos());
+
+        switchViews(null);
     }
 
     private void setGraphics() {
@@ -114,7 +166,6 @@ public class Controlador implements BibliotecaImagens {
     }
 
     public void switchViews(ActionEvent actionEvent) {
-        Notification.sendNotification("Vehicle Companion", "Notificação de teste");
         if (left.isVisible()) noneSelected();
         else vehicleSelected();
     }
@@ -161,8 +212,11 @@ public class Controlador implements BibliotecaImagens {
 
     private boolean everyFieldIsValid() {
         try {
-            Integer.parseInt(kmmensais.getText());
-            Integer.parseInt(kmreais.getText());
+            int kms = Integer.parseInt(kmmensais.getText());
+            int kmsr = Integer.parseInt(kmreais.getText());
+
+            if(kms <= 0 || kmsr <= 0)
+                return false;
         } catch(NumberFormatException | NullPointerException e) {
             return false;
         }
@@ -172,7 +226,7 @@ public class Controlador implements BibliotecaImagens {
     private boolean everyFieldIsFilled() {
         return !nome.getText().trim().equals("") &&
                 !modelo.getText().trim().equals("") &&
-                tipo.getValue() != null &&
+                !tipo.getText().trim().equals("") &&
                 registomatricula.getValue() != null &&
                 !seguradora.getText().trim().equals("") &&
                 !tiposeguro.getText().trim().equals("") &&

@@ -29,4 +29,7 @@ public class Seguro implements Constantes, Serializable{
         return s;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
 }

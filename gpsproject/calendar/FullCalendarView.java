@@ -1,18 +1,16 @@
 package GPS.gpsproject.calendar;
 
+import GPS.Modelo.Evento;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 
 public class FullCalendarView {
@@ -21,15 +19,18 @@ public class FullCalendarView {
     private VBox view;
     private Text calendarTitle;
     private TextArea detailsdia;
+    private List<Evento> eventos;
     private YearMonth currentYearMonth;
 
     /**
      * Create a calendar view
      * @param yearMonth year month to create the calendar of
+     * @param eventosTotal
      */
-    public FullCalendarView(YearMonth yearMonth, TextArea detailsdia) {
+    public FullCalendarView(YearMonth yearMonth, TextArea detailsdia, List<Evento> eventosTotal) {
         currentYearMonth = yearMonth;
         this.detailsdia = detailsdia;
+        this.eventos = eventosTotal;
         // Create the calendar grid pane
         GridPane calendar = new GridPane();
         calendar.setPrefSize(600, 400);
@@ -37,7 +38,7 @@ public class FullCalendarView {
         // Create rows and columns with anchor panes for the calendar
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
-                AnchorPaneNode ap = new AnchorPaneNode(detailsdia, Collections.emptyList());
+                AnchorPaneNode ap = new AnchorPaneNode(detailsdia);
                 ap.setPrefSize(200,200);
                 calendar.add(ap,j,i);
                 allCalendarDays.add(ap);
@@ -89,6 +90,16 @@ public class FullCalendarView {
             }
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
             ap.setDate(calendarDate);
+            ap.setStyle("-fx-background-color: white");
+            for (Evento e : eventos) {
+                if (e.getData().getDayOfMonth() == ap.getDate().getDayOfMonth() &&
+                    e.getData().getMonthValue() == ap.getDate().getMonthValue() &&
+                    e.getData().getYear() == ap.getDate().getYear()) {
+
+                    ap.addEvento(e);
+                    ap.setStyle("-fx-background-color: cornflowerblue");
+                }
+            }
             ap.setTopAnchor(txt, 5.0);
             ap.setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);

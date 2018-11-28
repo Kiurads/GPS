@@ -10,11 +10,11 @@ public interface Constantes {
     }
     
     
-    static String INSPECAO = "Inspecao";
-    static String MUDANCA_OLEO = "Mudanca Oleo";
+    static String INSPECAO = "Inspeção";
+    static String MUDANCA_OLEO = "Mudança de óleo";
     static String PAGAMENTO_SEGURO = "Pagamento de Seguro";
-    static String MUDANCA_CORREIA = "Mudanca de correia";
-    static String PAGAMENTO_IMPOSTO = "Pagamento de imposto de circulacao";
+    static String MUDANCA_CORREIA = "Mudança de correia";
+    static String PAGAMENTO_IMPOSTO = "Pagamento de imposto de circulação";
 
     public final int CC_NECESSARIOS_PARA_INSPECAO = 250;
     public final int KMS_NECESSARIOS_MUDANCA_CORREIA = 100000;
@@ -22,9 +22,9 @@ public interface Constantes {
 
 
 
-    public final String BD_MATRICULAS_TXT = "GPS/BD.txt";
+    public final String BD_MATRICULAS_TXT = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\ficheiros\\BD.txt";
 
-    public final String BD_FROTA_BIN = "GPS/BD_Frota.dat";
+    public final String BD_FROTA_BIN = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\ficheiros\\BD_Frota.dat";
 
     
     public final int UM_ANO = 1;

@@ -216,19 +216,36 @@ abstract public class Veiculo implements Constantes, Serializable {
         return false;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataRegistoMatricula() {
+        return dataRegistoMatricula;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
     @Override
     public String toString() {
         String s = "";
-        s += "Matricula: " + matricula + " " + dataRegistoMatricula;
-        s += "\nMarca: " + marca;
-        s += "\nModelo: " + modelo;
-        s += "\nKmReais: " + KmReais;
-        s += "\nKmMensais: " + KmMensais;
+        s += "Matricula: " + matricula + " " + dataRegistoMatricula + "\n";
+        s += "Marca: " + marca + "\n";
+        s += "Modelo: " + modelo + "\n";
+        s += "KmReais: " + KmReais + "\n";
+        s += "KmMensais: " + KmMensais + "\n";
         s += seguro.toString();
 
-        for (Evento e : eventos) {
-            s += e.toString();
-        }
         return s;
     }
 }

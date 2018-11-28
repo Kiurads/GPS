@@ -1,6 +1,5 @@
 package GPS.Modelo;
 
-import GPS.Modelo.Constantes.TipoEvento;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -15,9 +14,9 @@ public class Evento implements Constantes, Serializable {
     public Evento(LocalDate DataEvento, String Descricao,String matricula,TipoEvento tipoevento) {
         this.data = DataEvento;
         this.descricao = Descricao;
-        this.matricula=matricula;
-        this.tipoEvento=tipoevento;
-        this.custo=0;
+        this.matricula = matricula;
+        this.tipoEvento = tipoevento;
+        this.custo = 0;
     }
 
     public String getDescricao() {
@@ -40,12 +39,15 @@ public class Evento implements Constantes, Serializable {
         this.custo = custo;
     }
 
+    public LocalDate getData() {
+        return data;
+    }
+
     @Override
     public String toString() {
-        String s = "";
-        
-        s+="\nEvento: "+ descricao  + " " + data;
-        
+        String s;
+
+        s = "" + data.getDayOfMonth() + '/' + data.getMonthValue() + '/' + data.getYear() + " - " + descricao;
         return s;
     }
     

@@ -1,20 +1,11 @@
 package GPS.Modelo;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Frota implements Constantes, Serializable {
-
-
     List<Veiculo> veiculos = new ArrayList<>();
 
     public Frota() {
@@ -152,6 +143,16 @@ public class Frota implements Constantes, Serializable {
             }
         }
         return null;
+    }
+
+    public List<String> getNomesVeiculos() {
+        List<String> lista = new ArrayList<>();
+
+        for(Veiculo veiculo : veiculos) {
+            lista.add(veiculo.nome);
+        }
+
+        return lista;
     }
     
     public List<Evento> getEventosTotal() {
