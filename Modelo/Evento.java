@@ -1,9 +1,10 @@
 package GPS.Modelo;
 
 import GPS.Modelo.Constantes.TipoEvento;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Evento implements Constantes {
+public class Evento implements Constantes, Serializable {
     private LocalDate data;
     private String descricao;
     private String matricula;

@@ -16,6 +16,7 @@ public interface Constantes {
     public final int KMS_NECESSARIOS_MUDANCA_CORREIA = 100000;
 
     public final String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD.txt";
+    public final String BD_FROTA_BIN = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\BD_Frota.dat";
     
     public final int UM_ANO = 1;
     public final int DOIS_ANOS = 2;
