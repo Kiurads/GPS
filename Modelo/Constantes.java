@@ -3,8 +3,12 @@ package GPS.Modelo;
 public interface Constantes {
 
     enum TipoEvento {
-        Reparacao, Mecanica, Menutencoes, Obrigacoes;
+        REPARACAO, MECANICA, MANUTENCOES, OBRIGACOES;
     }
+    enum TipoVeiculo {
+        MOTOCICLO, LIGEIRO, PESADO;
+    }
+    
     
     static String INSPECAO = "Inspecao";
     static String MUDANCA_OLEO = "Mudanca Oleo";

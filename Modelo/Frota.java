@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Frota implements Constantes, Serializable {
@@ -65,6 +66,23 @@ public class Frota implements Constantes, Serializable {
                 oin.close();
             }
         }
+    }
+    
+    private boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
+        
+        switch(tipo){
+            case TipoVeiculo.LIGEIRO:
+               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+               return true;
+            case TipoVeiculo.MOTOCICLO:
+               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                return true;
+            case TipoVeiculo.PESADO:
+               veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                return true;
+               
+        }
+        return false;
     }
 
 }

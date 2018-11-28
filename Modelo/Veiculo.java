@@ -71,18 +71,18 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CALCULAR
     private void CalculaProximaPagementoImpostoCirculaçao() {
-        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.Obrigacoes));
+        eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.OBRIGACOES));
     }
 
     private void CalcularProximaDataDePagamentoSeguro() {
-        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.Obrigacoes));
+        eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
     }
 
     private void CalculaProximaInspecao() {
         LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
         if (proxData != null) {
-            eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.Obrigacoes));
+            eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.OBRIGACOES));
         }
     }
 
@@ -91,7 +91,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
-        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.Menutencoes));
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.MANUTENCOES));
     }
 
     private void CalcularProximaMudancaDeCorreia() {
@@ -99,7 +99,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
-        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.Menutencoes));
+        eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
