@@ -30,6 +30,78 @@ public class Frota implements Constantes, Serializable {
         return s;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
+    public boolean RealizaMudancaOleo(String matricula, int custo) {
+        if (custo <= 0 || matricula.isEmpty()) {
+            return false;
+        }
+
+        Veiculo veiculo = pesquisaVeiculo(matricula);
+        if (veiculo == null) {
+            return false;
+        }
+
+        veiculo.RealizaMudancaOleo(custo);
+        return true;
+
+    }
+
+    public boolean RealizaPagamentoSeguro(String matricula) {
+        if (matricula.isEmpty()) {
+            return false;
+        }
+
+        Veiculo veiculo = pesquisaVeiculo(matricula);
+        if (veiculo == null) {
+            return false;
+        }
+
+        veiculo.RealizaPagamentoSeguro();
+        return true;
+    }
+
+    public boolean RealizaMudancaDeCorreia(String matricula, int custo) {
+        if (custo <= 0 || matricula.isEmpty()) {
+            return false;
+        }
+
+        Veiculo veiculo = pesquisaVeiculo(matricula);
+        if (veiculo == null) {
+            return false;
+        }
+
+        veiculo.RealizaMudancaDeCorreia(custo);
+        return true;
+    }
+
+    public boolean RealizaPagamentoImpostoCirculacao(String matricula, int custo) {
+        if (custo <= 0 || matricula.isEmpty()) {
+            return false;
+        }
+
+        Veiculo veiculo = pesquisaVeiculo(matricula);
+        if (veiculo == null) {
+            return false;
+        }
+
+        veiculo.RealizaPagamentoImpostoCirculacao(custo);
+        return true;
+    }
+
+    public boolean RealizaInspecao(String matricula, int custo) {
+        if (custo <= 0 || matricula.isEmpty()) {
+            return false;
+        }
+
+        Veiculo veiculo = pesquisaVeiculo(matricula);
+        if (veiculo == null) {
+            return false;
+        }
+
+        veiculo.RealizaInspecao(custo);
+        return true;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     private Veiculo pesquisaVeiculo(String matricula) {
         for (Veiculo v : veiculos) {
