@@ -71,13 +71,13 @@ public class Frota implements Constantes, Serializable {
     private boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
         
         switch(tipo){
-            case TipoVeiculo.LIGEIRO:
+            case LIGEIRO:
                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                return true;
-            case TipoVeiculo.MOTOCICLO:
+            case MOTOCICLO:
                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
-            case TipoVeiculo.PESADO:
+            case PESADO:
                veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
                
