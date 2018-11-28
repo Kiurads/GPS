@@ -10,6 +10,7 @@ public class Pesado extends Veiculo {
     }
 
 
+
     @Override
     protected LocalDate getDataProximaInspecao() {
        return getDataComMaisUmAno(dataRegistoMatricula);

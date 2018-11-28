@@ -22,6 +22,8 @@ abstract public class Veiculo implements Constantes, Serializable {
     protected String marca;
     protected String modelo;
     protected int intervaloKmsOleo;
+    protected TipoVeiculo tipoVeiculo;
+    protected int cilindrada;
 
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
@@ -34,7 +36,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         this.eventos = new ArrayList<>();
 
         //dados da BD
-        getDadosMatricula(matricula, BD_MATRICULAS_TXT);
+        getDadosMatricula(matricula);
 
         //criar eventos
         CalculaProximaPagementoImpostoCirculaçao();
@@ -75,14 +77,14 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     private boolean CalcularProximaDataDePagamentoSeguro() {
-       return  eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
+        return eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
     }
 
     private boolean CalculaProximaInspecao() {
         LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
         if (proxData != null) {
-           return  eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.OBRIGACOES));
+            return eventos.add(new Evento(proxData, INSPECAO, matricula, TipoEvento.OBRIGACOES));
         }
         return false;
     }
@@ -100,7 +102,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
-       return  eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
@@ -133,7 +135,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-           return  CalcularProximaMudancaDeCorreia();
+            return CalcularProximaMudancaDeCorreia();
         }
         return false;
     }
@@ -155,13 +157,12 @@ abstract public class Veiculo implements Constantes, Serializable {
         if (aux != null && !aux.isCheck()) {
             aux.setCheck(true);
             aux.setCusto(custo);
-           return  CalculaProximaInspecao();
+            return CalculaProximaInspecao();
         }
         return false;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-
     protected LocalDate getDataComMaisUmAno(LocalDate data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
 
@@ -171,8 +172,8 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     abstract protected LocalDate getDataProximaInspecao();
 
-    private boolean getDadosMatricula(String matricula, String FileName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(FileName))) {
+    private boolean getDadosMatricula(String matricula) {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
 
             String linha;
 
@@ -183,15 +184,36 @@ abstract public class Veiculo implements Constantes, Serializable {
                     dataRegistoMatricula = LocalDate.of(Integer.parseInt(sc.next()), Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
                     marca = sc.next();
                     modelo = sc.next();
-                    intervaloKmsOleo = Integer.parseInt(sc.next());
-                    return true;
-                }
-            }
+                    String tipo = sc.next();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                    switch (tipo) {
+                        case LIGEIRO:
+                            tipoVeiculo = TipoVeiculo.LIGEIRO;
+                            break;
+                        case PESADO:
+                            tipoVeiculo = TipoVeiculo.PESADO;
+                            break;
+                        case MOTOCICLO:
+                            tipoVeiculo = TipoVeiculo.MOTOCICLO;
+                            break;
+                    }
+                    intervaloKmsOleo = Integer.parseInt(sc.next());
+                    cilindrada = Integer.parseInt(sc.next());
+
+                    return true;
+                
+            }
         }
-        return false;
+
+    }
+    catch (IOException e
+
+    
+        ) {
+            e.printStackTrace();
+    }
+
+return false;
     }
 
     private Evento PesquisaEvento(String Nome) {
@@ -209,19 +231,32 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     private boolean CriarEvento(Evento evento) {
         if (evento != null) {
-             return eventos.add(evento);
+            return eventos.add(evento);
         }
         return false;
     }
 
     @Override
-    public String toString() {
+        public String toString() {
         String s = "";
         s += "Matricula: " + matricula + " " + dataRegistoMatricula;
         s += "\nMarca: " + marca;
         s += "\nModelo: " + modelo;
         s += "\nKmReais: " + KmReais;
         s += "\nKmMensais: " + KmMensais;
+        
+          switch (this.tipoVeiculo) {
+                        case LIGEIRO:
+                            s += "\nTipo " + LIGEIRO;
+                            break;
+                        case PESADO:
+                            s += "\nTipo " + PESADO;
+                            break;
+                        case MOTOCICLO:
+                            s += "\nTipo " + MOTOCICLO;
+                            break;
+                    }
+        s += "\nCelindrada: " + cilindrada;
         s += seguro.toString();
 
         for (Evento e : eventos) {

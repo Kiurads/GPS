@@ -15,16 +15,16 @@ public class Frota implements Constantes, Serializable {
 
     List<Veiculo> veiculos = new ArrayList<>();
 
-    public Frota() {
+    public Frota() throws IOException {
 
 //        Veiculo v = new Ligeiro("21-45-RD", 100000, 100, "Liberty", LocalDate.now(), 30);
-//        Veiculo v2 = new Ligeiro("34-98-BG", 260000, 560, "Alianz", LocalDate.now(), 160);
+//        Veiculo v2 = new Motociclo("34-98-BG", 260000, 560, "Alianz", LocalDate.now(), 160);
 //        veiculos.add(v);
 //        veiculos.add(v2);
 //
 //        guardarFrotaBD(BD_FROTA_BIN);
         try {
-            this.veiculos = getFrotaBD(BD_FROTA_BIN);
+            this.veiculos = getFrotaBD();
 
         } catch (IOException ex) {
              System.exit(1);
@@ -42,7 +42,7 @@ public class Frota implements Constantes, Serializable {
                 veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case MOTOCICLO:
-                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Motociclo(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case PESADO:
                 veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
@@ -164,11 +164,11 @@ public class Frota implements Constantes, Serializable {
         return allEventos;
     }
 
-    private void guardarFrotaBD(String nomeFicheiro) throws IOException {
+    private void guardarFrotaBD() throws IOException {
         ObjectOutputStream oout = null;
 
         try {
-            oout = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
+            oout = new ObjectOutputStream(new FileOutputStream(BD_FROTA_BIN));
             oout.writeObject(this);
 
         } finally {
@@ -178,11 +178,11 @@ public class Frota implements Constantes, Serializable {
         }
     }
 
-    private List<Veiculo> getFrotaBD(String nomeFicheiro) throws FileNotFoundException, IOException, ClassNotFoundException {
+    private List<Veiculo> getFrotaBD() throws FileNotFoundException, IOException, ClassNotFoundException {
         ObjectInputStream oin = null;
 
         try {
-            oin = new ObjectInputStream(new FileInputStream(nomeFicheiro));
+            oin = new ObjectInputStream(new FileInputStream(BD_FROTA_BIN));
             Frota f = (Frota) oin.readObject();
             return f.veiculos;
         } finally {

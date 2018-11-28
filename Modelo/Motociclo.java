@@ -4,12 +4,14 @@ import java.time.LocalDate;
 
 public class Motociclo extends Veiculo {
 
-    int cilindrada;
 
-    public Motociclo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, int cilindrada) {
+
+    public Motociclo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
         super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro);
-        this.cilindrada = cilindrada;
+
     }
+
+  
 
     @Override
     protected LocalDate getDataProximaInspecao() {

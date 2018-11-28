@@ -8,19 +8,20 @@ public class Ligeiro extends Veiculo {
         super(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro);
     }
 
+  
     @Override
     protected LocalDate getDataProximaInspecao() {
         LocalDate dataCorrente = LocalDate.now();
 
         if (dataCorrente.getYear() - dataRegistoMatricula.getYear() <= QUATRO_ANOS) {
-            return LocalDate.of(dataRegistoMatricula.getYear() + QUATRO_ANOS, 
+            return LocalDate.of(dataCorrente.getYear() + QUATRO_ANOS, 
                     dataRegistoMatricula.getMonthValue(), dataRegistoMatricula.getDayOfMonth());
             
         } else if (dataCorrente.getYear() - dataRegistoMatricula.getYear() > QUATRO_ANOS && dataCorrente.getYear() - dataRegistoMatricula.getYear() <= OITO_ANOS) {
-           return LocalDate.of(dataRegistoMatricula.getYear() + DOIS_ANOS, 
+           return LocalDate.of(dataCorrente.getYear() + DOIS_ANOS, 
                     dataRegistoMatricula.getMonthValue(), dataRegistoMatricula.getDayOfMonth());
         } else {
-            return LocalDate.of(dataRegistoMatricula.getYear() + UM_ANO,
+            return LocalDate.of(dataCorrente.getYear() + UM_ANO,
                     dataRegistoMatricula.getMonthValue(), dataRegistoMatricula.getDayOfMonth());
         }
     }

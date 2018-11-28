@@ -1,5 +1,6 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Constantes;
 import GPS.Modelo.Frota;
 import GPS.Modelo.Ligeiro;
 import GPS.Modelo.Veiculo;
@@ -12,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class GpsProject extends Application {
 
