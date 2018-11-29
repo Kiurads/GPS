@@ -195,6 +195,21 @@ abstract public class Veiculo implements Constantes, Serializable {
         }
         return false;
     }
+    private static boolean getExists(String matricula) {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     private Evento PesquisaEvento(String Nome) {
         for (Evento evento : eventos) {
@@ -247,5 +262,14 @@ abstract public class Veiculo implements Constantes, Serializable {
         s += seguro.toString();
 
         return s;
+    }
+
+    public void altera(String nome, String seguradora, String tipoSeguro, LocalDate registoSeguro, int kmreais, int kmmensais) {
+        this.nome = nome;
+        this.seguro.seguradora = seguradora;
+        this.seguro.tipo = tipoSeguro;
+        this.seguro.dataRegisto = registoSeguro;
+        this.KmReais = kmreais;
+        this.KmMensais = kmmensais;
     }
 }

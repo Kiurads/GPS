@@ -27,18 +27,34 @@ public class Frota implements Constantes, Serializable {
         switch (tipo) {
             case LIGEIRO:
                 veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
+                try {
+                    guardarFrotaBD(BD_FROTA_BIN);
+                } catch (IOException ignore) {}
                 return true;
             case MOTOCICLO:
                 veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
+                try {
+                    guardarFrotaBD(BD_FROTA_BIN);
+                } catch (IOException ignore) {}
                 return true;
             case PESADO:
                 veiculos.add(new Pesado(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
+                try {
+                    guardarFrotaBD(BD_FROTA_BIN);
+                } catch (IOException ignore) {}
                 return true;
             default:
                 break;
 
         }
         return false;
+    }
+
+    public void RegistaVeiculo(Veiculo veiculo) {
+        veiculos.add(veiculo);
+        try {
+            guardarFrotaBD(BD_FROTA_BIN);
+        } catch (IOException ignore) {}
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
@@ -193,5 +209,4 @@ public class Frota implements Constantes, Serializable {
             }
         }
     }
-
 }

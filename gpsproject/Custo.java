@@ -1,7 +1,5 @@
 package GPS.gpsproject;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,16 +29,13 @@ public class Custo {
         Button button = (Button) scene.lookup("#button");
         TextField text = (TextField) scene.lookup("#text");
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (!text.getText().trim().equals("")) {
-                    try {
-                        value = Double.parseDouble(text.getText());
-                        window.close();
-                    } catch (NumberFormatException e) {
-                        Alert.display("Alerta", "Tem que introduzir um número!");
-                    }
+        button.setOnAction(event -> {
+            if (!text.getText().trim().equals("")) {
+                try {
+                    value = Double.parseDouble(text.getText());
+                    window.close();
+                } catch (NumberFormatException e) {
+                    Alert.display("Alerta", "Tem que introduzir um número!");
                 }
             }
         });

@@ -22,7 +22,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
@@ -76,15 +75,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
         frota = new Frota();
 
-        frota.RegistaVeiculo("Veiculo 1",
-                "09-23-TX",
-                10000,
-                100,
-                "Liberty",
-                LocalDate.now(),
-                "Todos os riscos",
-                TipoVeiculo.LIGEIRO);
-
         calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
         calendarbox.getChildren().add(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
@@ -110,22 +100,20 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     private void initializeList() {
+        list.getItems().removeAll();
         list.getItems().addAll(frota.getNomesVeiculos());
 
-        eventslist.setCellFactory(CheckBoxListCell.forListView(new Callback<Evento, ObservableValue<Boolean>>() {
-            @Override
-            public ObservableValue<Boolean> call(Evento param) {
-                BooleanProperty observable = new SimpleBooleanProperty();
-                observable.addListener(((observable1, oldValue, newValue) -> {
-                    if (!param.isCheck()) {
-                        param.setCusto(getCusto());
-                        param.setCheck(true);
-                    }
+        eventslist.setCellFactory(CheckBoxListCell.forListView((Callback<Evento, ObservableValue<Boolean>>) param -> {
+            BooleanProperty observable = new SimpleBooleanProperty();
+            observable.addListener(((observable1, oldValue, newValue) -> {
+                if (!param.isCheck()) {
+                    param.setCusto(getCusto());
+                    param.setCheck(true);
+                }
 
-                    updatePie();
-                }));
-                return observable;
-            }
+                updatePie();
+            }));
+            return observable;
         }));
     }
 
@@ -150,12 +138,9 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void setVeiculo(String veiculo) {
         veiculoSelecionado = frota.pesquisaVeiculo(veiculo);
-
         initializeFields();
-
         eventslist.getItems().addAll(veiculoSelecionado.getEventos());
-
-        switchViews(null);
+        vehicleSelected();
     }
 
     private void setGraphics() {
@@ -163,11 +148,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
         addButton.setGraphic(new ImageView(plus));
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
-    }
-
-    public void switchViews(ActionEvent actionEvent) {
-        if (left.isVisible()) noneSelected();
-        else vehicleSelected();
     }
 
     private void noneSelected() {
@@ -208,6 +188,19 @@ public class Controlador implements BibliotecaImagens, Constantes {
             return;
         }
 
+        veiculoSelecionado.altera(nome.getText(),
+                seguradora.getText(),
+                tiposeguro.getText(),
+                registoseguro.getValue(),
+                Integer.parseInt(kmreais.getText()),
+                Integer.parseInt(kmmensais.getText()));
+
+        update();
+    }
+
+    private void update() {
+        initializeList();
+        initializeFields();
     }
 
     private boolean everyFieldIsValid() {
@@ -236,6 +229,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     public void onAddButton(ActionEvent actionEvent) {
-        //TODO Adicionar veículo
+        frota.RegistaVeiculo(Adicionar.getVeiculo());
     }
 }

@@ -27,7 +27,7 @@ public class GpsProject extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
+    public static void main(String[] args) {
         launch(args);
     }
 }
