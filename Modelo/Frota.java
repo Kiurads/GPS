@@ -1,5 +1,6 @@
 package GPS.Modelo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +23,8 @@ public class Frota implements Constantes, Serializable {
 //        veiculos.add(v);
 //        veiculos.add(v2);
 //
-//        guardarFrotaBD(BD_FROTA_BIN);
+//        guardarFrotaBD();
+        
         try {
             this.veiculos = getFrotaBD();
 
@@ -31,21 +33,20 @@ public class Frota implements Constantes, Serializable {
         } catch (ClassNotFoundException ex) {
             System.exit(1);
         }
-
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
-    public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, TipoVeiculo tipo) {
+    public boolean registaVeiculo(String matricula, int kmReais, int kmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro, TipoVeiculo tipo) {
 
         switch (tipo) {
             case LIGEIRO:
-                veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Ligeiro(matricula, kmReais, kmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case MOTOCICLO:
-                veiculos.add(new Motociclo(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Motociclo(matricula, kmReais, kmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
             case PESADO:
-                veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Pesado(matricula, kmReais, kmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
                 return true;
 
         }
@@ -53,11 +54,11 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
-    public boolean EleminaVeiculo(String Matricula) {
-        Veiculo v = pesquisaVeiculo(Matricula);
+    public boolean eliminaVeiculo(String matricula) {
+        Veiculo veiculo = pesquisaVeiculo(matricula);
 
-        if (v != null) {
-            veiculos.remove(v);
+        if (veiculo != null) {
+            veiculos.remove(veiculo);
             return true;
         }
         return false;
@@ -74,7 +75,7 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public boolean RealizaMudancaOleo(String matricula, int custo) {
+    public boolean realizaMudancaOleo(String matricula, int custo) {
         if (custo <= 0 || matricula.isEmpty()) {
             return false;
         }
@@ -84,10 +85,10 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        return veiculo.RealizaMudancaOleo(custo);
+        return veiculo.realizaMudancaOleo(custo);
     }
 
-    public boolean RealizaPagamentoSeguro(String matricula) {
+    public boolean realizaPagamentoSeguro(String matricula) {
         if (matricula.isEmpty()) {
             return false;
         }
@@ -97,11 +98,11 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        return veiculo.RealizaPagamentoSeguro();
+        return veiculo.realizaPagamentoSeguro();
 
     }
 
-    public boolean RealizaMudancaDeCorreia(String matricula, int custo) {
+    public boolean realizaMudancaDeCorreia(String matricula, int custo) {
         if (custo <= 0 || matricula.isEmpty()) {
             return false;
         }
@@ -111,11 +112,11 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        return veiculo.RealizaMudancaDeCorreia(custo);
+        return veiculo.realizaMudancaDeCorreia(custo);
 
     }
 
-    public boolean RealizaPagamentoImpostoCirculacao(String matricula, int custo) {
+    public boolean realizaPagamentoImpostoCirculacao(String matricula, int custo) {
         if (custo <= 0 || matricula.isEmpty()) {
             return false;
         }
@@ -125,7 +126,7 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        return veiculo.RealizaPagamentoImpostoCirculacao(custo);
+        return veiculo.realizaPagamentoImpostoCirculacao(custo);
 
     }
 
@@ -139,15 +140,15 @@ public class Frota implements Constantes, Serializable {
             return false;
         }
 
-        return veiculo.RealizaInspecao(custo);
+        return veiculo.realizaInspecao(custo);
 
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     public Veiculo pesquisaVeiculo(String matricula) {
-        for (Veiculo v : veiculos) {
-            if (v.matricula.equals(matricula)) {
-                return v;
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.matricula.equals(matricula)) {
+                return veiculo;
             }
         }
         return null;
@@ -156,9 +157,9 @@ public class Frota implements Constantes, Serializable {
     public List<Evento> getEventosTotal() {
         List<Evento> allEventos = new ArrayList<>();
 
-        for (Veiculo v : veiculos) {
-            for (Evento e : v.eventos) {
-                allEventos.add(e);
+        for (Veiculo veiculo : veiculos) {
+            for (Evento evento : veiculo.eventos) {
+                allEventos.add(evento);
             }
         }
         return allEventos;
@@ -166,7 +167,6 @@ public class Frota implements Constantes, Serializable {
 
     private void guardarFrotaBD() throws IOException {
         ObjectOutputStream oout = null;
-
         try {
             oout = new ObjectOutputStream(new FileOutputStream(BD_FROTA_BIN));
             oout.writeObject(this);
@@ -183,12 +183,14 @@ public class Frota implements Constantes, Serializable {
 
         try {
             oin = new ObjectInputStream(new FileInputStream(BD_FROTA_BIN));
-            Frota f = (Frota) oin.readObject();
-            return f.veiculos;
+            Frota frota = (Frota) oin.readObject();
+            return frota.veiculos;
         } finally {
             if (oin != null) {
                 oin.close();
             }
         }
     }
+
+    
 }

@@ -13,8 +13,8 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     //Dados introduzidos
     protected String matricula;
-    protected int KmReais;
-    protected int KmMensais;
+    protected int kmReais;
+    protected int kmMensais;
     protected Seguro seguro;
 
     //Dados vindos da BD
@@ -28,10 +28,10 @@ abstract public class Veiculo implements Constantes, Serializable {
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
 
-    public Veiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
+    public Veiculo(String matricula, int kmReais, int kmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro) {
         this.matricula = matricula;
-        this.KmReais = KmReais;
-        this.KmMensais = KmMensais;
+        this.kmReais = kmReais;
+        this.kmMensais = kmMensais;
         this.seguro = new Seguro(seguradora, dataRegistoSeguro, custoAnualSeguro);
         this.eventos = new ArrayList<>();
 
@@ -39,20 +39,20 @@ abstract public class Veiculo implements Constantes, Serializable {
         getDadosMatricula(matricula);
 
         //criar eventos
-        CalculaProximaPagementoImpostoCirculaçao();
-        CalcularProximaDataDePagamentoSeguro();
-        CalculaProximaInspecao();
-        CalcularProximaMudancaOleo();
-        CalcularProximaMudancaDeCorreia();
+        calcularProximaDataPagamentoImpostoCirculacao();
+        calcularProximaDataDePagamentoSeguro();
+        calcularProximaDataInspecao();
+        calcularProximaDataMudancaOleo();
+        calcularProximaDataMudancaDeCorreia();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
     public int getKmReais() {
-        return KmReais;
+        return kmReais;
     }
 
     public int getKmMensais() {
-        return KmMensais;
+        return kmMensais;
     }
 
     public String getMatricula() {
@@ -64,7 +64,7 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     public void setKmReais(int KmReais) {
-        this.KmReais = KmReais;
+        this.kmReais = KmReais;
     }
 
     public void setSeguro(Seguro seguro) {
@@ -72,15 +72,15 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////CALCULAR
-    private boolean CalculaProximaPagementoImpostoCirculaçao() {
+    private boolean calcularProximaDataPagamentoImpostoCirculacao() {
         return eventos.add(new Evento(getDataComMaisUmAno(dataRegistoMatricula), PAGAMENTO_IMPOSTO, matricula, TipoEvento.OBRIGACOES));
     }
 
-    private boolean CalcularProximaDataDePagamentoSeguro() {
+    private boolean calcularProximaDataDePagamentoSeguro() {
         return eventos.add(new Evento(getDataComMaisUmAno(seguro.dataRegisto), PAGAMENTO_SEGURO, matricula, TipoEvento.OBRIGACOES));
     }
 
-    private boolean CalculaProximaInspecao() {
+    private boolean calcularProximaDataInspecao() {
         LocalDate proxData = getDataProximaInspecao();
         //Aqui é necessário verificar se a data da proxima ispeção vem a null. Uma vez que se o veiculo for uma moto com menos de 250cc não é necessário criar um evento.
         if (proxData != null) {
@@ -89,75 +89,75 @@ abstract public class Veiculo implements Constantes, Serializable {
         return false;
     }
 
-    private boolean CalcularProximaMudancaOleo() {
-        int kmsNecessarios = KmReais + intervaloKmsOleo, nMeses = 0, aux = KmReais;
+    private boolean calcularProximaDataMudancaOleo() {
+        int kmsNecessarios = kmReais + intervaloKmsOleo, nMeses = 0, aux = kmReais;
         while (aux <= kmsNecessarios) {
-            aux += (nMeses++) * KmMensais;
+            aux += (nMeses++) * kmMensais;
         }
         return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.MANUTENCOES));
     }
 
-    private boolean CalcularProximaMudancaDeCorreia() {
-        int kmsNecessarios = KmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = KmReais;
+    private boolean calcularProximaDataMudancaDeCorreia() {
+        int kmsNecessarios = kmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = kmReais;
         while (aux <= kmsNecessarios) {
-            aux += (nMeses++) * KmMensais;
+            aux += (nMeses++) * kmMensais;
         }
         return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public boolean RealizaMudancaOleo(int custo) {
-        Evento aux = PesquisaEvento(MUDANCA_OLEO);
+    public boolean realizaMudancaOleo(int custo) {
+        Evento evento = pesquisaEvento(MUDANCA_OLEO);
 
-        if (aux != null && !aux.isCheck()) {
-            aux.setCheck(true);
-            aux.setCusto(custo);
-            return CalcularProximaMudancaOleo();
+        if (evento != null && !evento.isCheck()) {
+            evento.setCheck(true);
+            evento.setCusto(custo);
+            return calcularProximaDataMudancaOleo();
         }
         return false;
     }
 
-    public boolean RealizaPagamentoSeguro() {
+    public boolean realizaPagamentoSeguro() {
 
-        Evento aux = PesquisaEvento(PAGAMENTO_SEGURO);
+        Evento evento = pesquisaEvento(PAGAMENTO_SEGURO);
 
-        if (aux != null && !aux.isCheck()) {
-            aux.setCheck(true);
-            aux.setCusto(seguro.custoAnual);
-            return CalcularProximaDataDePagamentoSeguro();
+        if (evento != null && !evento.isCheck()) {
+            evento.setCheck(true);
+            evento.setCusto(seguro.custoAnual);
+            return calcularProximaDataDePagamentoSeguro();
         }
         return false;
     }
 
-    public boolean RealizaMudancaDeCorreia(int custo) {
-        Evento aux = PesquisaEvento(MUDANCA_CORREIA);
+    public boolean realizaMudancaDeCorreia(int custo) {
+        Evento evento = pesquisaEvento(MUDANCA_CORREIA);
 
-        if (aux != null && !aux.isCheck()) {
-            aux.setCheck(true);
-            aux.setCusto(custo);
-            return CalcularProximaMudancaDeCorreia();
+        if (evento != null && !evento.isCheck()) {
+            evento.setCheck(true);
+            evento.setCusto(custo);
+            return calcularProximaDataMudancaDeCorreia();
         }
         return false;
     }
 
-    public boolean RealizaPagamentoImpostoCirculacao(int custo) {
-        Evento aux = PesquisaEvento(PAGAMENTO_IMPOSTO);
+    public boolean realizaPagamentoImpostoCirculacao(int custo) {
+        Evento evento = pesquisaEvento(PAGAMENTO_IMPOSTO);
 
-        if (aux != null && !aux.isCheck()) {
-            aux.setCheck(true);
-            aux.setCusto(custo);
-            return CalculaProximaPagementoImpostoCirculaçao();
+        if (evento != null && !evento.isCheck()) {
+            evento.setCheck(true);
+            evento.setCusto(custo);
+            return calcularProximaDataPagamentoImpostoCirculacao();
         }
         return false;
     }
 
-    public boolean RealizaInspecao(int custo) {
-        Evento aux = PesquisaEvento(INSPECAO);
+    public boolean realizaInspecao(int custo) {
+        Evento evento = pesquisaEvento(INSPECAO);
 
-        if (aux != null && !aux.isCheck()) {
-            aux.setCheck(true);
-            aux.setCusto(custo);
-            return CalculaProximaInspecao();
+        if (evento != null && !evento.isCheck()) {
+            evento.setCheck(true);
+            evento.setCusto(custo);
+            return calcularProximaDataInspecao();
         }
         return false;
     }
@@ -165,9 +165,7 @@ abstract public class Veiculo implements Constantes, Serializable {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     protected LocalDate getDataComMaisUmAno(LocalDate data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
-
         return LocalDate.of(LocalDate.now().getYear() + UM_ANO, data.getMonthValue(), data.getDayOfMonth());
-
     }
 
     abstract protected LocalDate getDataProximaInspecao();
@@ -199,9 +197,7 @@ abstract public class Veiculo implements Constantes, Serializable {
                     }
                     intervaloKmsOleo = Integer.parseInt(sc.next());
                     cilindrada = Integer.parseInt(sc.next());
-
                     return true;
-                
             }
         }
 
@@ -216,20 +212,20 @@ abstract public class Veiculo implements Constantes, Serializable {
 return false;
     }
 
-    private Evento PesquisaEvento(String Nome) {
+    private Evento pesquisaEvento(String nome) {
         for (Evento evento : eventos) {
-            if (evento.getDescricao().compareTo(Nome) == 0) {
+            if (evento.getDescricao().compareTo(nome) == 0) {
                 return evento;
             }
         }
         return null;
     }
 
-    private List<Evento> ListarEventos() {
+    private List<Evento> listarEventos() {
         return eventos;
     }
 
-    private boolean CriarEvento(Evento evento) {
+    private boolean criarEvento(Evento evento) {
         if (evento != null) {
             return eventos.add(evento);
         }
@@ -242,8 +238,8 @@ return false;
         s += "Matricula: " + matricula + " " + dataRegistoMatricula;
         s += "\nMarca: " + marca;
         s += "\nModelo: " + modelo;
-        s += "\nKmReais: " + KmReais;
-        s += "\nKmMensais: " + KmMensais;
+        s += "\nKmReais: " + kmReais;
+        s += "\nKmMensais: " + kmMensais;
         
           switch (this.tipoVeiculo) {
                         case LIGEIRO:
