@@ -35,8 +35,12 @@ public class Custo {
             @Override
             public void handle(ActionEvent event) {
                 if (!text.getText().trim().equals("")) {
-                    value = Double.parseDouble(text.getText());
-                    window.close();
+                    try {
+                        value = Double.parseDouble(text.getText());
+                        window.close();
+                    } catch (NumberFormatException e) {
+                        Alert.display("Alerta", "Tem que introduzir um número!");
+                    }
                 }
             }
         });
