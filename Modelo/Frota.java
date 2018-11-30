@@ -30,7 +30,7 @@ public class Frota implements Constantes, Serializable {
             System.exit(1);
         }
 
-
+    }
     /////////////////////////////////////////////////REGISTAR VEICULO
     public boolean RegistaVeiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro, TipoVeiculo tipo) {
         switch (tipo) {
