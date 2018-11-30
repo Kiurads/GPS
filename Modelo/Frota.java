@@ -14,14 +14,12 @@ import java.util.List;
 
 public class Frota implements Constantes, Serializable {
 
-    List<Veiculo> veiculos=new ArrayList<>();
 
+    List<Veiculo> veiculos = new ArrayList<>();
 
     public Frota() {
-
         try {
             this.veiculos = getFrotaBD(BD_FROTA_BIN);
-
         } catch (IOException ex) {
 //            try {
 //                guardarFrotaBD(BD_FROTA_BIN);
@@ -33,22 +31,22 @@ public class Frota implements Constantes, Serializable {
         }
 
 
-    }
-
     /////////////////////////////////////////////////REGISTAR VEICULO
-        public boolean RegistaVeiculo(String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, double custoAnualSeguro,TipoVeiculo tipo){
-        
-        switch(tipo){
+    public boolean RegistaVeiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro, TipoVeiculo tipo) {
+        switch (tipo) {
             case LIGEIRO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
-               return true;
+                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
+                return true;
             case MOTOCICLO:
-               veiculos.add(new Ligeiro(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
                 return true;
             case PESADO:
-               veiculos.add(new Pesado(matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, custoAnualSeguro));
+                veiculos.add(new Pesado(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
                 return true;
-               
+            default:
+                break;
+
+
         }
         return false;
     }
@@ -67,6 +65,7 @@ public class Frota implements Constantes, Serializable {
     @Override
     public String toString() {
         String s = "";
+        if (veiculos.size() == 0) s = "Sem veículos";
         for (Veiculo v : veiculos) {
             s += v.toString() + "\n\n";
         }
@@ -146,15 +145,26 @@ public class Frota implements Constantes, Serializable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
-    private Veiculo pesquisaVeiculo(String matricula) {
+    public Veiculo pesquisaVeiculo(String valor) {
         for (Veiculo v : veiculos) {
-            if (v.matricula.equals(matricula)) {
+            if (v.matricula.equals(valor) || v.nome.equals(valor)) {
                 return v;
             }
         }
         return null;
     }
-
+    
+    public List<Evento> getEventosTotal() {
+        List<Evento> allEventos = new ArrayList<>();
+        
+        for (Veiculo v : veiculos) {
+            for (Evento e : v.eventos) {
+                allEventos.add(e);
+            }
+        }
+        return allEventos;
+    }
+    
     private void guardarFrotaBD(String nomeFicheiro) throws IOException {
         ObjectOutputStream oout = null;
 

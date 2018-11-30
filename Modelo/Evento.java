@@ -17,6 +17,7 @@ public class Evento implements Constantes, Serializable {
         this.descricao = Descricao;
         this.matricula=matricula;
         this.tipoEvento=tipoevento;
+        this.custo=0;
     }
 
     public String getDescricao() {

@@ -1,5 +1,8 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Ligeiro;
+import GPS.Modelo.Motociclo;
+import GPS.Modelo.Pesado;
 import GPS.Modelo.Veiculo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
 public class Adicionar implements BibliotecaInterface {
@@ -49,39 +53,39 @@ public class Adicionar implements BibliotecaInterface {
         }
 
         switch (tipo.getValue().toString()) {
-            case "Automóvel":
-                /*veiculo = new Automovel(matricula.getText(),
-                        DateUtils.asDate(registomatricula.getValue()),
+            case "Motociclo":
+                veiculo = new Motociclo(nome.getText(),
+                        matricula.getText(),
                         Integer.parseInt(kmreais.getText()),
                         Integer.parseInt(kmmensais.getText()),
                         seguradora.getText(),
-                        DateUtils.asDate(registoseguro.getValue()));*/
-                break;
-            case "Mota":
-                /*veiculo = new Mota(matricula.getText(),
-                        registomatricula.getValue(),
-                        Integer.parseInt(kmreais.getText()),
-                        Integer.parseInt(kmmensais.getText()),
-                        seguradora.getText(),
-                        registoseguro.getValue());*/
+                        registoseguro.getValue(),
+                        tiposeguro.getText(),
+                        getCilindrada());
                 break;
             case "Pesado":
-                /*veiculo = new Pesado(matricula.getText(),
-                        registomatricula.getValue(),
+                veiculo = new Pesado(nome.getText(),
+                        matricula.getText(),
                         Integer.parseInt(kmreais.getText()),
                         Integer.parseInt(kmmensais.getText()),
                         seguradora.getText(),
-                        registoseguro.getValue());*/
+                        registoseguro.getValue(),
+                        tiposeguro.getText());
                 break;
             case "Ligeiro":
-                /*veiculo = new Mota(matricula.getText(),
-                        registomatricula.getValue(),
+                veiculo = new Ligeiro(nome.getText(),
+                        matricula.getText(),
                         Integer.parseInt(kmreais.getText()),
                         Integer.parseInt(kmmensais.getText()),
                         seguradora.getText(),
-                        registoseguro.getValue());*/
+                        registoseguro.getValue(),
+                        tiposeguro.getText());
                 break;
         }
+    }
+
+    private int getCilindrada() {
+        return 0;
     }
 
     private boolean everyFieldIsValid() {

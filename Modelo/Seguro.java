@@ -6,13 +6,13 @@ import java.time.LocalDate;
 public class Seguro implements Constantes, Serializable{
 
     String seguradora;
+    String tipo;
     LocalDate dataRegisto;
-    double custoAnual;
 
-    public Seguro(String Seguradora, LocalDate dataRegito, double custoAnual) {
+    public Seguro(String Seguradora, String tipo, LocalDate dataRegito) {
         this.seguradora = Seguradora;
+        this.tipo = tipo;
         this.dataRegisto = dataRegito;
-        this.custoAnual = custoAnual;
     }
 
     public LocalDate getDataRegisto() {
@@ -23,13 +23,9 @@ public class Seguro implements Constantes, Serializable{
         return seguradora;
     }
 
-    public double getCustoAnual() {
-        return custoAnual;
-    }
-
     @Override
     public String toString() {
-        String s = "\nSeguradora: " + seguradora + " Data: "+ dataRegisto+ " " + "Montante Anual:" + custoAnual;
+        String s = "Seguradora: " + seguradora + "\nData: "+ dataRegisto+ " " + "\nTipo: " + tipo;
         return s;
     }
 
