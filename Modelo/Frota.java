@@ -1,7 +1,6 @@
 package GPS.Modelo;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,44 +11,17 @@ public class Frota implements Constantes, Serializable {
         try {
             this.veiculos = getFrotaBD(BD_FROTA_BIN);
         } catch (IOException ex) {
-//            try {
-//                guardarFrotaBD(BD_FROTA_BIN);
-//            } catch (IOException ex1) {
-//                System.exit(1);
-//            }
+            try {
+                guardarFrotaBD(BD_FROTA_BIN);
+            } catch (IOException ex1) {
+                System.exit(1);
+            }
         } catch (ClassNotFoundException ex) {
             System.exit(1);
         }
     }
 
     /////////////////////////////////////////////////REGISTAR VEICULO
-    public boolean RegistaVeiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro, TipoVeiculo tipo) {
-        switch (tipo) {
-            case LIGEIRO:
-                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
-                try {
-                    guardarFrotaBD(BD_FROTA_BIN);
-                } catch (IOException ignore) {}
-                return true;
-            case MOTOCICLO:
-                veiculos.add(new Ligeiro(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
-                try {
-                    guardarFrotaBD(BD_FROTA_BIN);
-                } catch (IOException ignore) {}
-                return true;
-            case PESADO:
-                veiculos.add(new Pesado(nome, matricula, KmReais, KmMensais, seguradora, dataRegistoSeguro, tipoSeguro));
-                try {
-                    guardarFrotaBD(BD_FROTA_BIN);
-                } catch (IOException ignore) {}
-                return true;
-            default:
-                break;
-
-        }
-        return false;
-    }
-
     public void RegistaVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
         try {
@@ -66,17 +38,6 @@ public class Frota implements Constantes, Serializable {
             return true;
         }
         return false;
-    }
-
-    /////////////////////////////////////////////////lISTAR VEICULOS
-    @Override
-    public String toString() {
-        String s = "";
-        if (veiculos.size() == 0) s = "Sem veículos";
-        for (Veiculo v : veiculos) {
-            s += v.toString() + "\n\n";
-        }
-        return s;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
@@ -182,31 +143,29 @@ public class Frota implements Constantes, Serializable {
         return allEventos;
     }
     
-    private void guardarFrotaBD(String nomeFicheiro) throws IOException {
-        ObjectOutputStream oout = null;
+    public void guardarFrotaBD(String nomeFicheiro) throws IOException {
 
-        try {
-            oout = new ObjectOutputStream(new FileOutputStream(nomeFicheiro));
+        try (ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(nomeFicheiro))) {
             oout.writeObject(this);
-
-        } finally {
-            if (oout != null) {
-                oout.close();
-            }
         }
     }
 
     private List<Veiculo> getFrotaBD(String nomeFicheiro) throws FileNotFoundException, IOException, ClassNotFoundException {
-        ObjectInputStream oin = null;
 
-        try {
-            oin = new ObjectInputStream(new FileInputStream(nomeFicheiro));
+        try (ObjectInputStream oin = new ObjectInputStream(new FileInputStream(nomeFicheiro))) {
             Frota f = (Frota) oin.readObject();
             return f.veiculos;
-        } finally {
-            if (oin != null) {
-                oin.close();
-            }
         }
+    }
+
+    /////////////////////////////////////////////////lISTAR VEICULOS
+    @Override
+    public String toString() {
+        String s = "";
+        if (veiculos.size() == 0) s = "Sem veículos";
+        for (Veiculo v : veiculos) {
+            s += v.toString() + "\n\n";
+        }
+        return s;
     }
 }

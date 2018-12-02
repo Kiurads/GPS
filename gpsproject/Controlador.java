@@ -22,6 +22,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.time.YearMonth;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
@@ -62,7 +63,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
     public HBox calendarbox;
     public TextArea detailsdia;
 
-    private FullCalendarView calendarView;
     private Frota frota;
     private Veiculo veiculoSelecionado;
 
@@ -75,7 +75,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
         frota = new Frota();
 
-        calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
+        FullCalendarView calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
         calendarbox.getChildren().add(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
 
@@ -100,8 +100,8 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     private void initializeList() {
-        list.getItems().removeAll();
-        list.getItems().addAll(frota.getNomesVeiculos());
+        list.getItems().setAll(frota.getNomesVeiculos());
+        if(veiculoSelecionado != null) list.getSelectionModel().select(veiculoSelecionado.getNome());
 
         eventslist.setCellFactory(CheckBoxListCell.forListView((Callback<Evento, ObservableValue<Boolean>>) param -> {
             BooleanProperty observable = new SimpleBooleanProperty();
@@ -109,9 +109,9 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 if (!param.isCheck()) {
                     param.setCusto(getCusto());
                     param.setCheck(true);
-                }
 
-                updatePie();
+                    updatePie();
+                }
             }));
             return observable;
         }));
@@ -121,10 +121,14 @@ public class Controlador implements BibliotecaImagens, Constantes {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
         for (Evento e : veiculoSelecionado.getEventos()) {
-            pieData.add(new PieChart.Data(e.getDescricao(), e.getCusto()));
+            if (e.getCusto() > 0)
+                pieData.add(new PieChart.Data(e.getDescricao(), e.getCusto()));
         }
 
         pie.setData(pieData);
+        try {
+            frota.guardarFrotaBD(Constantes.BD_FROTA_BIN);
+        } catch (IOException ignored) {}
     }
 
     private double getCusto() {
@@ -133,13 +137,17 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void initializeListeners() {
         list.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setVeiculo((String) newValue));
-
     }
 
     private void setVeiculo(String veiculo) {
+        if(frota.pesquisaVeiculo(veiculo) == null) {
+            noneSelected();
+            return;
+        }
         veiculoSelecionado = frota.pesquisaVeiculo(veiculo);
         initializeFields();
-        eventslist.getItems().addAll(veiculoSelecionado.getEventos());
+        eventslist.getItems().setAll(veiculoSelecionado.getEventos());
+        updatePie();
         vehicleSelected();
     }
 
@@ -187,7 +195,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
             Alert.display("Alerta", "Verifique se os campos possuem dados válidos!");
             return;
         }
-
         veiculoSelecionado.altera(nome.getText(),
                 seguradora.getText(),
                 tiposeguro.getText(),
@@ -195,12 +202,10 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 Integer.parseInt(kmreais.getText()),
                 Integer.parseInt(kmmensais.getText()));
 
-        update();
-    }
-
-    private void update() {
+        try {
+            frota.guardarFrotaBD(Constantes.BD_FROTA_BIN);
+        } catch (IOException ignore) {}
         initializeList();
-        initializeFields();
     }
 
     private boolean everyFieldIsValid() {
@@ -229,6 +234,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     public void onAddButton(ActionEvent actionEvent) {
-        frota.RegistaVeiculo(Adicionar.getVeiculo());
+        //TODO adiciona veículo
     }
 }
