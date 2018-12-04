@@ -1,8 +1,8 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.*;
-import GPS.gpsproject.calendar.FullCalendarView;
 import GPS.gpsproject.Images.BibliotecaImagens;
+import GPS.gpsproject.calendar.FullCalendarView;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.List;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
@@ -45,6 +47,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
     public Button mecanica;
     public Button reparacoes;
     public Button manutencoes;
+    public Button addEvento;
     //Editar detalhes
     public VBox detalhes;
     public Button guardaalteracoes;
@@ -75,15 +78,17 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
         frota = new Frota();
 
-//        frota.RegistaVeiculo(new Ligeiro("Carro", "56-05-GH", 10000, 100, "Liberty", LocalDate.now(), "Todos os RiscosS"));
-
-        FullCalendarView calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
-        calendarbox.getChildren().add(calendarView.getView());
-        HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
+        startCalendar();
 
         noneSelected();
         initializeList();
         initializeListeners();
+    }
+
+    private void startCalendar() {
+        FullCalendarView calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
+        calendarbox.getChildren().add(calendarView.getView());
+        HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
     }
 
     private void initializeFields() {
@@ -161,6 +166,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         }
 
         pie.setData(pieData);
+        pie.setLabelsVisible(false);
         try {
             frota.guardarFrotaBD(Constantes.BD_FROTA_BIN);
         } catch (IOException ignored) {}
@@ -191,6 +197,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         addButton.setGraphic(new ImageView(plus));
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
+        addEvento.setGraphic(new ImageView(plus));
     }
 
     private void noneSelected() {
@@ -203,6 +210,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         mecanica.setVisible(false);
         reparacoes.setVisible(false);
         manutencoes.setVisible(false);
+        addEvento.setVisible(false);
         eliminateButton.setVisible(false);
     }
 
@@ -216,6 +224,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         mecanica.setVisible(true);
         reparacoes.setVisible(true);
         manutencoes.setVisible(true);
+        addEvento.setVisible(true);
         eliminateButton.setVisible(true);
     }
 
@@ -280,5 +289,61 @@ public class Controlador implements BibliotecaImagens, Constantes {
     public void onMensais(ActionEvent actionEvent) {
         monthly = true;
         updatePie();
+    }
+
+    public void onGerais(ActionEvent actionEvent) {
+        eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
+    }
+
+    public void onMecanica(ActionEvent actionEvent) {
+        List<Evento> tmpList = new ArrayList<>();
+
+        for (Evento e : veiculoSelecionado.getEventos()) {
+            if(e.getTipoEvento() == TipoEvento.MECANICA)
+                tmpList.add(e);
+        }
+
+        eventslist.setItems(FXCollections.observableArrayList(tmpList));
+    }
+
+    public void onReparacoes(ActionEvent actionEvent) {
+        List<Evento> tmpList = new ArrayList<>();
+
+        for (Evento e : veiculoSelecionado.getEventos()) {
+            if(e.getTipoEvento() == TipoEvento.REPARACAO)
+                tmpList.add(e);
+        }
+
+        eventslist.setItems(FXCollections.observableArrayList(tmpList));
+    }
+
+    public void onManutencoes(ActionEvent actionEvent) {
+        List<Evento> tmpList = new ArrayList<>();
+
+        for (Evento e : veiculoSelecionado.getEventos()) {
+            if(e.getTipoEvento() == TipoEvento.MANUTENCOES)
+                tmpList.add(e);
+        }
+
+        eventslist.setItems(FXCollections.observableArrayList(tmpList));
+    }
+
+    public void onEliminate(ActionEvent actionEvent) {
+        if(Confirm.display()) {
+            frota.EleminaVeiculo(veiculoSelecionado.getMatricula());
+
+            list.setItems(FXCollections.observableArrayList(frota.getNomesVeiculos()));
+        }
+    }
+
+    public void onAddEvento(ActionEvent actionEvent) {
+        AdicionaEvento.display(veiculoSelecionado);
+
+        eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
+        try {
+            frota.guardarFrotaBD(BD_FROTA_BIN);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

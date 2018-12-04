@@ -220,11 +220,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         return null;
     }
 
-    private List<Evento> ListarEventos() {
-        return eventos;
-    }
-
-    private boolean CriarEvento(Evento evento) {
+    public boolean CriarEvento(Evento evento) {
         if (evento != null) {
              return eventos.add(evento);
         }

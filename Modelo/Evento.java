@@ -8,6 +8,8 @@ public class Evento implements Constantes, Serializable {
     private String descricao;
     private String matricula;
     private TipoEvento tipoEvento;
+    private boolean notificado;
+    private int diasAntes;
     private boolean check;
     private double custo;
     
@@ -17,6 +19,20 @@ public class Evento implements Constantes, Serializable {
         this.matricula = matricula;
         this.tipoEvento = tipoevento;
         this.custo = 0;
+        diasAntes = 0;
+        notificado = true;
+    }
+
+    public Evento(LocalDate DataEvento, String Descricao,String matricula,TipoEvento tipoevento, String diasAntes) {
+        this.data = DataEvento;
+        this.descricao = Descricao;
+        this.matricula = matricula;
+        this.tipoEvento = tipoevento;
+        this.custo = 0;
+
+        for (int i = 0; i < tempos.length; i++) {
+            if (tempos[i].equals(diasAntes)) this.diasAntes = temposValores[i];
+        }
     }
 
     public String getDescricao() {
@@ -45,6 +61,18 @@ public class Evento implements Constantes, Serializable {
 
     public TipoEvento getTipoEvento() {
         return tipoEvento;
+    }
+
+    public boolean isNotificado() {
+        return notificado;
+    }
+
+    public void setNotificado(boolean notificado) {
+        this.notificado = notificado;
+    }
+
+    public int getDiasAntes() {
+        return diasAntes;
     }
 
     @Override

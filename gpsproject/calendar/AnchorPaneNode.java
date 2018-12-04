@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Create an anchor pane that can store additional data.
@@ -43,8 +44,10 @@ public class AnchorPaneNode extends AnchorPane {
     private String detalhaEventos() {
         String text = "";
 
+        eventos = eventos.stream().distinct().collect(Collectors.toList());
+
         for(Evento e : eventos) {
-            text += e.toString();
+            text += e.toString() + "\n";
         }
 
         return text;
@@ -60,5 +63,6 @@ public class AnchorPaneNode extends AnchorPane {
 
     public void setDate(LocalDate date) {
         this.date = date;
+        eventos = new ArrayList<>();
     }
 }
