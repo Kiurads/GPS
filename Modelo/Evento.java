@@ -43,6 +43,10 @@ public class Evento implements Constantes, Serializable {
         return data;
     }
 
+    public TipoEvento getTipoEvento() {
+        return tipoEvento;
+    }
+
     @Override
     public String toString() {
         String s;
@@ -50,12 +54,4 @@ public class Evento implements Constantes, Serializable {
         s = "" + data.getDayOfMonth() + '/' + data.getMonthValue() + '/' + data.getYear() + " - " + descricao;
         return s;
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }

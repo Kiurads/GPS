@@ -1,11 +1,8 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.Constantes;
-import GPS.Modelo.Evento;
-import GPS.Modelo.Frota;
-import GPS.Modelo.Veiculo;
+import GPS.Modelo.*;
 import GPS.gpsproject.calendar.FullCalendarView;
-import GPS.gpsproject.images.BibliotecaImagens;
+import GPS.gpsproject.Images.BibliotecaImagens;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
@@ -65,6 +64,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private Frota frota;
     private Veiculo veiculoSelecionado;
+    private boolean monthly;
 
     @FXML
     public void initialize() {
@@ -74,6 +74,8 @@ public class Controlador implements BibliotecaImagens, Constantes {
         registomatricula.setDayCellFactory(noFutureDates);
 
         frota = new Frota();
+
+//        frota.RegistaVeiculo(new Ligeiro("Carro", "56-05-GH", 10000, 100, "Liberty", LocalDate.now(), "Todos os RiscosS"));
 
         FullCalendarView calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
         calendarbox.getChildren().add(calendarView.getView());
@@ -119,10 +121,43 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void updatePie() {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+        int year = LocalDate.now().getYear();
+        double custosMeses[] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
-        for (Evento e : veiculoSelecionado.getEventos()) {
-            if (e.getCusto() > 0)
-                pieData.add(new PieChart.Data(e.getDescricao(), e.getCusto()));
+        if (monthly) {
+            for (Evento e : veiculoSelecionado.getEventos()) {
+                custosMeses[e.getData().getMonthValue() - 1] += e.getCusto();
+            }
+
+            for (Month m : Month.values()) {
+                if (custosMeses[m.getValue() - 1] > 0) {
+                    pieData.add(new PieChart.Data(m.toString(), custosMeses[m.getValue() - 1]));
+                }
+            }
+        } else {
+            double custos[] = new double[4];
+
+            for (Evento e : veiculoSelecionado.getEventos()) {
+                switch (e.getTipoEvento()) {
+                    case MECANICA:
+                        custos[0] += e.getCusto();
+                        break;
+                    case REPARACAO:
+                        custos[1] += e.getCusto();
+                        break;
+                    case OBRIGACOES:
+                        custos[2] += e.getCusto();
+                        break;
+                    case MANUTENCOES:
+                        custos[3] += e.getCusto();
+                        break;
+                }
+            }
+
+            pieData.add(new PieChart.Data("Mecânica", custos[0]));
+            pieData.add(new PieChart.Data("Reparação", custos[1]));
+            pieData.add(new PieChart.Data("Obrigações", custos[2]));
+            pieData.add(new PieChart.Data("Manutenções", custos[3]));
         }
 
         pie.setData(pieData);
@@ -235,5 +270,15 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     public void onAddButton(ActionEvent actionEvent) {
         //TODO adiciona veículo
+    }
+
+    public void onCategoria(ActionEvent actionEvent) {
+        monthly = false;
+        updatePie();
+    }
+
+    public void onMensais(ActionEvent actionEvent) {
+        monthly = true;
+        updatePie();
     }
 }

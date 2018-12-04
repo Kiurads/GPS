@@ -1,15 +1,13 @@
 package GPS.gpsproject;
 
-import GPS.gpsproject.images.BibliotecaImagens;
-import GPS.gpsproject.sounds.BibliotecaSons;
+import GPS.gpsproject.Images.BibliotecaImagens;
+import GPS.gpsproject.Sounds.BibliotecaSons;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

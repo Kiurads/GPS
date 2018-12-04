@@ -22,9 +22,9 @@ public interface Constantes {
 
 
 
-    public final String BD_MATRICULAS_TXT = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\ficheiros\\BD.txt";
+    public final String BD_MATRICULAS_TXT = "F:\\Users\\guicu\\Desktop\\MEGA\\Java\\GPS_TP\\src\\GPS\\Modelo\\Files\\BD.txt";
 
-    public final String BD_FROTA_BIN = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\ficheiros\\BD_Frota.dat";
+    public final String BD_FROTA_BIN = "F:\\Users\\guicu\\Desktop\\MEGA\\Java\\GPS_TP\\src\\GPS\\Modelo\\Files\\BD_Frota.dat";
 
     
     public final int UM_ANO = 1;

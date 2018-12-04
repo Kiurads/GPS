@@ -52,8 +52,8 @@
                                     <PieChart fx:id="pie" title="Custos" VBox.vgrow="ALWAYS" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                                        <children>
-                                          <Button fx:id="categoria" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Por categoria" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="mensais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mensais" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="categoria" onAction="#onCategoria" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Por categoria" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="mensais" onAction="#onMensais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mensais" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
