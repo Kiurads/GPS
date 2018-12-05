@@ -82,6 +82,8 @@ public class Controlador implements BibliotecaImagens, Constantes {
             System.exit(2);
         }
 
+        frota.RegistaVeiculo(new Ligeiro("A", "09-23-TX", 10000, 100, "Liberty", LocalDate.now(),"Todos"));
+
         startCalendar();
 
         noneSelected();
@@ -118,9 +120,8 @@ public class Controlador implements BibliotecaImagens, Constantes {
             BooleanProperty observable = new SimpleBooleanProperty();
             observable.addListener(((observable1, oldValue, newValue) -> {
                 if (!param.isCheck()) {
-                    param.setCusto(getCusto());
-                    param.setCheck(true);
-
+                    veiculoSelecionado.realizaEvento(param, getCusto());
+                    eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
                     updatePie();
                 }
             }));
@@ -202,6 +203,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         updateAll.setGraphic(new ImageView(refresh));
         guardaalteracoes.setGraphic(new ImageView(check));
         addEvento.setGraphic(new ImageView(plus));
+        addEvento.setTooltip(new Tooltip("Adicionar evento"));
     }
 
     private void noneSelected() {
@@ -240,7 +242,9 @@ public class Controlador implements BibliotecaImagens, Constantes {
         }
 
         if (!everyFieldIsValid()) {
-            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!");
+            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n\n" +
+                    "- Kilómetros reais entre 1 e 1,000,000\n" +
+                    "- Kilómetros mensais entre 1 e 10,000");
             return;
         }
         veiculoSelecionado.altera(nome.getText(),
@@ -261,7 +265,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
             int kms = Integer.parseInt(kmmensais.getText());
             int kmsr = Integer.parseInt(kmreais.getText());
 
-            if(kms <= 0 || kmsr <= 0)
+            if(kms <= 0 || kmsr <= 0 || kms > 10000 || kmsr > 1000000)
                 return false;
         } catch(NumberFormatException | NullPointerException e) {
             return false;
