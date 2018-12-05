@@ -13,7 +13,7 @@ public class Evento implements Constantes, Serializable {
     private boolean check;
     private double custo;
     
-    public Evento(LocalDate DataEvento, String Descricao,String matricula,TipoEvento tipoevento) {
+    public Evento(LocalDate DataEvento, String Descricao, String matricula, TipoEvento tipoevento) {
         this.data = DataEvento;
         this.descricao = Descricao;
         this.matricula = matricula;
