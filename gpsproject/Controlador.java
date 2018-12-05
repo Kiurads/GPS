@@ -77,12 +77,11 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
         try {
             frota = new Frota();
-            frota.RegistaVeiculo(new Ligeiro("Carros 3", "09-23-TX", 100000, 100, "Liberty", LocalDate.of(2006,05,24), "Todos os Riscos"));
         } catch (IOException e) {
             System.exit(2);
         }
 
-        frota.RegistaVeiculo(new Ligeiro("A", "09-23-TX", 10000, 100, "Liberty", LocalDate.now(),"Todos"));
+        frota.RegistaVeiculo(new Ligeiro("A", "09-23-TX", 299999, 100, "Liberty", LocalDate.now(),"Todos"));
 
         startCalendar();
 

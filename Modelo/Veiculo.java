@@ -121,8 +121,25 @@ abstract public class Veiculo implements Constantes, Serializable {
 //            aux += (nMeses++) * kmMensais;
 //        }
 //        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+        int kmsNecessarios = 0, nMeses = 0, aux = kmReais;
 
-
+        for (int i = 1; i <= 10; i++) {
+            if (kmReais < KMS_NECESSARIOS_MUDANCA_CORREIA * i) {
+                kmsNecessarios = KMS_NECESSARIOS_MUDANCA_CORREIA * i;
+                break;
+            }
+        }
+        System.out.println("necessarios="+kmsNecessarios + "  reais="+kmReais);
+        
+        if((kmReais+kmMensais > kmsNecessarios))
+            return eventos.add(new Evento(LocalDate.of(LocalDate.now().getYear(),LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+        
+        while (aux < kmsNecessarios) {
+            aux += kmMensais;
+            nMeses++;
+        }
+        System.out.println("meses="+nMeses);
+        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
@@ -150,7 +167,7 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     @Override
-        public String toString() {
+    public String toString() {
         String s = "";
         s += "Matricula: " + matricula + " " + dataRegistoMatricula + "\n";
         s += "Modelo: " + modelo + "\n";
