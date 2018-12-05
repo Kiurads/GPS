@@ -1,7 +1,7 @@
 package GPS.gpsproject;
 
-import GPS.gpsproject.Images.BibliotecaImagens;
 import GPS.gpsproject.Sounds.BibliotecaSons;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

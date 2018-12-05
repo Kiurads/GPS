@@ -1,7 +1,7 @@
 package GPS.Modelo.Notification;
 
-import GPS.gpsproject.Images.BibliotecaImagens;
 import GPS.gpsproject.Sounds.BibliotecaSons;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;

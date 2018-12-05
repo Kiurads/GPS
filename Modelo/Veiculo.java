@@ -129,8 +129,6 @@ abstract public class Veiculo implements Constantes, Serializable {
                 break;
             }
         }
-        System.out.println("necessarios="+kmsNecessarios + "  reais="+kmReais);
-        
         if((kmReais+kmMensais > kmsNecessarios))
             return eventos.add(new Evento(LocalDate.of(LocalDate.now().getYear(),LocalDate.now().getMonthValue(), LocalDate.now().lengthOfMonth()), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
         
@@ -138,7 +136,6 @@ abstract public class Veiculo implements Constantes, Serializable {
             aux += kmMensais;
             nMeses++;
         }
-        System.out.println("meses="+nMeses);
         return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 

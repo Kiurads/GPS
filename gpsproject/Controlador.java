@@ -1,8 +1,8 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.*;
-import GPS.gpsproject.Images.BibliotecaImagens;
 import GPS.gpsproject.calendar.FullCalendarView;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -75,11 +75,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         registoseguro.setDayCellFactory(noFutureDates);
         registomatricula.setDayCellFactory(noFutureDates);
 
-        try {
-            frota = new Frota();
-        } catch (IOException e) {
-            System.exit(2);
-        }
+        frota = new Frota();
 
         startCalendar();
 
@@ -124,6 +120,30 @@ public class Controlador implements BibliotecaImagens, Constantes {
             }));
             return observable;
         }));
+
+        list.setCellFactory(param -> new ListCell<String>() {
+            private ImageView imageView = new ImageView();
+            @Override
+            public void updateItem(String name, boolean empty) {
+                super.updateItem(name, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    if (frota.pesquisaVeiculo(name) instanceof Ligeiro) {
+                        imageView.setImage(car);
+                    }
+                    if (frota.pesquisaVeiculo(name) instanceof Motociclo) {
+                        imageView.setImage(moto);
+                    }
+                    if (frota.pesquisaVeiculo(name) instanceof Pesado) {
+                        imageView.setImage(truck);
+                    }
+                    setText(name);
+                    setGraphic(imageView);
+                }
+            }
+        });
     }
 
     private void updatePie() {
@@ -364,5 +384,10 @@ public class Controlador implements BibliotecaImagens, Constantes {
         }
 
         startCalendar();
+    }
+
+    public void onUpdateAll() {
+        Altera.display(frota);
+        setVeiculo(veiculoSelecionado.getNome());
     }
 }

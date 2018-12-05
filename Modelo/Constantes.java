@@ -23,8 +23,8 @@ public interface Constantes {
     String[] tempos = {"Uma semana antes", "2 dias antes", "1 dia antes", "No próprio dia"};
     int[] temposValores = {7, 2, 1, 0};
 
-    String BD_MATRICULAS_TXT = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\Modelo\\BDs\\BD.txt";
-    String BD_FROTA_BIN = "C:\\Users\\cristiano\\Documents\\NetBeansProjects\\GPSPROjecT\\src\\GPS\\Modelo\\BDs\\BD_Frota.dat";
+    String BD_MATRICULAS_TXT = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\BDs\\BD.txt";
+    String BD_FROTA_BIN = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\BDs\\BD_Frota.dat";
 
 //    File BD_MATRICULAS_TXT = new File("GPS/Modelo/BDs/BD.txt");
 //    File BD_FROTA_BIN = new File("GPS/Modelo/BDs/BD_Frota.dat");

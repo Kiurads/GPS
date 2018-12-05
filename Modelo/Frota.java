@@ -9,12 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Frota extends Thread implements Constantes, Serializable {
+public class Frota implements Constantes, Serializable {
 
-    List<Veiculo> veiculos = new ArrayList<>();
-    Notifica notifica;
+    private List<Veiculo> veiculos = new ArrayList<>();
 
-    public Frota() throws IOException {
+    public Frota() {
         try {
             this.veiculos = getFrotaBD();
         } catch (ClassNotFoundException ex) {
@@ -22,8 +21,6 @@ public class Frota extends Thread implements Constantes, Serializable {
         } catch (IOException ex) {
             criaBD();
         }
-        notifica = new Notifica(veiculos);
-        notifica.start();
     }
 
     private void criaBD() {
@@ -129,6 +126,10 @@ public class Frota extends Thread implements Constantes, Serializable {
             Frota frota = (Frota) oin.readObject();
             return frota.veiculos;
         }
+    }
+
+    public List<Veiculo> getVeiculos() {
+        return veiculos;
     }
 }
 

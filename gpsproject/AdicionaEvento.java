@@ -3,12 +3,13 @@ package GPS.gpsproject;
 import GPS.Modelo.Constantes;
 import GPS.Modelo.Evento;
 import GPS.Modelo.Veiculo;
-import GPS.gpsproject.Images.BibliotecaImagens;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,6 +51,9 @@ public class AdicionaEvento implements BibliotecaImagens, Constantes {
         });
 
         data.setDayCellFactory(noPastDates);
+
+        confirmar.setGraphic(new ImageView(check));
+        cancelar.setGraphic(new ImageView(cross));
 
         confirmar.setOnAction(event -> {
             if(!nome.getText().trim().equals("") && data.getValue() != null && tipo.getValue() != null) {

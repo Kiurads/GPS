@@ -1,6 +1,7 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.*;
+import GPS.gpsproject.images.BibliotecaImagens;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -16,7 +18,7 @@ import java.io.IOException;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
-public class Adicionar implements Constantes {
+public class Adicionar implements Constantes, BibliotecaImagens {
     private static Veiculo veiculo;
 
     public static Veiculo display() {
@@ -57,11 +59,17 @@ public class Adicionar implements Constantes {
         Button cancelar = (Button) scene.lookup("#cancelar");
 
         matricula.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!Frota.getExists(matricula.getText())) Alert.display("Alerta", "Introduza uma matrícula válida");
-            else Frota.preencheDados(matricula.getText(), modelo, tipo, registoMatricula);
+            if (Frota.getExists(matricula.getText())) Frota.preencheDados(matricula.getText(), modelo, tipo, registoMatricula);
+        });
+
+        matricula.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!Frota.getExists(matricula.getText()) && !matricula.isFocused()) Alert.display("Alerta", "A matrícula inerida não é válida!");
         });
 
         registoSeguro.setDayCellFactory(noFutureDates);
+
+        confirmar.setGraphic(new ImageView(check));
+        cancelar.setGraphic(new ImageView(cross));
 
         confirmar.setOnAction(event -> {
             if(!nome.getText().trim().equals("") &&
@@ -78,7 +86,7 @@ public class Adicionar implements Constantes {
                     int kmsr = Integer.parseInt(kmReais.getText());
 
                     if(kms <= 0 || kmsr <= 0 || kms > 10000 || kmsr > 1000000) {
-                        Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n\n" +
+                        Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n" +
                                 "- Kilómetros reais entre 1 e 1,000,000\n" +
                                 "- Kilómetros mensais entre 1 e 10,000");
                     } else {
