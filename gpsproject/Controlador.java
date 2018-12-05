@@ -1,9 +1,6 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.Constantes;
-import GPS.Modelo.Evento;
-import GPS.Modelo.Frota;
-import GPS.Modelo.Veiculo;
+import GPS.Modelo.*;
 import GPS.gpsproject.Images.BibliotecaImagens;
 import GPS.gpsproject.calendar.FullCalendarView;
 import javafx.beans.property.BooleanProperty;
@@ -93,7 +90,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void startCalendar() {
         FullCalendarView calendarView = new FullCalendarView(YearMonth.now(), detailsdia, frota.getEventosTotal());
-        calendarbox.getChildren().add(calendarView.getView());
+        calendarbox.getChildren().setAll(calendarView.getView());
         HBox.setHgrow(calendarView.getView(), Priority.ALWAYS);
     }
 
@@ -340,6 +337,12 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
             list.setItems(FXCollections.observableArrayList(frota.getNomesVeiculos()));
         }
+
+        try {
+            frota.guardarFrotaBD();
+        } catch (IOException e) {
+            System.exit(3);
+        }
     }
 
     public void onAddEvento() {
@@ -351,5 +354,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        startCalendar();
     }
 }

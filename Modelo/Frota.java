@@ -15,13 +15,23 @@ public class Frota implements Constantes, Serializable {
     public Frota() throws IOException {
         try {
             this.veiculos = getFrotaBD();
-        } catch (IOException ex) {
-             System.exit(3);
         } catch (ClassNotFoundException ex) {
             System.exit(4);
+        } catch (IOException ex) {
+            criaBD();
         }
     }
 
+    private void criaBD() {
+        File bd = new File(BD_FROTA_BIN);
+
+        bd.getParentFile().mkdirs();
+        try {
+            bd.createNewFile();
+        } catch (IOException e) {
+            System.exit(10);
+        }
+    }
 
 
     private void preencheDados(String matricula, TextField modelo, TextField tipo, DatePicker registo) {
@@ -32,7 +42,7 @@ public class Frota implements Constantes, Serializable {
                 String matriculaLida = sc.next();
                 if (matriculaLida.equals(matricula)) {
                     registo.setValue(LocalDate.of(sc.nextInt(), sc.nextInt(), sc.nextInt()));
-                    modelo.setText(sc.next() + sc.next());
+                    modelo.setText(sc.next() + " " + sc.next());
                     tipo.setText(sc.next());
                 }
             }
@@ -180,7 +190,7 @@ public class Frota implements Constantes, Serializable {
         }
     }
 
-    private List<Veiculo> getFrotaBD() throws IOException, ClassNotFoundException {
+    private List<Veiculo> getFrotaBD() throws ClassNotFoundException, IOException {
         try (ObjectInputStream oin = new ObjectInputStream(new FileInputStream(BD_FROTA_BIN))) {
             Frota frota = (Frota) oin.readObject();
             return frota.veiculos;
