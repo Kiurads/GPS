@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Frota implements Constantes, Serializable {
+public class Frota extends Thread implements Constantes, Serializable {
+
     List<Veiculo> veiculos = new ArrayList<>();
+    Notifica notifica;
 
     public Frota() throws IOException {
         try {
@@ -20,6 +22,8 @@ public class Frota implements Constantes, Serializable {
         } catch (IOException ex) {
             criaBD();
         }
+        notifica = new Notifica(veiculos);
+        notifica.start();
     }
 
     private void criaBD() {
@@ -32,7 +36,6 @@ public class Frota implements Constantes, Serializable {
             System.exit(10);
         }
     }
-
 
     public static void preencheDados(String matricula, TextField modelo, TextField tipo, DatePicker registo) {
         try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
@@ -72,7 +75,8 @@ public class Frota implements Constantes, Serializable {
         veiculos.add(veiculo);
         try {
             guardarFrotaBD();
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
@@ -97,13 +101,13 @@ public class Frota implements Constantes, Serializable {
     public List<String> getNomesVeiculos() {
         List<String> lista = new ArrayList<>();
 
-        for(Veiculo veiculo : veiculos) {
+        for (Veiculo veiculo : veiculos) {
             lista.add(veiculo.nome);
         }
 
         return lista;
     }
-    
+
     public List<Evento> getEventosTotal() {
         List<Evento> allEventos = new ArrayList<>();
 
@@ -112,7 +116,7 @@ public class Frota implements Constantes, Serializable {
         }
         return allEventos;
     }
-    
+
     public void guardarFrotaBD() throws IOException {
 
         try (ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(BD_FROTA_BIN))) {
@@ -127,3 +131,7 @@ public class Frota implements Constantes, Serializable {
         }
     }
 }
+
+
+
+
