@@ -1,7 +1,5 @@
 package GPS.Modelo;
 
-import java.io.File;
-
 public interface Constantes {
 
     enum TipoEvento {
@@ -22,13 +20,14 @@ public interface Constantes {
     int CC_NECESSARIOS_PARA_INSPECAO = 250;
     int KMS_NECESSARIOS_MUDANCA_CORREIA = 100000;
 
+    String[] tempos = {"Uma semana antes", "2 dias antes", "1 dia antes", "No próprio dia"};
+    int[] temposValores = {7, 2, 1, 0};
 
-//    String BD_MATRICULAS_TXT = "F:\\Users\\guicu\\Desktop\\MEGA\\Java\\GPS_TP\\src\\GPS\\Modelo\\Files\\BD.txt";
-//    String BD_FROTA_BIN = "F:\\Users\\guicu\\Desktop\\MEGA\\Java\\GPS_TP\\src\\GPS\\Modelo\\Files\\BD_Frota.dat";
-
+    String BD_MATRICULAS_TXT = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\BDs\\BD.txt";
+    String BD_FROTA_BIN = "C:\\Users\\a21260315\\Desktop\\GPS_TP\\src\\GPS\\Modelo\\BDs\\BD_Frota.dat";
     
-    File BD_MATRICULAS_TXT = new File("GPS/Modelo/BDs/BD.txt");
-    File BD_FROTA_BIN = new File("GPS/Modelo/BDs/BD_Frota.dat");
+//    File BD_MATRICULAS_TXT = new File("GPS/Modelo/BDs/BD.txt");
+//    File BD_FROTA_BIN = new File("GPS/Modelo/BDs/BD_Frota.dat");
 
     int UM_ANO = 1;
     int DOIS_ANOS = 2;

@@ -16,9 +16,9 @@ public class Frota implements Constantes, Serializable {
         try {
             this.veiculos = getFrotaBD();
         } catch (IOException ex) {
-             System.exit(1);
+             System.exit(3);
         } catch (ClassNotFoundException ex) {
-            System.exit(1);
+            System.exit(4);
         }
     }
 
@@ -181,16 +181,9 @@ public class Frota implements Constantes, Serializable {
     }
 
     private List<Veiculo> getFrotaBD() throws IOException, ClassNotFoundException {
-        ObjectInputStream oin = null;
-
-        try {
-            oin = new ObjectInputStream(new FileInputStream(BD_FROTA_BIN));
+        try (ObjectInputStream oin = new ObjectInputStream(new FileInputStream(BD_FROTA_BIN))) {
             Frota frota = (Frota) oin.readObject();
             return frota.veiculos;
-        } finally {
-            if (oin != null) {
-                oin.close();
-            }
         }
     }
 }

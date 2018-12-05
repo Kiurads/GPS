@@ -20,7 +20,7 @@ public class Custo {
         try {
             root = FXMLLoader.load(Alert.class.getResource("FXML/Custo.fxml"));
         } catch (IOException e) {
-            System.exit(1);
+            System.exit(5);
         }
         root.setStyle("-fx-effect: innershadow(gaussian, #039ed3, 2, 1.0, 0, 0);");
 

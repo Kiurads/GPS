@@ -18,7 +18,6 @@ abstract public class Veiculo implements Constantes, Serializable {
     protected LocalDate dataRegistoMatricula;
     protected String modelo;
     protected int intervaloKmsOleo;
-    protected int cilindrada;
 
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
@@ -216,5 +215,9 @@ abstract public class Veiculo implements Constantes, Serializable {
         this.seguro.dataRegisto = registoSeguro;
         this.kmReais = kmreais;
         this.kmMensais = kmmensais;
+    }
+
+    public void criaEvento(Evento evento) {
+        eventos.add(evento);
     }
 }

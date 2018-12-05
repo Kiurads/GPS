@@ -81,7 +81,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         try {
             frota = new Frota();
         } catch (IOException e) {
-            System.exit(1);
+            System.exit(2);
         }
 
         startCalendar();
