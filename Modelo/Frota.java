@@ -1,32 +1,20 @@
 package GPS.Modelo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import javafx.scene.control.DatePicker;
+
+import java.awt.*;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Frota implements Constantes, Serializable {
     List<Veiculo> veiculos = new ArrayList<>();
 
     public Frota() throws IOException {
-
-//        Veiculo v = new Ligeiro("21-45-RD", 100000, 100, "Liberty", LocalDate.now(), 30);
-//        Veiculo v2 = new Motociclo("34-98-BG", 260000, 560, "Alianz", LocalDate.now(), 160);
-//        veiculos.add(v);
-//        veiculos.add(v2);
-//
-//        guardarFrotaBD();
-        
         try {
             this.veiculos = getFrotaBD();
-
         } catch (IOException ex) {
              System.exit(1);
         } catch (ClassNotFoundException ex) {
@@ -34,23 +22,56 @@ public class Frota implements Constantes, Serializable {
         }
     }
 
+
+
+    private void preencheDados(String matricula, TextField modelo, TextField tipo, DatePicker registo) {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    registo.setValue(LocalDate.of(sc.nextInt(), sc.nextInt(), sc.nextInt()));
+                    modelo.setText(sc.next() + sc.next());
+                    tipo.setText(sc.next());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean getExists(String matricula) {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     /////////////////////////////////////////////////REGISTAR VEICULO
     public void RegistaVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
         try {
-            guardarFrotaBD(BD_FROTA_BIN);
+            guardarFrotaBD();
         } catch (IOException ignore) {}
     }
 
     /////////////////////////////////////////////////ENIMINAR VEICULO
-    public boolean eliminaVeiculo(String matricula) {
+    public void eliminaVeiculo(String matricula) {
         Veiculo veiculo = pesquisaVeiculo(matricula);
 
         if (veiculo != null) {
             veiculos.remove(veiculo);
-            return true;
         }
-        return false;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
@@ -147,21 +168,19 @@ public class Frota implements Constantes, Serializable {
         List<Evento> allEventos = new ArrayList<>();
 
         for (Veiculo veiculo : veiculos) {
-            for (Evento evento : veiculo.eventos) {
-                allEventos.add(evento);
-            }
+            allEventos.addAll(veiculo.eventos);
         }
         return allEventos;
     }
     
-    public void guardarFrotaBD(String nomeFicheiro) throws IOException {
+    public void guardarFrotaBD() throws IOException {
 
-        try (ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(nomeFicheiro))) {
+        try (ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(BD_FROTA_BIN))) {
             oout.writeObject(this);
         }
     }
 
-    private List<Veiculo> getFrotaBD() throws FileNotFoundException, IOException, ClassNotFoundException {
+    private List<Veiculo> getFrotaBD() throws IOException, ClassNotFoundException {
         ObjectInputStream oin = null;
 
         try {
@@ -174,6 +193,4 @@ public class Frota implements Constantes, Serializable {
             }
         }
     }
-
-    
 }

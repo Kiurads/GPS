@@ -1,6 +1,9 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.*;
+import GPS.Modelo.Constantes;
+import GPS.Modelo.Evento;
+import GPS.Modelo.Frota;
+import GPS.Modelo.Veiculo;
 import GPS.gpsproject.Images.BibliotecaImagens;
 import GPS.gpsproject.calendar.FullCalendarView;
 import javafx.beans.property.BooleanProperty;
@@ -8,7 +11,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
@@ -76,7 +78,11 @@ public class Controlador implements BibliotecaImagens, Constantes {
         registoseguro.setDayCellFactory(noFutureDates);
         registomatricula.setDayCellFactory(noFutureDates);
 
-        frota = new Frota();
+        try {
+            frota = new Frota();
+        } catch (IOException e) {
+            System.exit(1);
+        }
 
         startCalendar();
 
@@ -140,7 +146,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 }
             }
         } else {
-            double custos[] = new double[4];
+            double[] custos = new double[4];
 
             for (Evento e : veiculoSelecionado.getEventos()) {
                 switch (e.getTipoEvento()) {
@@ -168,7 +174,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         pie.setData(pieData);
         pie.setLabelsVisible(false);
         try {
-            frota.guardarFrotaBD(Constantes.BD_FROTA_BIN);
+            frota.guardarFrotaBD();
         } catch (IOException ignored) {}
     }
 
@@ -229,7 +235,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     @FXML
-    private void onGuardaAlteracoes(ActionEvent actionEvent) {
+    private void onGuardaAlteracoes() {
         if (!everyFieldIsFilled()) {
             Alert.display("Alerta", "Não é permitido guardar campos vazios!");
             return;
@@ -247,7 +253,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 Integer.parseInt(kmmensais.getText()));
 
         try {
-            frota.guardarFrotaBD(Constantes.BD_FROTA_BIN);
+            frota.guardarFrotaBD();
         } catch (IOException ignore) {}
         initializeList();
     }
@@ -277,25 +283,25 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 !kmmensais.getText().trim().equals("");
     }
 
-    public void onAddButton(ActionEvent actionEvent) {
+    public void onAddButton() {
         //TODO adiciona veículo
     }
 
-    public void onCategoria(ActionEvent actionEvent) {
+    public void onCategoria() {
         monthly = false;
         updatePie();
     }
 
-    public void onMensais(ActionEvent actionEvent) {
+    public void onMensais() {
         monthly = true;
         updatePie();
     }
 
-    public void onGerais(ActionEvent actionEvent) {
+    public void onGerais() {
         eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
     }
 
-    public void onMecanica(ActionEvent actionEvent) {
+    public void onMecanica() {
         List<Evento> tmpList = new ArrayList<>();
 
         for (Evento e : veiculoSelecionado.getEventos()) {
@@ -306,7 +312,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         eventslist.setItems(FXCollections.observableArrayList(tmpList));
     }
 
-    public void onReparacoes(ActionEvent actionEvent) {
+    public void onReparacoes() {
         List<Evento> tmpList = new ArrayList<>();
 
         for (Evento e : veiculoSelecionado.getEventos()) {
@@ -317,7 +323,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         eventslist.setItems(FXCollections.observableArrayList(tmpList));
     }
 
-    public void onManutencoes(ActionEvent actionEvent) {
+    public void onManutencoes() {
         List<Evento> tmpList = new ArrayList<>();
 
         for (Evento e : veiculoSelecionado.getEventos()) {
@@ -328,20 +334,20 @@ public class Controlador implements BibliotecaImagens, Constantes {
         eventslist.setItems(FXCollections.observableArrayList(tmpList));
     }
 
-    public void onEliminate(ActionEvent actionEvent) {
+    public void onEliminate() {
         if(Confirm.display()) {
-            frota.EleminaVeiculo(veiculoSelecionado.getMatricula());
+            frota.eliminaVeiculo(veiculoSelecionado.getMatricula());
 
             list.setItems(FXCollections.observableArrayList(frota.getNomesVeiculos()));
         }
     }
 
-    public void onAddEvento(ActionEvent actionEvent) {
+    public void onAddEvento() {
         AdicionaEvento.display(veiculoSelecionado);
 
         eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
         try {
-            frota.guardarFrotaBD(BD_FROTA_BIN);
+            frota.guardarFrotaBD();
         } catch (IOException e) {
             e.printStackTrace();
         }

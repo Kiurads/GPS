@@ -1,13 +1,9 @@
 package GPS.Modelo;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 abstract public class Veiculo implements Constantes, Serializable {
 
@@ -20,10 +16,8 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     //Dados vindos da BD
     protected LocalDate dataRegistoMatricula;
-    protected String marca;
     protected String modelo;
     protected int intervaloKmsOleo;
-    protected TipoVeiculo tipoVeiculo;
     protected int cilindrada;
 
     //Lista de eventos que vão ser criados
@@ -32,13 +26,10 @@ abstract public class Veiculo implements Constantes, Serializable {
     public Veiculo(String nome, String matricula, int KmReais, int KmMensais, String seguradora, LocalDate dataRegistoSeguro, String tipoSeguro) {
         this.nome = nome;
         this.matricula = matricula;
-        this.KmReais = KmReais;
-        this.KmMensais = KmMensais;
+        this.kmReais = KmReais;
+        this.kmMensais = KmMensais;
         this.seguro = new Seguro(seguradora, tipoSeguro, dataRegistoSeguro);
         this.eventos = new ArrayList<>();
-
-        //dados da BD
-        getDadosMatricula(matricula);
 
         //criar eventos
         calcularProximaDataPagamentoImpostoCirculacao();
@@ -123,22 +114,20 @@ abstract public class Veiculo implements Constantes, Serializable {
 
         Evento evento = pesquisaEvento(PAGAMENTO_SEGURO);
 
-        if (evento != null && !evento.isCheck()) {
-            evento.setCheck(true);
-            evento.setCusto(seguro.custoAnual);
+        if (evento != null) {
             return calcularProximaDataDePagamentoSeguro();
         }
+
         return false;
     }
 
     public boolean realizaMudancaDeCorreia(int custo) {
         Evento evento = pesquisaEvento(MUDANCA_CORREIA);
 
-        if (evento != null && !evento.isCheck()) {
-            evento.setCheck(true);
-            evento.setCusto(custo);
+        if (evento != null) {
             return calcularProximaDataMudancaDeCorreia();
         }
+
         return false;
     }
 
@@ -172,63 +161,6 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     abstract protected LocalDate getDataProximaInspecao();
 
-    private boolean getDadosMatricula(String matricula) {
-        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
-
-            String linha;
-
-            while ((linha = br.readLine()) != null) {
-                Scanner sc = new Scanner(linha);
-                String matriculaLida = sc.next();
-                if (matriculaLida.equals(matricula)) {
-                    dataRegistoMatricula = LocalDate.of(Integer.parseInt(sc.next()), Integer.parseInt(sc.next()), Integer.parseInt(sc.next()));
-                    marca = sc.next();
-                    modelo = sc.next();
-                    String tipo = sc.next();
-
-                    switch (tipo) {
-                        case LIGEIRO:
-                            tipoVeiculo = TipoVeiculo.LIGEIRO;
-                            break;
-                        case PESADO:
-                            tipoVeiculo = TipoVeiculo.PESADO;
-                            break;
-                        case MOTOCICLO:
-                            tipoVeiculo = TipoVeiculo.MOTOCICLO;
-                            break;
-                    }
-                    intervaloKmsOleo = Integer.parseInt(sc.next());
-                    cilindrada = Integer.parseInt(sc.next());
-                    return true;
-            }
-        }
-
-    }
-    catch (IOException e
-
-    
-        ) {
-            e.printStackTrace();
-    }
-    private static boolean getExists(String matricula) {
-        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
-            String linha;
-            while ((linha = br.readLine()) != null) {
-                Scanner sc = new Scanner(linha);
-                String matriculaLida = sc.next();
-                if (matriculaLida.equals(matricula)) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-return false;
-    }
-
     private Evento pesquisaEvento(String nome) {
         for (Evento evento : eventos) {
             if (evento.getDescricao().compareTo(nome) == 0) {
@@ -261,10 +193,6 @@ return false;
         return dataRegistoMatricula;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
     public String getModelo() {
         return modelo;
     }
@@ -273,10 +201,9 @@ return false;
         public String toString() {
         String s = "";
         s += "Matricula: " + matricula + " " + dataRegistoMatricula + "\n";
-        s += "Marca: " + marca + "\n";
         s += "Modelo: " + modelo + "\n";
-        s += "KmReais: " + KmReais + "\n";
-        s += "KmMensais: " + KmMensais + "\n";
+        s += "KmReais: " + kmReais + "\n";
+        s += "KmMensais: " + kmMensais + "\n";
         s += seguro.toString();
 
         return s;
@@ -287,7 +214,7 @@ return false;
         this.seguro.seguradora = seguradora;
         this.seguro.tipo = tipoSeguro;
         this.seguro.dataRegisto = registoSeguro;
-        this.KmReais = kmreais;
-        this.KmMensais = kmmensais;
+        this.kmReais = kmreais;
+        this.kmMensais = kmmensais;
     }
 }
