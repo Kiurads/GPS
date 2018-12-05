@@ -1,5 +1,6 @@
 package GPS.gpsproject;
 
+import GPS.Modelo.Notification.Notification;
 import com.sun.glass.ui.Screen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
