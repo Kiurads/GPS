@@ -88,7 +88,7 @@ abstract public class Veiculo implements Constantes, Serializable {
         }
     }
 
-    private void CalcularProximaMudancaOleo() {
+    public void CalcularProximaMudancaOleo() {
         int kmsNecessarios = KmReais + intervaloKmsOleo, nMeses = 0, aux = KmReais;
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
@@ -96,8 +96,19 @@ abstract public class Veiculo implements Constantes, Serializable {
         eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_OLEO, matricula, TipoEvento.MANUTENCOES));
     }
 
-    private void CalcularProximaMudancaDeCorreia() {
-        int kmsNecessarios = KmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = KmReais;
+    public void CalcularProximaMudancaDeCorreia() {
+
+        int kmsNecessarios=0, nMeses = 0, aux = KmReais;
+
+        for (int i=1; i <= 10; i++)
+        {
+            if(KmReais < KMS_NECESSARIOS_MUDANCA_CORREIA*i)
+            {
+                kmsNecessarios = KMS_NECESSARIOS_MUDANCA_CORREIA*i;
+                break;
+            }
+        }
+
         while (aux <= kmsNecessarios) {
             aux += (nMeses++) * KmMensais;
         }
