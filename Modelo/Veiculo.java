@@ -116,11 +116,13 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     public boolean calcularProximaDataMudancaDeCorreia() {
-        int kmsNecessarios = kmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = kmReais;
-        while (aux <= kmsNecessarios) {
-            aux += (nMeses++) * kmMensais;
-        }
-        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+//        int kmsNecessarios = kmReais + KMS_NECESSARIOS_MUDANCA_CORREIA, nMeses = 0, aux = kmReais;
+//        while (aux <= kmsNecessarios) {
+//            aux += (nMeses++) * kmMensais;
+//        }
+//        return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
+
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
