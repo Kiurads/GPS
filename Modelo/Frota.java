@@ -1,8 +1,8 @@
 package GPS.Modelo;
 
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 
-import java.awt.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Frota implements Constantes, Serializable {
     }
 
 
-    private void preencheDados(String matricula, TextField modelo, TextField tipo, DatePicker registo) {
+    public static void preencheDados(String matricula, TextField modelo, TextField tipo, DatePicker registo) {
         try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
             String linha;
             while ((linha = br.readLine()) != null) {
@@ -51,7 +51,7 @@ public class Frota implements Constantes, Serializable {
         }
     }
 
-    private static boolean getExists(String matricula) {
+    public static boolean getExists(String matricula) {
         try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
             String linha;
             while ((linha = br.readLine()) != null) {
