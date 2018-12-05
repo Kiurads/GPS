@@ -5,11 +5,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<VBox fx:id="detalhes" prefHeight="459.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GPS.gpsproject.Adicionar">
+<VBox prefHeight="459.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="515.0" text="Detalhes Gerais" HBox.hgrow="ALWAYS">
+            <TitledPane fx:id="detalhes" collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="515.0" text="Detalhes Gerais" HBox.hgrow="ALWAYS">
                <content>
                   <HBox>
                      <children>
@@ -31,7 +31,7 @@
                               <TextField fx:id="matricula" />
                               <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                               <Label text="Tipo:" />
-                              <ChoiceBox fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="tipo" disable="true" editable="false" />
                            </children>
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
@@ -58,7 +58,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </TitledPane>
-            <TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="200.0" text="Seguro">
+            <TitledPane fx:id="seguro" collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="200.0" text="Seguro">
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
@@ -81,7 +81,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="481.0" text="Outros detalhes" HBox.hgrow="ALWAYS">
+            <TitledPane fx:id="outros" collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="222.0" prefWidth="481.0" text="Outros detalhes" HBox.hgrow="ALWAYS">
                <content>
                   <VBox prefHeight="190.0" prefWidth="518.0">
                      <children>
@@ -141,7 +141,7 @@
                      </VBox.margin>
                   </Button>
                   <Region prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="adicionar" onAction="#onAdiciona" minWidth="-Infinity" mnemonicParsing="false" prefHeight="31.0" prefWidth="182.0" text="Adicionar" textAlignment="CENTER">
+                  <Button fx:id="adicionar" minWidth="-Infinity" mnemonicParsing="false" prefHeight="31.0" prefWidth="182.0" text="Adicionar" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="20.0" top="20.0" />
                      </padding>

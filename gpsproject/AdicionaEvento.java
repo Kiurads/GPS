@@ -15,6 +15,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+import static GPS.gpsproject.calendar.DateUtils.noPastDates;
+
 public class AdicionaEvento implements BibliotecaImagens, Constantes {
     private static boolean choice;
 
@@ -46,6 +48,8 @@ public class AdicionaEvento implements BibliotecaImagens, Constantes {
         notificar.setOnAction(event -> {
             tempo.setDisable(!notificar.isSelected());
         });
+
+        data.setDayCellFactory(noPastDates);
 
         confirmar.setOnAction(event -> {
             if(!nome.getText().trim().equals("") && data.getValue() != null && tipo.getValue() != null) {

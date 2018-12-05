@@ -12,6 +12,23 @@ import java.util.Date;
 
 public class DateUtils {
 
+    public static Callback<DatePicker, DateCell> noPastDates = new Callback<DatePicker, DateCell>() {
+        public DateCell call(final DatePicker datePicker) {
+            return new DateCell() {
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    // Must call super
+                    super.updateItem(item, empty);
+
+                    // Disable all future date cells
+                    if (item.isBefore(LocalDate.now())) {
+                        this.setDisable(true);
+                    }
+                }
+            };
+        }
+    };
+
     public static Callback<DatePicker, DateCell> noFutureDates = new Callback<DatePicker, DateCell>() {
         public DateCell call(final DatePicker datePicker) {
             return new DateCell() {
