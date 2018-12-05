@@ -81,8 +81,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
             System.exit(2);
         }
 
-        frota.RegistaVeiculo(new Ligeiro("A", "09-23-TX", 10000, 100, "Liberty", LocalDate.now(),"Todos"));
-
         startCalendar();
 
         noneSelected();
@@ -285,7 +283,13 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     public void onAddButton() {
-        //TODO adiciona veículo
+        Veiculo adicionar = Adicionar.display();
+
+        if (adicionar != null) {
+            frota.RegistaVeiculo(adicionar);
+            list.setItems(FXCollections.observableArrayList(frota.getNomesVeiculos()));
+            startCalendar();
+        }
     }
 
     public void onCategoria() {

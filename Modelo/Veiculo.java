@@ -21,7 +21,7 @@ abstract public class Veiculo implements Constantes, Serializable {
     //Dados vindos da BD
     protected LocalDate dataRegistoMatricula;
     protected String modelo;
-    private int intervaloKmsOleo;
+    protected int intervaloKmsOleo;
 
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
