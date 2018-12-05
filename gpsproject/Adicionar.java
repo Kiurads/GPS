@@ -1,9 +1,8 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.Ligeiro;
-import GPS.Modelo.Motociclo;
-import GPS.Modelo.Pesado;
+import GPS.Modelo.Constantes;
 import GPS.Modelo.Veiculo;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 import static GPS.gpsproject.calendar.DateUtils.noFutureDates;
 
-public class Adicionar implements BibliotecaInterface {
+public class Adicionar implements Constantes {
     private Veiculo veiculo;
 
     public VBox detalhes;
@@ -36,7 +35,7 @@ public class Adicionar implements BibliotecaInterface {
         registomatricula.setDayCellFactory(noFutureDates);
         registoseguro.setDayCellFactory(noFutureDates);
 
-        tipo = new ChoiceBox(tipos);
+        tipo = new ChoiceBox(FXCollections.observableArrayList(TipoVeiculo.values()));
     }
 
     public void onAdiciona(ActionEvent actionEvent) {
@@ -45,53 +44,20 @@ public class Adicionar implements BibliotecaInterface {
             return;
         }
 
-        //TODO Verificar base de dados
-
         if (!everyFieldIsValid()) {
-            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!");
+            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n\n" +
+                    "Kilómetros têm de ser maiores que 0");
             return;
         }
-
-        switch (tipo.getValue().toString()) {
-            case "Motociclo":
-                veiculo = new Motociclo(nome.getText(),
-                        matricula.getText(),
-                        Integer.parseInt(kmreais.getText()),
-                        Integer.parseInt(kmmensais.getText()),
-                        seguradora.getText(),
-                        registoseguro.getValue(),
-                        tiposeguro.getText(),
-                        getCilindrada());
-                break;
-            case "Pesado":
-                veiculo = new Pesado(nome.getText(),
-                        matricula.getText(),
-                        Integer.parseInt(kmreais.getText()),
-                        Integer.parseInt(kmmensais.getText()),
-                        seguradora.getText(),
-                        registoseguro.getValue(),
-                        tiposeguro.getText());
-                break;
-            case "Ligeiro":
-                veiculo = new Ligeiro(nome.getText(),
-                        matricula.getText(),
-                        Integer.parseInt(kmreais.getText()),
-                        Integer.parseInt(kmmensais.getText()),
-                        seguradora.getText(),
-                        registoseguro.getValue(),
-                        tiposeguro.getText());
-                break;
-        }
-    }
-
-    private int getCilindrada() {
-        return 0;
     }
 
     private boolean everyFieldIsValid() {
         try {
-            Integer.parseInt(kmmensais.getText());
-            Integer.parseInt(kmreais.getText());
+            int kms = Integer.parseInt(kmmensais.getText());
+            int kmsr = Integer.parseInt(kmreais.getText());
+
+            if(kms <= 0 || kmsr <= 0) throw new NumberFormatException();
+
         } catch(NumberFormatException | NullPointerException e) {
             return false;
         }
@@ -108,9 +74,5 @@ public class Adicionar implements BibliotecaInterface {
                 registoseguro.getValue() != null &&
                 !kmreais.getText().trim().equals("") &&
                 !kmmensais.getText().trim().equals("");
-    }
-
-    public Veiculo getVeiculo() {
-        return veiculo;
     }
 }

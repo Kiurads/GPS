@@ -210,6 +210,21 @@ abstract public class Veiculo implements Constantes, Serializable {
         ) {
             e.printStackTrace();
     }
+    private static boolean getExists(String matricula) {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 return false;
     }
@@ -234,32 +249,45 @@ return false;
         return false;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataRegistoMatricula() {
+        return dataRegistoMatricula;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
     @Override
         public String toString() {
         String s = "";
-        s += "Matricula: " + matricula + " " + dataRegistoMatricula;
-        s += "\nMarca: " + marca;
-        s += "\nModelo: " + modelo;
-        s += "\nKmReais: " + kmReais;
-        s += "\nKmMensais: " + kmMensais;
-        
-          switch (this.tipoVeiculo) {
-                        case LIGEIRO:
-                            s += "\nTipo " + LIGEIRO;
-                            break;
-                        case PESADO:
-                            s += "\nTipo " + PESADO;
-                            break;
-                        case MOTOCICLO:
-                            s += "\nTipo " + MOTOCICLO;
-                            break;
-                    }
-        s += "\nCelindrada: " + cilindrada;
+        s += "Matricula: " + matricula + " " + dataRegistoMatricula + "\n";
+        s += "Marca: " + marca + "\n";
+        s += "Modelo: " + modelo + "\n";
+        s += "KmReais: " + KmReais + "\n";
+        s += "KmMensais: " + KmMensais + "\n";
         s += seguro.toString();
 
-        for (Evento e : eventos) {
-            s += e.toString();
-        }
         return s;
+    }
+
+    public void altera(String nome, String seguradora, String tipoSeguro, LocalDate registoSeguro, int kmreais, int kmmensais) {
+        this.nome = nome;
+        this.seguro.seguradora = seguradora;
+        this.seguro.tipo = tipoSeguro;
+        this.seguro.dataRegisto = registoSeguro;
+        this.KmReais = kmreais;
+        this.KmMensais = kmmensais;
     }
 }

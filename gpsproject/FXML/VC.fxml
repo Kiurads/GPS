@@ -22,7 +22,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
                 </Button>
-                <Button fx:id="addButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#switchViews" text="Adicionar Veículo" VBox.vgrow="NEVER">
+                <Button fx:id="addButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddButton" text="Adicionar Veículo" VBox.vgrow="NEVER">
                     <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </VBox.margin>
@@ -52,8 +52,8 @@
                                     <PieChart fx:id="pie" title="Custos" VBox.vgrow="ALWAYS" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                                        <children>
-                                          <Button fx:id="categoria" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Por categoria" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="mensais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mensais" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="categoria" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCategoria" text="Por categoria" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="mensais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onMensais" text="Mensais" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -61,7 +61,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
                               </VBox>
-                              <VBox fx:id="right" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                              <VBox fx:id="right" alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
@@ -72,15 +72,20 @@
                                        </content></TitledPane>
                                     <HBox VBox.vgrow="NEVER">
                                        <children>
-                                          <Button fx:id="gerais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Gerais" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="mecanica" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Mecânica" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="reparacoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Reparações" HBox.hgrow="ALWAYS" />
-                                          <Button fx:id="manutencoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Manutenções" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="gerais" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGerais" text="Gerais" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="mecanica" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onMecanica" text="Mecânica" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="reparacoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReparacoes" text="Reparações" HBox.hgrow="ALWAYS" />
+                                          <Button fx:id="manutencoes" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onManutencoes" text="Manutenções" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <VBox alignment="BOTTOM_RIGHT" prefHeight="51.0" prefWidth="467.0" VBox.vgrow="NEVER">
                                        <children>
-                                          <Button fx:id="eliminateButton" mnemonicParsing="false" text="Eliminar Veículo">
+                                          <Button fx:id="addEvento" mnemonicParsing="false" onAction="#onAddEvento" style="-fx-background-radius: 5em; -fx-min-width: 30px; -fx-min-height: 30px; -fx-max-width: 30px; -fx-max-height: 30px;">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                          <Button fx:id="eliminateButton" mnemonicParsing="false" onAction="#onEliminate" text="Eliminar Veículo">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </VBox.margin>
@@ -129,7 +134,7 @@
                                                 <TextField fx:id="matricula" disable="true" editable="false" />
                                                 <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                 <Label text="Tipo:" />
-                                                <ChoiceBox fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                                                <TextField fx:id="tipo" disable="true" prefWidth="150.0" VBox.vgrow="ALWAYS" />
                                              </children>
                                              <HBox.margin>
                                                 <Insets left="10.0" right="10.0" />

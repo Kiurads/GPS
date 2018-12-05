@@ -1,9 +1,5 @@
 package GPS.gpsproject;
 
-import GPS.Modelo.Constantes;
-import GPS.Modelo.Frota;
-import GPS.Modelo.Ligeiro;
-import GPS.Modelo.Veiculo;
 import com.sun.glass.ui.Screen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +14,7 @@ public class GpsProject extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        Image icon = new Image("GPS/gpsproject/images/car.png", 16, 16, false, true);
+        Image icon = new Image("GPS/gpsproject/Images/car.png", 16, 16, false, true);
         Parent root = FXMLLoader.load(getClass().getResource("FXML/VC.fxml"));
         int sceneWidth = 2 * Screen.getMainScreen().getWidth() / 3;
         int sceneHeight = 2 * Screen.getMainScreen().getHeight() / 3;
@@ -31,11 +27,7 @@ public class GpsProject extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
-//        launch(args);
-  
-//        System.err.println(v.toString());
-       Frota f = new Frota();
-       System.out.println(f.toString());
+    public static void main(String[] args) {
+        launch(args);
     }
 }
