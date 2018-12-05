@@ -123,61 +123,6 @@ abstract public class Veiculo implements Constantes, Serializable {
         return eventos.add(new Evento(LocalDate.now().plusMonths(nMeses), MUDANCA_CORREIA, matricula, TipoEvento.MANUTENCOES));
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////REALIZAR
-    public boolean realizaMudancaOleo(int custo) {
-        Evento evento = pesquisaEvento(MUDANCA_OLEO);
-
-        if (evento != null && !evento.isCheck()) {
-            evento.setCheck(true);
-            evento.setCusto(custo);
-            return calcularProximaDataMudancaOleo();
-        }
-        return false;
-    }
-
-    public boolean realizaPagamentoSeguro() {
-
-        Evento evento = pesquisaEvento(PAGAMENTO_SEGURO);
-
-        if (evento != null) {
-            return calcularProximaDataDePagamentoSeguro();
-        }
-
-        return false;
-    }
-
-    public boolean realizaMudancaDeCorreia(int custo) {
-        Evento evento = pesquisaEvento(MUDANCA_CORREIA);
-
-        if (evento != null) {
-            return calcularProximaDataMudancaDeCorreia();
-        }
-
-        return false;
-    }
-
-    public boolean realizaPagamentoImpostoCirculacao(int custo) {
-        Evento evento = pesquisaEvento(PAGAMENTO_IMPOSTO);
-
-        if (evento != null && !evento.isCheck()) {
-            evento.setCheck(true);
-            evento.setCusto(custo);
-            return calcularProximaDataPagamentoImpostoCirculacao();
-        }
-        return false;
-    }
-
-    public boolean realizaInspecao(int custo) {
-        Evento evento = pesquisaEvento(INSPECAO);
-
-        if (evento != null && !evento.isCheck()) {
-            evento.setCheck(true);
-            evento.setCusto(custo);
-            return calcularProximaDataInspecao();
-        }
-        return false;
-    }
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCOES AUXILIARES
     protected LocalDate getDataComMaisUmAno(LocalDate data) {
         //O ano da data que entra vai ser alterado para o ano corrente + 1
@@ -185,15 +130,6 @@ abstract public class Veiculo implements Constantes, Serializable {
     }
 
     abstract protected LocalDate getDataProximaInspecao();
-
-    private Evento pesquisaEvento(String nome) {
-        for (Evento evento : eventos) {
-            if (evento.getDescricao().compareTo(nome) == 0) {
-                return evento;
-            }
-        }
-        return null;
-    }
 
     public List<Evento> getEventos() {
         return eventos;
