@@ -1,23 +1,27 @@
 package GPS.Modelo;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 abstract public class Veiculo implements Constantes, Serializable {
 
     //Dados introduzidos
     protected String nome;
     protected String matricula;
-    protected int kmReais;
-    protected int kmMensais;
-    protected Seguro seguro;
+    private int kmReais;
+    private int kmMensais;
+    private Seguro seguro;
 
     //Dados vindos da BD
     protected LocalDate dataRegistoMatricula;
     protected String modelo;
-    protected int intervaloKmsOleo;
+    private int intervaloKmsOleo;
 
     //Lista de eventos que vão ser criados
     protected List<Evento> eventos;
@@ -30,12 +34,34 @@ abstract public class Veiculo implements Constantes, Serializable {
         this.seguro = new Seguro(seguradora, tipoSeguro, dataRegistoSeguro);
         this.eventos = new ArrayList<>();
 
+        getDados();
+
         //criar eventos
         calcularProximaDataPagamentoImpostoCirculacao();
         calcularProximaDataDePagamentoSeguro();
         calcularProximaDataInspecao();
         calcularProximaDataMudancaOleo();
         calcularProximaDataMudancaDeCorreia();
+    }
+
+    private void getDados() {
+        try (BufferedReader br = new BufferedReader(new FileReader(BD_MATRICULAS_TXT))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                Scanner sc = new Scanner(linha);
+                String matriculaLida = sc.next();
+                if (matriculaLida.equals(matricula)) {
+                    dataRegistoMatricula = LocalDate.of(sc.nextInt(), sc.nextInt(), sc.nextInt());
+                    modelo = sc.next() + " " + sc.next();
+
+                    sc.next();
+
+                    intervaloKmsOleo = sc.nextInt();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////GETS E SETS
@@ -210,9 +236,7 @@ abstract public class Veiculo implements Constantes, Serializable {
 
     public void altera(String nome, String seguradora, String tipoSeguro, LocalDate registoSeguro, int kmreais, int kmmensais) {
         this.nome = nome;
-        this.seguro.seguradora = seguradora;
-        this.seguro.tipo = tipoSeguro;
-        this.seguro.dataRegisto = registoSeguro;
+        this.seguro = new Seguro(seguradora, tipoSeguro, registoSeguro);
         this.kmReais = kmreais;
         this.kmMensais = kmmensais;
     }
