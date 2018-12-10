@@ -1,5 +1,6 @@
 package GPS.Modelo;
 
+import GPS.gpsproject.Notifica;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
@@ -12,6 +13,7 @@ import java.util.Scanner;
 public class Frota implements Constantes, Serializable {
 
     private List<Veiculo> veiculos = new ArrayList<>();
+    private Notifica notifica;
 
     public Frota() {
         try {

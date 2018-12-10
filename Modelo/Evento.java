@@ -29,6 +29,7 @@ public class Evento implements Constantes, Serializable {
         this.matricula = matricula;
         this.tipoEvento = tipoevento;
         this.custo = 0;
+        notificado = false;
 
         for (int i = 0; i < tempos.length; i++) {
             if (tempos[i].equals(diasAntes)) this.diasAntes = temposValores[i];

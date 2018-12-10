@@ -11,17 +11,14 @@ import org.controlsfx.control.Notifications;
 public class Notification implements BibliotecaImagens, BibliotecaSons {
     public static void sendNotification(String title, String message) {
         MediaPlayer mediaPlayer = new MediaPlayer(notificationSound);
-
-
-        Notifications notification = Notifications.create()
+        Notifications.create()
                 .title(title)
                 .text(message)
                 .graphic(new ImageView(notificationIcon))
                 .hideAfter(Duration.seconds(5))
-                .position(Pos.BOTTOM_RIGHT);
+                .position(Pos.BOTTOM_RIGHT)
+                .show();
 
-
-        notification.show();
         mediaPlayer.play();
     }
 }

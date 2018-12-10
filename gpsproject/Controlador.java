@@ -1,8 +1,10 @@
 package GPS.gpsproject;
 
 import GPS.Modelo.*;
+import GPS.Modelo.Notification.Notification;
 import GPS.gpsproject.calendar.FullCalendarView;
 import GPS.gpsproject.images.BibliotecaImagens;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
     public TextArea detailsdia;
 
     private Frota frota;
+    private Notifica notifica;
     private Veiculo veiculoSelecionado;
     private boolean monthly;
 
@@ -76,6 +78,9 @@ public class Controlador implements BibliotecaImagens, Constantes {
         registomatricula.setDayCellFactory(noFutureDates);
 
         frota = new Frota();
+
+        notifica = new Notifica(frota.getVeiculos(), this);
+        notifica.start();
 
         startCalendar();
 
@@ -148,7 +153,6 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void updatePie() {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
-        int year = LocalDate.now().getYear();
         double custosMeses[] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
         if (monthly) {
@@ -374,6 +378,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
     }
 
     public void onAddEvento() {
+        notifica.setStop(true);
         AdicionaEvento.display(veiculoSelecionado);
 
         eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
@@ -384,10 +389,23 @@ public class Controlador implements BibliotecaImagens, Constantes {
         }
 
         startCalendar();
+        notifica = new Notifica(frota.getVeiculos(), this);
+        notifica.start();
     }
 
     public void onUpdateAll() {
         Altera.display(frota);
         setVeiculo(veiculoSelecionado.getNome());
+    }
+
+    public void sendNotification(String title, String description) {
+        Platform.runLater(() -> Notification.sendNotification(title, description));
+
+        try {
+            frota.guardarFrotaBD();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
