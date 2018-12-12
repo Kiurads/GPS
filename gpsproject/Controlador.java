@@ -122,6 +122,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
             observable.addListener(((observable1, oldValue, newValue) -> {
                 if (!param.isCheck()) {
                     veiculoSelecionado.realizaEvento(param, getCusto());
+                    eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
                     updatePie();
                 }
             }));
