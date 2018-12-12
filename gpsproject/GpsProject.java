@@ -14,7 +14,7 @@ public class GpsProject extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        Image icon = new Image("GPS/gpsproject/Images/car.png", 16, 16, false, true);
+        Image icon = new Image("GPS/gpsproject/images/car.png", 16, 16, false, true);
         Parent root = FXMLLoader.load(getClass().getResource("FXML/VC.fxml"));
         int sceneWidth = 2 * Screen.getMainScreen().getWidth() / 3;
         int sceneHeight = 2 * Screen.getMainScreen().getHeight() / 3;
