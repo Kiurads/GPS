@@ -31,7 +31,7 @@ public class Notifica extends Thread {
             for (Veiculo v : veiculos) {
                 for (Evento e : v.getEventos()) {
                     long dias = Duration.between(LocalDate.now().atStartOfDay(), e.getData().atStartOfDay()).toDays();
-                    if (dias <= e.getDiasAntes() && !e.isNotificado()) {
+                    if (dias <= e.getDiasAntes() && dias >= 0 && !e.isNotificado()) {
                         e.setNotificado(true);
                         controlador.sendNotification("Vehicle Companion - Notificação", e.getDescricao() +
                                 "\n" +

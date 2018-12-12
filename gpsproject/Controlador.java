@@ -422,4 +422,21 @@ public class Controlador implements BibliotecaImagens, Constantes {
             System.exit(1);
         }
     }
+
+    public void resetNotifications() {
+        for (Veiculo v : frota.getVeiculos()) {
+            for (Evento e : v.getEventos()) {
+                if (!e.isCheck()) {
+                    e.setNotificado(false);
+                    e.setNotificadoAtraso(false);
+                }
+            }
+        }
+
+        try {
+            frota.guardarFrotaBD();
+        } catch (IOException e) {
+            System.exit(1);
+        }
+    }
 }

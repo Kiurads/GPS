@@ -15,7 +15,9 @@ public class GpsProject extends Application {
     @Override
     public void start(final Stage stage) throws IOException {
         Image icon = new Image("GPS/gpsproject/images/car.png", 16, 16, false, true);
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/VC.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/VC.fxml"));
+        Parent root = loader.load();
+        Controlador controlador = loader.getController();
         int sceneWidth = 2 * Screen.getMainScreen().getWidth() / 3;
         int sceneHeight = 2 * Screen.getMainScreen().getHeight() / 3;
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
@@ -23,7 +25,10 @@ public class GpsProject extends Application {
         stage.setTitle("Vehicle Companion");
         stage.getIcons().add(icon);
         stage.setScene(scene);
-        stage.setOnCloseRequest(event -> System.exit(0));
+        stage.setOnCloseRequest(event -> {
+            controlador.resetNotifications();
+            System.exit(0);
+        });
         stage.show();
     }
 
