@@ -21,4 +21,17 @@ public class Notification implements BibliotecaImagens, BibliotecaSons {
 
         mediaPlayer.play();
     }
+
+    public static void sendLateNotification(String title, String description) {
+        MediaPlayer mediaPlayer = new MediaPlayer(errorSound);
+        Notifications.create()
+                .title(title)
+                .text(description)
+                .graphic(new ImageView(errorIcon))
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.BOTTOM_RIGHT)
+                .show();
+
+        mediaPlayer.play();
+    }
 }

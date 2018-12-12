@@ -411,4 +411,15 @@ public class Controlador implements BibliotecaImagens, Constantes {
             System.exit(1);
         }
     }
+
+    public void sendLateNotification(String title, String description) {
+        Platform.runLater(() -> Notification.sendLateNotification(title, description));
+
+        try {
+            frota.guardarFrotaBD();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }

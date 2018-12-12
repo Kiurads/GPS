@@ -33,9 +33,15 @@ public class Notifica extends Thread {
                     long dias = Duration.between(LocalDate.now().atStartOfDay(), e.getData().atStartOfDay()).toDays();
                     if (dias <= e.getDiasAntes() && !e.isNotificado()) {
                         e.setNotificado(true);
-                        controlador.sendNotification("Vehicle Companion", e.getDescricao() +
+                        controlador.sendNotification("Vehicle Companion - Notificação", e.getDescricao() +
                                 "\n" +
-                                "Faltam " + dias + " dias");
+                                "Faltam " + dias + " dias para a data do evento");
+                    }
+
+                    if (dias < 0 && !e.isNotificadoAtraso()) {
+                        e.setNotificadoAtraso(true);
+                        controlador.sendLateNotification("Vehicle Companion - Aviso", e.getDescricao() +
+                                " está em atraso!");
                     }
                 }
             }

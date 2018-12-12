@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 
 public interface BibliotecaImagens {
     Image notificationIcon = new Image("/GPS/gpsproject/Images/sign-check-icon.png", 100, 100, false, true);
+    Image errorIcon = new Image("/GPS/gpsproject/Images/redcross.png", 100, 100, false, true);
     Image plus = new Image("GPS/gpsproject/Images/plus.png", 16, 16, false, true);
     Image cross = new Image("GPS/gpsproject/Images/cross.png", 16, 16, false, true);
     Image refresh = new Image("GPS/gpsproject/Images/refresh.png", 16, 16, false, true);

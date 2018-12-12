@@ -21,7 +21,7 @@ public class DateUtils {
                     super.updateItem(item, empty);
 
                     // Disable all future date cells
-                    if (item.isBefore(LocalDate.now())) {
+                    if (item.isBefore(LocalDate.now().minusDays(1))) {
                         this.setDisable(true);
                     }
                 }
