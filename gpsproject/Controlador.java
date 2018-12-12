@@ -102,7 +102,9 @@ public class Controlador implements BibliotecaImagens, Constantes {
         matricula.setText(veiculoSelecionado.getMatricula());
         modelo.setText(veiculoSelecionado.getModelo());
         registomatricula.setValue(veiculoSelecionado.getDataRegistoMatricula());
-        tipo.setText(String.valueOf(TipoVeiculo.LIGEIRO));
+        if (veiculoSelecionado instanceof Ligeiro) tipo.setText(String.valueOf(TipoVeiculo.LIGEIRO));
+        if (veiculoSelecionado instanceof Pesado) tipo.setText(String.valueOf(TipoVeiculo.PESADO));
+        if (veiculoSelecionado instanceof Motociclo) tipo.setText(String.valueOf(TipoVeiculo.MOTOCICLO));
         seguradora.setText(veiculoSelecionado.getSeguro().getSeguradora());
         tiposeguro.setText(veiculoSelecionado.getSeguro().getTipo());
         kmreais.setText(String.valueOf(veiculoSelecionado.getKmReais()));
@@ -116,10 +118,10 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
         eventslist.setCellFactory(CheckBoxListCell.forListView((Callback<Evento, ObservableValue<Boolean>>) param -> {
             BooleanProperty observable = new SimpleBooleanProperty();
+            if(param.isCheck()) observable.setValue(true);
             observable.addListener(((observable1, oldValue, newValue) -> {
                 if (!param.isCheck()) {
                     veiculoSelecionado.realizaEvento(param, getCusto());
-                    eventslist.setItems(FXCollections.observableArrayList(veiculoSelecionado.getEventos()));
                     updatePie();
                 }
             }));
@@ -153,7 +155,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
 
     private void updatePie() {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
-        double custosMeses[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+        double[] custosMeses = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         if (monthly) {
             for (Evento e : veiculoSelecionado.getEventos()) {
@@ -185,10 +187,10 @@ public class Controlador implements BibliotecaImagens, Constantes {
                 }
             }
 
-            pieData.add(new PieChart.Data("Mecânica", custos[0]));
-            pieData.add(new PieChart.Data("Reparação", custos[1]));
-            pieData.add(new PieChart.Data("Obrigações", custos[2]));
-            pieData.add(new PieChart.Data("Manutenções", custos[3]));
+            if (custos[0] > 0) pieData.add(new PieChart.Data("Mecânica", custos[0]));
+            if (custos[1] > 0) pieData.add(new PieChart.Data("Reparação", custos[1]));
+            if (custos[2] > 0) pieData.add(new PieChart.Data("Obrigações", custos[2]));
+            if (custos[3] > 0) pieData.add(new PieChart.Data("Manutenções", custos[3]));
         }
 
         pie.setData(pieData);
@@ -263,7 +265,7 @@ public class Controlador implements BibliotecaImagens, Constantes {
         }
 
         if (!everyFieldIsValid()) {
-            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n\n" +
+            Alert.display("Alerta", "Verifique se os campos possuem dados válidos!\n" +
                     "- Kilómetros reais entre 1 e 1,000,000\n" +
                     "- Kilómetros mensais entre 1 e 10,000");
             return;

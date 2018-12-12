@@ -10,10 +10,8 @@ public class Ligeiro extends Veiculo {
 
   
     @Override
-    protected LocalDate getDataProximaInspecao() {
-        LocalDate dataCorrente = LocalDate.now();
-
-        if (dataCorrente.getYear() - dataRegistoMatricula.getYear() <= QUATRO_ANOS) {
+    protected LocalDate getDataProximaInspecao(LocalDate dataCorrente) {
+       if (dataCorrente.getYear() - dataRegistoMatricula.getYear() <= QUATRO_ANOS) {
             return LocalDate.of(dataCorrente.getYear() + QUATRO_ANOS, 
                     dataRegistoMatricula.getMonthValue(), dataRegistoMatricula.getDayOfMonth());
             

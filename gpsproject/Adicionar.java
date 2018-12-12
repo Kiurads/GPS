@@ -92,13 +92,13 @@ public class Adicionar implements Constantes, BibliotecaImagens {
                     } else {
                         switch (tipo.getText()) {
                             case "LIGEIRO":
-                                veiculo = new Ligeiro(nome.getText(), matricula.getText(), kms, kmsr, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText());
+                                veiculo = new Ligeiro(nome.getText(), matricula.getText(), kmsr, kms, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText());
                                 break;
                             case "PESADO":
-                                veiculo = new Pesado(nome.getText(), matricula.getText(), kms, kmsr, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText());
+                                veiculo = new Pesado(nome.getText(), matricula.getText(), kmsr, kms, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText());
                                 break;
                             case "MOTOCICLO":
-                                veiculo = new Motociclo(nome.getText(), matricula.getText(), kms, kmsr, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText(), 0);
+                                veiculo = new Motociclo(nome.getText(), matricula.getText(), kmsr, kms, seguradora.getText(), registoSeguro.getValue(), tipoSeguro.getText(), 0);
                                 break;
                         }
 

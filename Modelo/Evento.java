@@ -6,27 +6,24 @@ import java.time.LocalDate;
 public class Evento implements Constantes, Serializable {
     private LocalDate data;
     private String descricao;
-    private String matricula;
     private TipoEvento tipoEvento;
     private boolean notificado;
     private int diasAntes;
     private boolean check;
     private double custo;
     
-    public Evento(LocalDate DataEvento, String Descricao, String matricula, TipoEvento tipoevento) {
+    public Evento(LocalDate DataEvento, String Descricao, TipoEvento tipoevento) {
         this.data = DataEvento;
         this.descricao = Descricao;
-        this.matricula = matricula;
         this.tipoEvento = tipoevento;
         this.custo = 0;
         diasAntes = 0;
         notificado = true;
     }
 
-    public Evento(LocalDate DataEvento, String Descricao,String matricula,TipoEvento tipoevento, String diasAntes) {
+    public Evento(LocalDate DataEvento, String Descricao, TipoEvento tipoevento, String diasAntes) {
         this.data = DataEvento;
         this.descricao = Descricao;
-        this.matricula = matricula;
         this.tipoEvento = tipoevento;
         this.custo = 0;
         notificado = false;

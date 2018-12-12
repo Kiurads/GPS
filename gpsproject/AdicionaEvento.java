@@ -59,13 +59,13 @@ public class AdicionaEvento implements BibliotecaImagens, Constantes {
             if(!nome.getText().trim().equals("") && data.getValue() != null && tipo.getValue() != null) {
                 if(notificar.isSelected()) {
                     if (tempo.getValue() != null) {
-                        veiculo.criaEvento(new Evento(data.getValue(), nome.getText(), veiculo.getMatricula(), (TipoEvento) tipo.getValue(), (String) tempo.getValue()));
+                        veiculo.criaEvento(new Evento(data.getValue(), nome.getText(), (TipoEvento) tipo.getValue(), (String) tempo.getValue()));
                         window.close();
                     } else {
                         Alert.display("Erro", "Tem que especificar o tempo da notificação");
                     }
                 } else {
-                    veiculo.criaEvento(new Evento(data.getValue(), nome.getText(), veiculo.getMatricula(), (TipoEvento) tipo.getValue()));
+                    veiculo.criaEvento(new Evento(data.getValue(), nome.getText(), (TipoEvento) tipo.getValue()));
                     window.close();
                 }
             } else {

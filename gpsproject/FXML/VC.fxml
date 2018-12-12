@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="898.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GPS.gpsproject.Controlador">
     <left>
         <VBox BorderPane.alignment="CENTER">
@@ -46,7 +41,7 @@
                                  <children>
                                     <TitledPane fx:id="detailsvehicle" collapsible="false" prefHeight="200.0" prefWidth="125.0" text="Detalhes do Veículo" wrapText="true" VBox.vgrow="ALWAYS">
                                        <content>
-                                          <TextArea fx:id="detailsvehicletext" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes" wrapText="true" />
+                                          <TextArea editable="false" fx:id="detailsvehicletext" prefHeight="200.0" prefWidth="200.0" promptText="Detalhes" wrapText="true" />
                                        </content>
                                     </TitledPane>
                                     <PieChart fx:id="pie" title="Custos" VBox.vgrow="ALWAYS" />

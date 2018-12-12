@@ -36,8 +36,8 @@ public class Motociclo extends Veiculo {
     }
 
     @Override
-    protected LocalDate getDataProximaInspecao() {
-       return cilindrada >= CC_NECESSARIOS_PARA_INSPECAO ? getDataComMaisUmAno(dataRegistoMatricula) : null;
+    protected LocalDate getDataProximaInspecao(LocalDate data) {
+       return cilindrada >= CC_NECESSARIOS_PARA_INSPECAO ? getDataComMaisUmAno(data) : null;
     }
     
     @Override
