@@ -10,11 +10,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static GPS.gpsproject.images.BibliotecaImagens.car;
+
 public class GpsProject extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        Image icon = new Image("GPS/gpsproject/images/car.png", 16, 16, false, true);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/VC.fxml"));
         Parent root = loader.load();
         Controlador controlador = loader.getController();
@@ -23,7 +24,7 @@ public class GpsProject extends Application {
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
 
         stage.setTitle("Vehicle Companion");
-        stage.getIcons().add(icon);
+        stage.getIcons().add(car);
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> {
             controlador.resetNotifications();
