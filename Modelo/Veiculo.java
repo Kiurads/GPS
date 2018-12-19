@@ -40,7 +40,8 @@ abstract public class Veiculo implements Constantes, Serializable {
 
         //criar eventos
         calcularProximaDataPagamentoImpostoCirculacao(LocalDate.now());
-        calcularProximaDataDePagamentoSeguro(dataRegistoSeguro);
+        calcularProximaDataDePagamentoSeguro(LocalDate.of(LocalDate.now().getYear(), dataRegistoSeguro.getMonthValue(),
+                dataRegistoSeguro.getDayOfMonth()));
         calcularProximaDataInspecao(LocalDate.now());
         calcularProximaDataMudancaOleo(LocalDate.now());
         calcularProximaDataMudancaDeCorreia(LocalDate.now());
